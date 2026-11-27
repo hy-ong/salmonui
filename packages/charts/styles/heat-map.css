@@ -1,0 +1,38 @@
+/* HeatMap, after the shared viz.css. Cell
+   colors are data colors or the derived sequential roles, set inline. */
+.salmon-heat-map-cell {
+  stroke: var(--salmon-surface-base);
+  stroke-width: 1;
+}
+
+.salmon-heat-map-cell[data-empty],
+.salmon-heat-map-cell[data-hidden] {
+  fill: var(--salmon-surface-sunken);
+}
+
+.salmon-viz .salmon-heat-map-label {
+  fill: var(--salmon-text-primary);
+  paint-order: stroke;
+  stroke: var(--salmon-surface-base);
+  stroke-width: 2px;
+  stroke-opacity: 0.6;
+  pointer-events: none;
+}
+
+.salmon-heat-map-hover {
+  fill: none;
+  stroke: var(--salmon-text-primary);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.salmon-heat-map-selected {
+  fill: none;
+  stroke: var(--salmon-text-primary);
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.salmon-heat-map-canvas {
+  image-rendering: pixelated;
+}

@@ -1,0 +1,43 @@
+- figure "Pie":
+  - text: ""
+  - group "Pie"
+  - toolbar "Legend":
+    - button "Jan" [pressed]
+    - button "Feb" [pressed]
+    - button "Mar" [pressed]
+    - button "Apr" [pressed]
+    - button "May" [pressed]
+    - button "Jun" [pressed]
+  - paragraph: "/Pie chart, 6 slices\\. Jan: \\d+, \\d+\\.\\d+%; Feb: \\d+, \\d+\\.\\d+%; Mar: 9, 9\\.1%; Apr: \\d+, \\d+\\.\\d+%; May: \\d+, \\d+\\.\\d+%; Jun: \\d+, \\d+\\.\\d+%\\./"
+  - table "Pie":
+    - caption: Pie
+    - rowgroup:
+      - row "Label Value Percent":
+        - columnheader "Label"
+        - columnheader "Value"
+        - columnheader "Percent"
+    - rowgroup:
+      - row /Jan \d+ \d+\.\d+%/:
+        - rowheader "Jan"
+        - cell /\d+/
+        - cell /\d+\.\d+%/
+      - row /Feb \d+ \d+\.\d+%/:
+        - rowheader "Feb"
+        - cell /\d+/
+        - cell /\d+\.\d+%/
+      - row "Mar 9 9.1%":
+        - rowheader "Mar"
+        - cell "9"
+        - cell "9.1%"
+      - row /Apr \d+ \d+\.\d+%/:
+        - rowheader "Apr"
+        - cell /\d+/
+        - cell /\d+\.\d+%/
+      - row /May \d+ \d+\.\d+%/:
+        - rowheader "May"
+        - cell /\d+/
+        - cell /\d+\.\d+%/
+      - row /Jun \d+ \d+\.\d+%/:
+        - rowheader "Jun"
+        - cell /\d+/
+        - cell /\d+\.\d+%/

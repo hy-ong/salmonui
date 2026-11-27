@@ -1,0 +1,412 @@
+/* @salmonui/pdf-viewer own styles. dist/pdf-viewer.css is built by tooling/checks/copy-css.mjs:
+   the @salmonui/react families the viewer composes (menu with button, toolbar, tree-view,
+   dialog), then this file. The pdf.js text and annotation layers are styled under the
+   viewer's own layer classes; the class names pdf.js puts on annotation sections
+   (linkAnnotation, textWidgetAnnotation, ...) are matched only inside them. */
+
+.salmon-pdf-viewer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-block-size: 240px;
+  block-size: 600px;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg, 10px);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md, 14px);
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+.salmon-pdf-viewer__toolbar {
+  flex: none;
+  padding: var(--salmon-space-1, 2px);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  background: var(--salmon-surface-header);
+}
+.salmon-pdf-viewer__page-number {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-2, 4px);
+  padding-inline: var(--salmon-space-1, 2px);
+  color: var(--salmon-text-secondary);
+  white-space: nowrap;
+}
+.salmon-pdf-viewer__page-number input,
+.salmon-pdf-viewer__find-input,
+.salmon-pdf-viewer__password-field input {
+  box-sizing: border-box;
+  /* md control height: the same as the toolbar buttons next to it. */
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding-block: 0;
+  padding-inline: var(--salmon-space-2, 4px);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md, 6px);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font: inherit;
+}
+.salmon-pdf-viewer__page-number input {
+  inline-size: 3.5em;
+  text-align: center;
+}
+.salmon-pdf-viewer__page-number input:focus-visible,
+.salmon-pdf-viewer__find-input:focus-visible,
+.salmon-pdf-viewer__password-field input:focus-visible {
+  outline: var(--salmon-state-focus-ring-width, 2px) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset, 2px);
+}
+
+.salmon-pdf-viewer__find {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  /* 12px between items, so each checkbox reads as one unit with its 4px-gapped label. */
+  gap: var(--salmon-space-1, 2px) var(--salmon-space-3, 8px);
+  padding: var(--salmon-space-1, 2px) var(--salmon-space-2, 4px);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  background: var(--salmon-surface-header);
+}
+.salmon-pdf-viewer__find-input {
+  inline-size: 14em;
+  max-inline-size: 100%;
+}
+/* No browser-drawn (blue) clear glyph; the find bar has its own close button. */
+.salmon-pdf-viewer__find-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+.salmon-pdf-viewer__find-option input {
+  margin: 0;
+  accent-color: var(--salmon-color-primary);
+}
+.salmon-pdf-viewer__find-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm, 13px);
+  white-space: nowrap;
+}
+.salmon-pdf-viewer__find-status {
+  min-inline-size: 5em;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm, 13px);
+}
+
+.salmon-pdf-viewer__body {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-block-size: 0;
+}
+.salmon-pdf-viewer__sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  inline-size: 180px;
+  border-inline-end: 1px solid var(--salmon-border-subtle);
+  background: var(--salmon-surface-sunken);
+  min-block-size: 0;
+}
+.salmon-pdf-viewer__sidebar-tabs {
+  display: flex;
+  gap: 2px;
+  padding: var(--salmon-space-1, 2px);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+.salmon-pdf-viewer__thumbnails {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: auto;
+  min-block-size: 0;
+}
+.salmon-pdf-viewer__thumbnails-inner {
+  position: relative;
+}
+.salmon-pdf-viewer__thumbnail-item {
+  position: absolute;
+  inset-inline: 0;
+  display: flex;
+  justify-content: center;
+  padding-block-start: 8px;
+}
+.salmon-pdf-viewer__thumbnail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-radius: var(--salmon-radius-sm, 4px);
+  background: none;
+  color: var(--salmon-text-secondary);
+  font: inherit;
+  font-size: var(--salmon-font-size-sm, 13px);
+  cursor: pointer;
+}
+.salmon-pdf-viewer__thumbnail canvas {
+  display: block;
+  background: #fff;
+  box-shadow: var(--salmon-shadow-sm, 0 1px 2px rgb(0 0 0 / 0.2));
+}
+.salmon-pdf-viewer__thumbnail[aria-current='page'] {
+  border-color: var(--salmon-border-selected);
+  color: var(--salmon-text-primary);
+}
+.salmon-pdf-viewer__thumbnail:focus-visible {
+  outline: 2px solid var(--salmon-border-selected);
+  outline-offset: 1px;
+}
+.salmon-pdf-viewer__outline {
+  flex: 1 1 auto;
+  min-block-size: 0;
+}
+.salmon-pdf-viewer__empty-outline {
+  margin: var(--salmon-space-3, 8px);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-pdf-viewer__viewport {
+  position: relative;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: auto;
+  background: var(--salmon-surface-sunken);
+  overscroll-behavior: contain;
+  touch-action: pan-x pan-y;
+}
+.salmon-pdf-viewer__viewport:focus-visible {
+  outline: 2px solid var(--salmon-border-selected);
+  outline-offset: -2px;
+}
+.salmon-pdf-viewer[data-scroll-mode='page'] .salmon-pdf-viewer__viewport {
+  overflow-x: auto;
+}
+.salmon-pdf-viewer__pages {
+  position: relative;
+  margin-inline: auto;
+  direction: ltr;
+}
+.salmon-pdf-viewer__status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--salmon-text-secondary);
+  pointer-events: none;
+}
+
+.salmon-pdf-viewer__page {
+  position: absolute;
+  box-sizing: border-box;
+  background: #fff;
+  box-shadow: var(--salmon-shadow-sm, 0 1px 3px rgb(0 0 0 / 0.25));
+  overflow: hidden;
+  color-scheme: only light;
+}
+.salmon-pdf-viewer__page > div {
+  position: absolute;
+  inset: 0;
+}
+.salmon-pdf-viewer__canvas-layer canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.salmon-pdf-viewer__markup-layer,
+.salmon-pdf-viewer__find-layer {
+  pointer-events: none;
+}
+.salmon-pdf-viewer__markup,
+.salmon-pdf-viewer__find-match {
+  position: absolute;
+}
+.salmon-pdf-viewer__markup[data-kind='highlight'] {
+  mix-blend-mode: multiply;
+}
+.salmon-pdf-viewer__find-match {
+  margin: -1px;
+  padding: 1px;
+  border-radius: var(--salmon-radius-sm, 4px);
+  background: rgb(180 0 170 / 0.25);
+}
+.salmon-pdf-viewer__find-match[data-current] {
+  background: rgb(0 120 0 / 0.35);
+  outline: 1px solid rgb(0 100 0 / 0.6);
+}
+
+/* pdf.js text layer: transparent text over the canvas for selection, copy, find and screen readers. */
+.salmon-pdf-viewer__text-layer {
+  z-index: 0;
+  overflow: clip;
+  line-height: 1;
+  text-align: initial;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+.salmon-pdf-viewer__text-layer :is(span, br) {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+  user-select: text;
+}
+.salmon-pdf-viewer__text-layer > :not(.markedContent),
+.salmon-pdf-viewer__text-layer .markedContent span:not(.markedContent) {
+  z-index: 1;
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+.salmon-pdf-viewer__text-layer .markedContent {
+  display: contents;
+}
+.salmon-pdf-viewer__text-layer ::selection {
+  background: color-mix(in srgb, AccentColor, transparent 60%);
+  color: transparent;
+}
+.salmon-pdf-viewer__text-layer br::selection {
+  background: transparent;
+}
+.salmon-pdf-viewer__text-layer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+.salmon-pdf-viewer[data-text-selection='false'] .salmon-pdf-viewer__text-layer :is(span, br) {
+  user-select: none;
+  cursor: default;
+}
+
+/* pdf.js annotation layer: links and AcroForm widgets. */
+.salmon-pdf-viewer__annotation-layer {
+  z-index: 1;
+  pointer-events: none;
+  transform-origin: 0 0;
+}
+.salmon-pdf-viewer__annotation-layer section {
+  position: absolute;
+  box-sizing: border-box;
+  text-align: initial;
+  pointer-events: auto;
+  transform-origin: 0 0;
+  user-select: none;
+}
+.salmon-pdf-viewer__annotation-layer .annotationContent {
+  position: absolute;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+}
+.salmon-pdf-viewer__annotation-layer :is(.linkAnnotation, .buttonWidgetAnnotation.pushButton) > a {
+  position: absolute;
+  inset: 0;
+  font-size: 1em;
+}
+.salmon-pdf-viewer__annotation-layer :is(.linkAnnotation, .buttonWidgetAnnotation.pushButton) > a:hover {
+  background: rgb(255 255 0 / 0.2);
+}
+.salmon-pdf-viewer__annotation-layer :is(.linkAnnotation) > a:focus-visible {
+  outline: 2px solid var(--salmon-border-selected);
+}
+.salmon-pdf-viewer__annotation-layer .overlaidText {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 0;
+  block-size: 0;
+  overflow: hidden;
+}
+.salmon-pdf-viewer__annotation-layer :is(.textWidgetAnnotation :is(input, textarea), .choiceWidgetAnnotation select, .buttonWidgetAnnotation:is(.checkBox, .radioButton) input) {
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  border: 2px solid transparent;
+  background: rgb(0 54 255 / 0.13);
+  color: #000;
+  font: calc(9px * var(--total-scale-factor)) sans-serif;
+  vertical-align: top;
+}
+.salmon-pdf-viewer__annotation-layer .textWidgetAnnotation textarea {
+  resize: none;
+}
+.salmon-pdf-viewer__annotation-layer :is(input, textarea, select):hover {
+  border-color: #000;
+}
+.salmon-pdf-viewer__annotation-layer :is(input, textarea, select):focus {
+  border-color: var(--salmon-border-selected, Highlight);
+  background: none;
+  outline: none;
+}
+.salmon-pdf-viewer__annotation-layer :is(input, textarea, select)[disabled] {
+  background: none;
+  cursor: not-allowed;
+}
+.salmon-pdf-viewer__annotation-layer .popupAnnotation,
+.salmon-pdf-viewer__annotation-layer .annotationCommentButton {
+  display: none;
+}
+
+.salmon-pdf-viewer__password-field {
+  display: grid;
+  gap: 4px;
+}
+
+/* Touch: larger toolbar targets. */
+@media (pointer: coarse) {
+  .salmon-pdf-viewer__toolbar .salmon-button {
+    min-inline-size: 40px;
+    min-block-size: 40px;
+  }
+  .salmon-pdf-viewer__thumbnail {
+    padding: 6px;
+  }
+}
+@container (max-width: 480px) {
+  .salmon-pdf-viewer__sidebar {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    z-index: 2;
+    box-shadow: var(--salmon-shadow-md, 0 4px 12px rgb(0 0 0 / 0.2));
+  }
+  .salmon-pdf-viewer__find-option span {
+    font-size: 12px;
+  }
+}
+
+/* Print container: only it prints while it exists. */
+.salmon-pdf-viewer-print {
+  display: none;
+}
+@media print {
+  body:has(> .salmon-pdf-viewer-print) > :not(.salmon-pdf-viewer-print) {
+    display: none !important;
+  }
+  .salmon-pdf-viewer-print {
+    display: block;
+  }
+  .salmon-pdf-viewer-print__page {
+    break-after: page;
+    break-inside: avoid;
+  }
+  .salmon-pdf-viewer-print__page img {
+    display: block;
+  }
+}

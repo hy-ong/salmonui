@@ -1,0 +1,67 @@
+/* @salmonui/react/splitter: Splitter, panes and separators. Self-contained; logical properties only.
+   The separator draws a 1 px line inside a 24 px-wide touch hit area. */
+
+.salmon-splitter {
+  box-sizing: border-box;
+  display: flex;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+.salmon-splitter[data-orientation='vertical'] {
+  flex-direction: column;
+}
+
+.salmon-splitter-pane {
+  box-sizing: border-box;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: auto;
+}
+
+.salmon-splitter-pane[data-collapsed] {
+  overflow: hidden;
+}
+
+.salmon-splitter-separator {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 1px;
+  background: var(--salmon-border-default);
+  touch-action: none;
+  outline: none;
+}
+
+.salmon-splitter-separator::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline: -12px;
+}
+
+.salmon-splitter[data-orientation='vertical'] > .salmon-splitter-separator::before {
+  inset-block: -12px;
+  inset-inline: 0;
+}
+
+.salmon-splitter[data-orientation='horizontal'] > .salmon-splitter-separator:not([data-disabled]) {
+  cursor: col-resize;
+}
+
+.salmon-splitter[data-orientation='vertical'] > .salmon-splitter-separator:not([data-disabled]) {
+  cursor: row-resize;
+}
+
+.salmon-splitter-separator:not([data-disabled]):hover,
+.salmon-splitter-separator[data-dragging] {
+  background: var(--salmon-color-primary);
+  box-shadow: 0 0 0 1px var(--salmon-color-primary);
+}
+
+.salmon-splitter-separator:focus-visible {
+  background: var(--salmon-state-focus-ring);
+  box-shadow: 0 0 0 var(--salmon-state-focus-ring-width) var(--salmon-state-focus-ring);
+}

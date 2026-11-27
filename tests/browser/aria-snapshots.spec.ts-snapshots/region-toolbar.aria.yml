@@ -1,0 +1,16 @@
+- toolbar "Data Grid toolbar":
+  - button "Add" [disabled]
+  - button "Edit" [disabled]
+  - button "Delete" [disabled]
+  - button "Save" [disabled]
+  - button "Cancel" [disabled]
+  - button "Columns"
+  - button "Export to Excel" [disabled]
+  - button "Export to PDF" [disabled]
+  - button "Export to CSV"
+  - button "Print"
+  - button "Expand all"
+  - button "Collapse all"
+  - button "Custom"
+  - search "Search grid":
+    - searchbox "Search"

@@ -1,0 +1,475 @@
+/*
+ * Editing: cell editors, validation messages, edit marks,
+ * added rows, command column, edit dialog, and confirm prompts.
+ * Colors come from the theme variables only.
+ */
+
+/* Inline editors fill the cell. */
+.salmon-data-grid-cell[data-editing] {
+  padding-inline: 2px;
+  overflow: visible;
+}
+
+.salmon-data-grid-editor {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-width: 0;
+}
+
+/* In-row control: fills the row inside a 2px inset (sm radius); the text keeps the display text's inline position. */
+.salmon-data-grid-cell .salmon-data-grid-editor__input {
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(var(--salmon-data-grid-row-height) - 5px);
+  padding-inline: calc(var(--salmon-data-grid-cell-padding-inline) - 3px);
+  line-height: normal;
+  border-radius: var(--salmon-radius-sm);
+}
+
+.salmon-data-grid-cell .salmon-data-grid-editor textarea.salmon-data-grid-editor__input {
+  resize: none;
+  padding-block: 2px;
+}
+
+.salmon-data-grid-editor__checkbox {
+  margin: 0 auto;
+}
+
+.salmon-data-grid-cell[data-align='end'] .salmon-data-grid-editor__input { text-align: end; }
+.salmon-data-grid-cell[data-align='center'] .salmon-data-grid-editor__input { text-align: center; }
+
+.salmon-data-grid-editor[data-invalid] .salmon-data-grid-editor__input {
+  border-color: var(--salmon-color-danger);
+}
+
+.salmon-data-grid-editor__input:focus-visible,
+.salmon-data-grid-editor__checkbox:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: -1px;
+}
+
+/* Date and datetime editors: text input + calendar button, APG date picker dialog. */
+.salmon-data-grid-date {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  gap: 2px;
+}
+
+.salmon-data-grid-date > .salmon-data-grid-editor__input {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+.salmon-data-grid-date__button,
+.salmon-data-grid-date-picker__nav {
+  flex: none;
+  width: var(--salmon-control-height-md, 32px);
+  height: var(--salmon-control-height-md, 32px);
+  padding: 0;
+  color: var(--salmon-text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-data-grid-date__button:hover,
+.salmon-data-grid-date-picker__nav:hover,
+.salmon-data-grid-date-picker__day:hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-data-grid-cell .salmon-data-grid-date__button {
+  width: calc(var(--salmon-data-grid-row-height) - 5px);
+  height: calc(var(--salmon-data-grid-row-height) - 5px);
+}
+
+/* Calendar glyph: a box with a heavier top edge. */
+.salmon-data-grid-date__button::before {
+  content: '';
+  display: block;
+  width: 14px;
+  height: 14px;
+  margin: auto;
+  background: currentColor;
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='2' y='3' width='12' height='11' rx='1.5' fill='none' stroke='black' stroke-width='1.5'/><path d='M2 7h12M5 1v3m6-3v3' stroke='black' stroke-width='1.5'/></svg>") center / contain no-repeat;
+  forced-color-adjust: none;
+}
+
+/* Chevrons point to the inline start / end (mirrored in RTL). */
+.salmon-data-grid-date-picker__nav::before {
+  content: '';
+  display: block;
+  width: 7px;
+  height: 7px;
+  margin: auto;
+  border-block-start: 2px solid currentColor;
+  border-inline-start: 2px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+.salmon-data-grid-date-picker__nav[data-dir='next']::before { transform: rotate(135deg); }
+[dir='rtl'] .salmon-data-grid-date-picker__nav::before { transform: rotate(45deg); }
+[dir='rtl'] .salmon-data-grid-date-picker__nav[data-dir='next']::before { transform: rotate(-135deg); }
+
+.salmon-data-grid-date-picker { min-width: 0; }
+
+.salmon-data-grid-date-picker__header,
+.salmon-data-grid-date-picker__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-data-grid-date-picker__title {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.salmon-data-grid-date-picker__grid {
+  border-collapse: collapse;
+  margin-block: var(--salmon-space-2);
+  text-align: center;
+}
+
+.salmon-data-grid-date-picker__grid th {
+  padding-block-end: var(--salmon-space-1);
+  font-weight: 500;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-data-grid-date-picker__day {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-data-grid-date-picker__day[data-outside] { color: var(--salmon-text-secondary); }
+.salmon-data-grid-date-picker__day[aria-current='date'] { box-shadow: inset 0 0 0 1px var(--salmon-color-primary-border); }
+
+.salmon-data-grid-date-picker__day[aria-selected='true'] {
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+}
+
+.salmon-data-grid-date-picker__day[aria-disabled='true'] {
+  color: var(--salmon-text-disabled);
+  background: transparent;
+  cursor: default;
+}
+
+.salmon-data-grid-date-picker__day:focus-visible,
+.salmon-data-grid-date__button:focus-visible,
+.salmon-data-grid-date-picker__nav:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: -1px;
+}
+
+@media (forced-colors: active) {
+  .salmon-data-grid-date-picker__day[aria-selected='true'] { outline: 2px solid Highlight; }
+}
+
+.salmon-data-grid-date-picker__time {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+/*
+ * Inline validation message. Absolutely positioned with automatic
+ * offsets: it stays at its static place below the editor but escapes the
+ * cell's overflow clip (the rows container is its containing block).
+ */
+.salmon-data-grid-cell .salmon-data-grid-editor__error {
+  position: absolute;
+  z-index: 4;
+  max-width: 280px;
+  margin-block-start: calc(var(--salmon-data-grid-row-height) - 2px);
+  padding: var(--salmon-space-1) var(--salmon-space-2);
+  font-size: var(--salmon-font-size-sm);
+  line-height: var(--salmon-line-height-tight);
+  white-space: normal;
+  color: var(--salmon-color-danger-on);
+  background: var(--salmon-color-danger);
+  border-radius: var(--salmon-radius-md);
+  pointer-events: none;
+}
+
+.salmon-data-grid-cell .salmon-data-grid-editor[data-invalid] {
+  align-items: flex-start;
+  padding-block-start: 3px;
+}
+
+/* Edit marks: dirty cells, invalid cells, pending writes, added and deleted rows. */
+.salmon-data-grid-cell[data-dirty] {
+  background-image: linear-gradient(225deg, var(--salmon-color-primary) 0 5px, transparent 5px);
+  background-color: var(--salmon-color-primary-subtle);
+}
+
+[dir='rtl'] .salmon-data-grid-cell[data-dirty] {
+  background-image: linear-gradient(135deg, var(--salmon-color-primary) 0 5px, transparent 5px);
+}
+
+.salmon-data-grid-cell[data-invalid]:not([data-editing]) {
+  box-shadow: inset 0 0 0 1px var(--salmon-color-danger);
+  background-color: var(--salmon-color-danger-subtle);
+}
+
+.salmon-data-grid-cell[data-pending] {
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-data-grid-row[data-new] {
+  background: var(--salmon-color-success-subtle);
+}
+
+/* Pending deletes stay readable content (WCAG contrast): secondary text plus the strike. */
+.salmon-data-grid-row[data-deleted] .salmon-data-grid-cell {
+  color: var(--salmon-text-secondary);
+  text-decoration: line-through;
+}
+
+.salmon-data-grid-row[data-editing] {
+  background: var(--salmon-surface-selected);
+}
+
+/* Added rows: a sticky rowgroup at the newRowPosition edge of the body. */
+.salmon-data-grid-added-rows {
+  position: sticky;
+  z-index: 2;
+  width: var(--salmon-data-grid-total-width);
+  min-width: 100%;
+  background: var(--salmon-surface-raised);
+}
+
+.salmon-data-grid-added-rows--top {
+  inset-block-start: var(--salmon-data-grid-header-total-height, var(--salmon-data-grid-header-height));
+  box-shadow: 0 4px 6px -4px var(--salmon-shadow-pinned);
+}
+
+.salmon-data-grid-added-rows--bottom {
+  inset-block-end: 0;
+  box-shadow: 0 -4px 6px -4px var(--salmon-shadow-pinned);
+}
+
+/* Always-visible add row: disabled while another row edits. */
+.salmon-data-grid-new-row[aria-disabled='true'] .salmon-data-grid-editor {
+  opacity: 0.6;
+}
+
+/* Command column. */
+.salmon-data-grid-command {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-1);
+  height: 100%;
+}
+
+.salmon-data-grid-cell .salmon-data-grid-command__button {
+  height: calc(var(--salmon-data-grid-row-height) - 9px);
+  padding: 0 var(--salmon-space-2);
+  line-height: 1;
+}
+
+/* Edit dialog and confirm prompts. Native <dialog> in the top layer. */
+.salmon-data-grid-edit-dialog,
+.salmon-data-grid-confirm {
+  box-sizing: border-box;
+  width: min(480px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: var(--salmon-space-4);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  box-shadow: var(--salmon-shadow-overlay, 0 8px 24px rgb(0 0 0 / 0.2));
+}
+
+.salmon-data-grid-confirm {
+  width: min(360px, calc(100vw - 32px));
+}
+
+.salmon-data-grid-edit-dialog::backdrop,
+.salmon-data-grid-confirm::backdrop {
+  background: var(--salmon-surface-backdrop);
+}
+
+.salmon-data-grid-edit-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--salmon-space-2);
+  margin-block-end: var(--salmon-space-3);
+}
+
+.salmon-data-grid-edit-dialog__title {
+  margin: 0;
+  font-size: var(--salmon-font-size-lg);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-data-grid-edit-dialog__close {
+  position: relative;
+  width: var(--salmon-control-height-md, 32px);
+  height: var(--salmon-control-height-md, 32px);
+  padding: 0;
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-data-grid-edit-dialog__body {
+  display: grid;
+  gap: var(--salmon-space-3);
+}
+
+.salmon-data-grid-edit-dialog__field {
+  display: grid;
+  gap: var(--salmon-space-1);
+}
+
+.salmon-data-grid-edit-dialog__label {
+  font-size: var(--salmon-font-size-sm);
+  font-weight: var(--salmon-font-weight-medium);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-data-grid-edit-dialog .salmon-data-grid-editor {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--salmon-space-1);
+}
+
+.salmon-data-grid-edit-dialog .salmon-data-grid-editor__input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.salmon-data-grid-edit-dialog .salmon-data-grid-editor__checkbox {
+  margin: 0;
+  align-self: flex-start;
+}
+
+.salmon-data-grid-edit-dialog .salmon-data-grid-editor__error,
+.salmon-data-grid-edit-dialog__errors {
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-color-danger-text);
+}
+
+.salmon-data-grid-row-errors {
+  margin-block: var(--salmon-space-2);
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-color-danger-text);
+}
+
+.salmon-data-grid-row-errors__item {
+  margin: 0;
+}
+
+.salmon-data-grid-confirm__message {
+  margin: var(--salmon-space-2) 0 var(--salmon-space-3);
+}
+
+/* Fill handle: a square at the bottom-right of the selected range; the drag draws a dashed preview. */
+.salmon-data-grid-cell[data-fill-corner] {
+  position: relative;
+}
+
+.salmon-data-grid-fill-handle {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-end: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 7px;
+  height: 7px;
+  background: var(--salmon-border-selected);
+  border: 1px solid var(--salmon-surface-raised);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.salmon-data-grid-fill-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  display: none;
+  box-sizing: border-box;
+  border: 2px dashed var(--salmon-border-selected);
+  pointer-events: none;
+}
+
+.salmon-data-grid-fill-preview[data-visible] {
+  display: block;
+}
+
+.salmon-data-grid[data-filling],
+.salmon-data-grid[data-filling] .salmon-data-grid-cell {
+  cursor: crosshair;
+  user-select: none;
+}
+
+/* Clipboard: the hidden textarea of copy and paste, and the fallback dialog. */
+.salmon-data-grid-clipboard-input {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  resize: none;
+}
+
+.salmon-data-grid-clipboard-dialog {
+  width: min(480px, calc(100vw - 32px));
+}
+
+.salmon-data-grid-clipboard-dialog__text {
+  box-sizing: border-box;
+  width: 100%;
+  margin-block-end: var(--salmon-space-3);
+  font-family: var(--salmon-font-mono, monospace);
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+}
+
+@media (forced-colors: active) {
+  .salmon-data-grid-cell[data-dirty] {
+    background-image: none;
+    outline: 1px dashed Highlight;
+    outline-offset: -2px;
+  }
+
+  .salmon-data-grid-cell[data-invalid]:not([data-editing]) {
+    outline: 2px solid Mark;
+    outline-offset: -2px;
+  }
+
+  .salmon-data-grid-fill-handle {
+    background: Highlight;
+  }
+
+  .salmon-data-grid-fill-preview {
+    border-color: Highlight;
+  }
+
+  .salmon-data-grid-cell .salmon-data-grid-editor__error {
+    color: CanvasText;
+    background: Canvas;
+    border: 1px solid CanvasText;
+  }
+}

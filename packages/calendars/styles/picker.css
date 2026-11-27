@@ -1,0 +1,317 @@
+/* Calendar pickers shell (DatePicker, DateRangePicker, TimePicker):
+   field control, trigger and clear buttons,
+   popup (top-layer popover or <dialog> bottom sheet), time list, actions.
+   Colors only from --salmon-* variables; logical properties only. */
+
+.salmon-picker {
+  --salmon-control-h: var(--salmon-control-height-md, 32px);
+  --salmon-control-px: var(--salmon-control-padding-md, 12px);
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--salmon-space-1);
+  min-inline-size: 0;
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+}
+
+.salmon-picker__label {
+  font-weight: var(--salmon-font-weight-medium);
+  cursor: default;
+}
+
+.salmon-picker__control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  box-sizing: border-box;
+  min-block-size: var(--salmon-control-h);
+  /* Button's metrics: text at the
+     control inset from the start; the 24px icon boxes pull in by 4px (`sm`
+     3px) so their 16px glyphs sit at the same inset from the end. */
+  padding-inline: var(--salmon-control-px) calc(var(--salmon-control-px) - var(--salmon-control-pull, 4px));
+  background: var(--salmon-surface-base);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-picker__control:focus-within {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+/* The field inside the control draws no box of its own (one border per control). */
+.salmon-picker__control [role='group'] {
+  min-block-size: 0;
+  padding-inline: 0;
+  background: none;
+  border: 0;
+  outline: none;
+}
+
+/* Control sizes: the control
+   rules read these variables with the `md` metrics as fallbacks; the popup
+   keeps one size. */
+.salmon-picker[data-size='sm'] {
+  --salmon-control-h: var(--salmon-control-height-sm, 24px);
+  --salmon-control-px: var(--salmon-control-padding-sm, 8px);
+  --salmon-control-box: calc(var(--salmon-control-h) - 4px);
+  --salmon-control-pull: 3px;
+  --salmon-control-scale: 0.875;
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-picker[data-size='lg'] {
+  --salmon-control-h: var(--salmon-control-height-lg, 40px);
+  --salmon-control-px: var(--salmon-control-padding-lg, 16px);
+  --salmon-control-box: 28px;
+  --salmon-control-scale: 1.25;
+  font-size: var(--salmon-font-size-lg);
+}
+
+/* The field inside takes the picker's font size. */
+.salmon-picker__control > div { font-size: inherit; }
+
+.salmon-picker__control:hover { border-color: var(--salmon-border-strong); }
+.salmon-picker__control:focus-within { border-color: var(--salmon-border-selected); }
+.salmon-picker[data-invalid] .salmon-picker__control { border-color: var(--salmon-state-invalid); }
+.salmon-picker[data-disabled] .salmon-picker__control {
+  color: var(--salmon-text-disabled);
+  background: var(--salmon-surface-disabled);
+  border-color: var(--salmon-border-subtle);
+}
+
+.salmon-picker__field {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+/* Watermark while empty and not focused. */
+.salmon-picker__placeholder {
+  position: absolute;
+  inset-inline-start: var(--salmon-control-px);
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  color: var(--salmon-text-placeholder);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Transparent, not hidden: the segments stay focusable under the watermark. */
+.salmon-picker[data-empty] .salmon-picker__control:not(:focus-within):has(.salmon-picker__placeholder) .salmon-picker__field {
+  opacity: 0;
+}
+
+.salmon-picker__control:focus-within .salmon-picker__placeholder { visibility: hidden; }
+
+/* DatePicker and TimePicker (one field, then the placeholder): a
+   placeholder longer than the empty field widens the control instead of
+   running under the buttons; both share the first cell, so focusing does
+   not resize it. */
+.salmon-picker__control:has(> .salmon-picker__field:first-child + .salmon-picker__placeholder) {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr;
+}
+
+.salmon-picker__field:first-child,
+.salmon-picker__field:first-child + .salmon-picker__placeholder {
+  grid-area: 1 / 1;
+  position: static;
+  transform: none;
+}
+
+.salmon-picker__trigger,
+.salmon-picker__clear {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  aspect-ratio: 1;
+  block-size: var(--salmon-control-box, 24px);
+  padding: 0;
+  color: var(--salmon-text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-picker__trigger:hover:not(:disabled),
+.salmon-picker__clear:hover { background: var(--salmon-surface-hover); color: var(--salmon-text-primary); }
+.salmon-picker__trigger:disabled { cursor: default; color: var(--salmon-text-disabled); }
+.salmon-picker__trigger:focus-visible,
+.salmon-picker__clear:focus-visible,
+.salmon-picker__button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+/* Built-in icons: calendar box, clock, clear cross; drawn with borders so they follow currentColor.
+   `--salmon-control-scale` sizes them per control size (14 / 16 / 20px). */
+.salmon-picker__trigger::before,
+.salmon-picker__clear::before,
+.salmon-picker__clear::after { scale: var(--salmon-control-scale, 1); }
+
+.salmon-picker__trigger[data-icon='calendar']::before {
+  content: '';
+  box-sizing: border-box;
+  inline-size: 13px;
+  block-size: 13px;
+  border: 1.5px solid currentColor;
+  border-block-start-width: 3px;
+  border-radius: var(--salmon-radius-sm);
+}
+
+.salmon-picker__trigger[data-icon='time']::before {
+  content: '';
+  box-sizing: border-box;
+  inline-size: 14px;
+  block-size: 14px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  background:
+    linear-gradient(currentColor, currentColor) 50% 25% / 1.5px 35% no-repeat,
+    linear-gradient(currentColor, currentColor) 70% 50% / 35% 1.5px no-repeat;
+}
+
+.salmon-picker__clear::before,
+.salmon-picker__clear::after {
+  content: '';
+  grid-area: 1 / 1;
+  inline-size: 10px;
+  block-size: 1.5px;
+  border-radius: var(--salmon-radius-full);
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.salmon-picker__clear::after { transform: rotate(-45deg); }
+
+.salmon-picker__description { color: var(--salmon-text-secondary); font-size: var(--salmon-font-size-sm); }
+.salmon-picker__error { color: var(--salmon-color-danger-text); font-size: var(--salmon-font-size-sm); }
+
+/* Help and error text wrap at the control's width instead of widening it. */
+.salmon-picker__description,
+.salmon-picker__error {
+  inline-size: 0;
+  min-inline-size: 100%;
+}
+
+/* The form value input: in the tree for constraint validation, never visible or focusable. */
+.salmon-picker__form-value {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Popup: top layer, placed by script (one write of top / left). */
+.salmon-picker__popup {
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--salmon-space-3);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  box-shadow: var(--salmon-shadow-lg);
+}
+
+.salmon-picker__popup[data-mode='popover'] {
+  z-index: 1000;
+  min-inline-size: var(--salmon-overlay-anchor-width, 0);
+  max-inline-size: var(--salmon-overlay-available-width, calc(100vw - 8px));
+  max-block-size: calc(100vh - 8px);
+  overflow: auto;
+}
+
+/* Modal mode: a bottom sheet. */
+.salmon-picker__popup[data-mode='modal'] {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  margin-block: auto 0;
+  max-block-size: 90vh;
+  overflow: auto;
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.salmon-picker__popup[data-mode='modal']::backdrop { background: var(--salmon-surface-backdrop); }
+
+.salmon-picker__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--salmon-space-2);
+  padding-block-start: var(--salmon-space-2);
+}
+
+.salmon-picker__button {
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding-inline: var(--salmon-control-padding-md, 12px);
+  color: var(--salmon-text-primary);
+  font: inherit;
+  background: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  cursor: pointer;
+}
+
+.salmon-picker__button:hover:not(:disabled) { background: var(--salmon-surface-hover); }
+.salmon-picker__button[data-primary] {
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+  border-color: var(--salmon-color-primary);
+}
+
+.salmon-picker__button[data-primary]:hover:not(:disabled) { background: var(--salmon-color-primary-hover); }
+.salmon-picker__button:disabled { color: var(--salmon-text-disabled); background: var(--salmon-surface-disabled); border-color: var(--salmon-border-subtle); cursor: default; }
+
+/* Time list (TimePicker popup and the DatePicker time part). */
+.salmon-time-list {
+  position: relative;
+  max-block-size: 240px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  outline: none;
+}
+
+.salmon-time-list__option {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  block-size: var(--salmon-control-height-md, 32px);
+  padding-inline: var(--salmon-space-3);
+  white-space: nowrap;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-time-list__option[data-active] { background: var(--salmon-surface-hover); }
+.salmon-time-list__option[data-selected] { color: var(--salmon-color-primary-on); background: var(--salmon-color-primary); }
+.salmon-time-list__option[data-disabled] { color: var(--salmon-text-disabled); cursor: default; }
+
+/* Coarse pointers get 44 px targets. */
+@media (pointer: coarse) {
+  .salmon-picker__trigger,
+  .salmon-picker__clear { inline-size: 44px; block-size: 44px; }
+  .salmon-picker__control { min-block-size: 44px; }
+  .salmon-time-list__option { block-size: 44px; }
+  .salmon-picker__button { min-block-size: 44px; }
+}
+
+@media (forced-colors: active) {
+  .salmon-time-list__option[data-active] { outline: 1px solid Highlight; }
+  .salmon-time-list__option[data-selected] { forced-color-adjust: none; color: HighlightText; background: Highlight; }
+  .salmon-picker__clear::before,
+  .salmon-picker__clear::after { background: ButtonText; }
+}

@@ -1,0 +1,26 @@
+/* Barcode and QRCode (SVG only).
+   Symbol colors are data colors given as props (dark on light by default in
+   every color scheme, for scanners); the stylesheet only sizes the SVG and
+   never mirrors it in RTL. */
+.salmon-barcode,
+.salmon-qr-code {
+  display: inline-block;
+  max-inline-size: 100%;
+  block-size: auto;
+  vertical-align: middle;
+  direction: ltr;
+  font-family: var(--salmon-font-sans);
+}
+
+.salmon-qr-code-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.salmon-qr-code-logo > * {
+  max-inline-size: 100%;
+  max-block-size: 100%;
+}

@@ -1,0 +1,241 @@
+/* ColorPicker and its parts: CSS gradients only, sized on the server. */
+.salmon-color-swatch {
+  display: inline-block;
+  flex: none;
+  inline-size: 20px;
+  block-size: 20px;
+  box-sizing: border-box;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  background: linear-gradient(var(--salmon-color-swatch-color), var(--salmon-color-swatch-color)), repeating-conic-gradient(var(--salmon-border-default) 0 25%, var(--salmon-surface-base) 0 50%) 0 0 / 8px 8px;
+}
+
+.salmon-color-swatch[data-empty] {
+  background: linear-gradient(to bottom right, transparent 45%, var(--salmon-color-danger) 0 55%, transparent 0), var(--salmon-surface-base);
+}
+
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+
+.salmon-color-area,
+.salmon-color-slider {
+  --salmon-color-dir: calc(90deg * var(--salmon-dir, 1));
+  position: relative;
+  box-sizing: border-box;
+  border-radius: var(--salmon-radius-sm);
+  touch-action: none;
+  user-select: none;
+  cursor: crosshair;
+}
+
+.salmon-color-area {
+  inline-size: 100%;
+  min-inline-size: 160px;
+  block-size: 160px;
+  background: linear-gradient(to top, #000, transparent), linear-gradient(var(--salmon-color-dir), #fff, var(--salmon-color-area-hue));
+}
+
+.salmon-color-area-thumb,
+.salmon-color-slider-thumb {
+  position: absolute;
+  box-sizing: border-box;
+  inline-size: 16px;
+  block-size: 16px;
+  margin-inline-start: -8px;
+  margin-block-end: -8px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.5);
+  pointer-events: none;
+}
+
+.salmon-color-area-thumb {
+  inset-inline-start: var(--salmon-color-area-x);
+  inset-block-end: var(--salmon-color-area-y);
+  background: var(--salmon-color-area-color);
+}
+
+.salmon-color-slider {
+  inline-size: 100%;
+  block-size: 12px;
+  background: linear-gradient(var(--salmon-color-dir), #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+
+.salmon-color-slider[data-channel='alpha'] {
+  background: linear-gradient(var(--salmon-color-dir), transparent, var(--salmon-color-slider-color)), repeating-conic-gradient(var(--salmon-border-default) 0 25%, var(--salmon-surface-base) 0 50%) 0 0 / 8px 8px;
+}
+
+.salmon-color-slider[data-orientation='vertical'] {
+  --salmon-color-dir: to top;
+  inline-size: 12px;
+  block-size: 160px;
+}
+
+.salmon-color-slider-thumb {
+  inset-block-start: 50%;
+  inset-inline-start: var(--salmon-color-slider-position);
+  margin-block: -8px 0;
+  background: var(--salmon-color-slider-thumb);
+}
+
+.salmon-color-slider[data-orientation='vertical'] .salmon-color-slider-thumb {
+  inset-block: auto var(--salmon-color-slider-position);
+  inset-inline-start: 50%;
+  margin-block: 0 -8px;
+}
+
+.salmon-color-area:has(:focus-visible) .salmon-color-area-thumb,
+.salmon-color-slider:has(:focus-visible) .salmon-color-slider-thumb,
+.salmon-color-swatch-picker-option:focus-visible,
+.salmon-color-area:has(:focus-visible) .salmon-color-area-thumb,
+.salmon-color-slider:has(:focus-visible) .salmon-color-slider-thumb {
+  outline-offset: 2px;
+}
+
+.salmon-color-area[data-disabled],
+.salmon-color-slider[data-disabled],
+.salmon-color-swatch-picker[data-disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.salmon-color-swatch-picker,
+.salmon-color-swatch-picker,
+.salmon-color-picker-panel {
+  display: grid;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-color-swatch-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--salmon-color-swatch-picker-columns), 24px);
+  gap: 2px;
+}
+
+.salmon-color-swatch-picker-label,
+.salmon-color-picker-recent > :first-child {
+  margin-block-end: var(--salmon-space-1);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-color-swatch-picker-option {
+  display: grid;
+  place-items: center;
+  inline-size: 24px;
+  block-size: 24px;
+  box-sizing: border-box;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-color-swatch-picker-option[data-selected] {
+  box-shadow: 0 0 0 2px var(--salmon-border-selected);
+}
+
+/* Picker: trigger, popover and panel. */
+.salmon-color-picker-trigger {
+  align-self: flex-start;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.salmon-color-picker-chevron {
+  inline-size: 6px;
+  block-size: 6px;
+  /* Physical sides: a rotated down chevron is not mirrored in RTL. */
+  border: solid;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+
+.salmon-color-picker-popup {
+  z-index: 1000;
+  padding: var(--salmon-space-3);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  box-shadow: var(--salmon-shadow-lg);
+  overflow: auto;
+  max-block-size: var(--salmon-overlay-available-height, 100vh);
+}
+
+.salmon-color-picker-panel {
+  inline-size: 248px;
+}
+
+.salmon-color-picker-panel[data-mode='swatches'] {
+  inline-size: auto;
+}
+
+.salmon-color-picker-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-4);
+}
+
+.salmon-color-picker-sliders {
+  display: grid;
+  flex: 1;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-color-picker-preview > .salmon-color-swatch {
+  inline-size: 28px;
+  block-size: 28px;
+}
+
+.salmon-color-picker-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-color-picker-button {
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding-inline: var(--salmon-control-padding-md, 12px);
+  color: var(--salmon-text-primary);
+  font: inherit;
+  background: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  cursor: pointer;
+}
+
+.salmon-color-picker-mode {
+  inline-size: var(--salmon-control-height-md, 32px);
+  margin-inline-end: auto;
+  padding: 0;
+}
+
+.salmon-color-picker-button:hover:not(:disabled) {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-color-picker-button[data-primary] {
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+  border-color: var(--salmon-color-primary);
+}
+
+.salmon-color-picker-button[data-primary]:hover:not(:disabled) {
+  background: var(--salmon-color-primary-hover);
+}
+
+.salmon-color-picker-button:disabled {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+.salmon-color-picker-mode-icon {
+  display: block;
+  margin: auto;
+  inline-size: 16px;
+  block-size: 16px;
+  border-radius: var(--salmon-radius-sm);
+  background: conic-gradient(#f00 0 25%, #0c0 0 50%, #00f 0 75%, #fc0 0) 0 0 / 8px 8px;
+}

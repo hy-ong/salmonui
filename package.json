@@ -1,0 +1,80 @@
+{
+  "name": "salmonui-workspace",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "examples/*",
+    "docs/site"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "clean": "node tooling/checks/clean.mjs",
+    "build": "npm run clean && tsc -b --force && node tooling/checks/copy-css.mjs",
+    "typecheck": "tsc -b --pretty false && tsc -p examples/vite-spa/tsconfig.json --pretty false && tsc -p examples/vite-ssr/tsconfig.json --pretty false && tsc -p examples/admin-template/tsconfig.json --pretty false",
+    "test": "npm run build && npm run test:unit && npm run test:perf",
+    "test:unit": "node tooling/checks/theme-css.mjs --check && node --test --expose-gc --test-skip-pattern=@perf \"packages/*/tests/**/!(*performance).test.ts\" \"tooling/**/*.test.mjs\"",
+    "test:perf": "node --test --expose-gc --test-concurrency=1 \"packages/*/tests/**/*performance.test.ts\" && node --test --expose-gc --test-concurrency=1 --test-name-pattern=@perf \"packages/*/tests/**/!(*performance).test.ts\" \"tests/ssr/*.test.ts\"",
+    "test:ssr": "npm run build && npm run build --workspace @salmonui/example-vite-ssr && npm run build --workspace @salmonui/example-next-app && npm run test:ssr:run",
+    "test:ssr:run": "npm run server:boundary:check && node --test --test-skip-pattern=@perf packages/data-grid/tests/ssr.test.ts \"tests/ssr/*.test.ts\" && playwright test --config playwright.ssr.config.ts",
+    "test:browser": "npm run build && npm run examples:build && npm run test:browser:run",
+    "test:browser:run": "playwright test",
+    "test:a11y": "npm run build && npm run build --workspace @salmonui/example-vite-spa && npm run test:a11y:run",
+    "test:a11y:run": "node --test packages/core/tests/theme.test.ts && playwright test a11y.spec keyboard.spec aria-snapshots.spec",
+    "test:types": "node tooling/checks/types.mjs",
+    "test:examples": "npm run build && npm run test:examples:run",
+    "test:examples:run": "node tooling/checks/examples.mjs",
+    "examples:build": "npm run build --workspace @salmonui/example-vite-spa && npm run build --workspace @salmonui/example-vite-ssr && npm run build --workspace @salmonui/example-next-app",
+    "theme:css": "tsc -b && node tooling/checks/theme-css.mjs",
+    "bench": "npm run build && npm run bench:run --",
+    "bench:run": "node tooling/bench/run.mjs",
+    "deps:check": "node tooling/checks/deps.mjs",
+    "server:boundary:check": "node tooling/checks/server-boundary.mjs",
+    "feature:boundary:check": "node tooling/checks/feature-boundary.mjs",
+    "pack:check": "node tooling/checks/pack.mjs",
+    "bundle:check": "node tooling/checks/bundle-size.mjs",
+    "isolation:check": "node tooling/checks/isolation.mjs",
+    "planning:check": "node tooling/checks/no-planning-tokens.mjs",
+    "release:verify": "node tooling/checks/release-verify.mjs",
+    "docs:dev": "npm run dev --workspace @salmonui/docs-site",
+    "docs:build": "npm run build --workspace @salmonui/docs-site",
+    "docs:typecheck": "tsc -p docs/site/tsconfig.json",
+    "docs:coverage": "node tooling/checks/docs-coverage.mjs",
+    "site:api": "node tooling/site/api-reference.mjs",
+    "skills:build": "node tooling/site/agent-skills.mjs",
+    "mcp:index": "node packages/mcp/scripts/build-index.mjs",
+    "test:site": "npm run build && npm run site:api && npm run docs:typecheck && npm run docs:coverage && playwright test -c docs/site/playwright.config.ts",
+    "site:build": "npm run build:export --workspace @salmonui/docs-site",
+    "site:serve": "node tooling/site/serve-static.mjs",
+    "site:check": "node tooling/site/check-out.mjs",
+    "site:verify": "npm run build && npm run docs:typecheck && npm run docs:coverage && npm run docs:build && npm run site:build && SITE_MODE=export playwright test -c docs/site/playwright.config.ts && npm run site:check",
+    "site:deploy": "node tooling/site/deploy.mjs",
+    "changeset": "changeset",
+    "version-packages": "changeset version && npm install --package-lock-only --no-audit --no-fund",
+    "release": "npm run release:verify && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "3.0.3",
+    "@playwright/test": "1.65.0",
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "axe-core": "4.14.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.6"
+  }
+}

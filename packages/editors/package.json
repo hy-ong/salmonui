@@ -1,0 +1,55 @@
+{
+  "name": "@salmonui/editors",
+  "version": "0.2.0",
+  "description": "InlineEdit, MarkdownEditor and ImageEditor for Salmon UI.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/editors"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./inline-edit": {
+      "types": "./dist/inline-edit.d.ts",
+      "import": "./dist/inline-edit.js"
+    },
+    "./markdown-editor": {
+      "types": "./dist/markdown-editor.d.ts",
+      "import": "./dist/markdown-editor.js"
+    },
+    "./image-editor": {
+      "types": "./dist/image-editor.d.ts",
+      "import": "./dist/image-editor.js"
+    },
+    "./inline-edit/styles.css": "./dist/inline-edit.css",
+    "./markdown-editor/styles.css": "./dist/markdown-editor.css",
+    "./image-editor/styles.css": "./dist/image-editor.css",
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0",
+    "@salmonui/buttons": "0.2.0",
+    "@salmonui/navigation": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

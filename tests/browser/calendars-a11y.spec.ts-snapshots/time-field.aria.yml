@@ -1,0 +1,5 @@
+- heading /time-\d+/ [level=2]
+- group /Time \d+/:
+  - spinbutton "hour": /\d+/
+  - spinbutton "minute": /\d+/
+  - spinbutton "second": /\d+/

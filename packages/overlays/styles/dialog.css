@@ -1,0 +1,18 @@
+/* @salmonui/overlays/dialog: AlertDialog additions. dist/dialog.css is the
+   Button stylesheet (AlertDialog renders Button), the core dialog-core.css and
+   this file. Logical properties only. */
+
+.salmon-dialog-form {
+  display: contents;
+}
+
+.salmon-dialog[data-kind='alert'] {
+  inline-size: min(420px, calc(100vw - 32px));
+}
+
+/* The reason of a rejected async confirm, above the actions. */
+.salmon-alert-dialog-error {
+  padding: var(--salmon-space-2) var(--salmon-space-4) 0;
+  color: var(--salmon-color-danger-text);
+  font-size: var(--salmon-font-size-sm);
+}

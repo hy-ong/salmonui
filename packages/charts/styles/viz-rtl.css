@@ -1,0 +1,28 @@
+/* @salmonui/react/viz-rtl.css: the opt-in mirroring of the parts every
+   visualization draws in its SVG, for pages with an inherited dir="rtl". Kept
+   out of the family stylesheets, whose budgets have no room for it. The data
+   drawing never mirrors (axes run left to right unless `reversed`); HTML parts
+   (tooltips, tables, breadcrumbs, headers, toolbars) mirror through logical
+   properties without this file. */
+
+/* Drawn titles start at the 8 px inline-start padding of the drawing: in RTL
+   they end at the same padding on the right. */
+[dir='rtl'] .salmon-viz :is(.salmon-viz-title, .salmon-viz-subtitle) {
+  text-anchor: end;
+  transform-box: view-box;
+  translate: calc(100% - 16px);
+}
+
+/* A top or bottom legend (its toolbar is horizontal) mirrors as a whole, so
+   the first item is at the inline start and the toolbar buttons stay over
+   their items; each label (and the pager) is upright again about its own box. Start and end
+   legends keep their side of the drawing. */
+[dir='rtl'] .salmon-viz:has(.salmon-viz-legend[aria-orientation='horizontal']) :is(.salmon-viz-legend, .salmon-viz-legend-pager, .salmon-viz-legend-marks, .salmon-viz-legend-marks text) {
+  scale: -1 1;
+  transform-box: view-box;
+  transform-origin: center;
+}
+
+[dir='rtl'] .salmon-viz:has(.salmon-viz-legend[aria-orientation='horizontal']) .salmon-viz-legend-marks text {
+  transform-box: fill-box;
+}

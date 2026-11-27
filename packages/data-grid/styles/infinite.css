@@ -1,0 +1,50 @@
+/* Infinite scroll: placeholder rows of blocks that are loading or failed to load. */
+
+.salmon-data-grid-loading-row__cell {
+  position: sticky;
+  inset-inline-start: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  width: 100cqw;
+  padding-inline: var(--salmon-space-4);
+  color: var(--salmon-text-secondary);
+  background: var(--salmon-surface-sunken);
+}
+
+/* Skeleton rows (`virtualization.skeletonRows`): shimmer bars in
+   place of the loading text. The only animation in the grid stylesheet: a
+   compositor-only transform on a pseudo-element of a placeholder row (no
+   layout or paint per frame), removed under prefers-reduced-motion and in
+   forced colors (the bars keep the border color). */
+
+.salmon-data-grid-skeleton-row .salmon-data-grid-loading-row__cell {
+  gap: var(--salmon-space-4);
+}
+
+.salmon-data-grid-skeleton-bar {
+  position: relative;
+  flex: 1;
+  min-inline-size: 0;
+  max-inline-size: 12rem;
+  block-size: 0.75em;
+  overflow: hidden;
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-border-subtle);
+}
+
+.salmon-data-grid-skeleton-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--salmon-surface-base), transparent);
+  opacity: 0.7;
+  transform: translateX(-100%);
+  animation: salmon-data-grid-shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  .salmon-data-grid-skeleton-bar::after {
+    display: none;
+  }
+}

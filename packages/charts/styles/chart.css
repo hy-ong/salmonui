@@ -1,0 +1,228 @@
+/* @salmonui/react/chart/styles.css: Chart and BulletChart.
+   The dist file is styles/viz.css followed by this file.
+   Colors come from --salmon-* variables only; logical properties only. */
+
+/* without `height` the surface is 300 px in an auto-height root and
+   fills a root whose height CSS fixes (`height`, `aspect-ratio`, a grid cell). */
+.salmon-chart {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0; /* no content-based minimum under aspect-ratio */
+}
+
+.salmon-chart > .salmon-viz-surface {
+  flex: 1 1 300px;
+  min-block-size: 0;
+}
+
+.salmon-chart-drawing {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.salmon-chart-drawing > svg,
+.salmon-chart-overlay {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+/* The crosshair is drawn by Chart only (moved out of the shared viz.css, so the other
+   visualization stylesheets do not carry it). */
+.salmon-viz-crosshair {
+  stroke: var(--salmon-text-secondary);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+  pointer-events: none;
+}
+
+.salmon-chart-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.salmon-chart .salmon-viz-grid {
+  fill: none;
+}
+
+.salmon-chart-hover-mark {
+  stroke: var(--salmon-surface-base);
+  stroke-width: 2;
+}
+
+.salmon-chart-selection {
+  fill: color-mix(in srgb, var(--salmon-color-primary) 15%, transparent);
+  stroke: var(--salmon-color-primary);
+  stroke-width: 1;
+}
+
+.salmon-chart-legend-content {
+  position: absolute;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  block-size: 100%;
+  overflow: hidden;
+  color: var(--salmon-text-primary);
+  font: inherit;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.salmon-chart-gradient-key {
+  inline-size: 2.5em;
+  block-size: 0.75em;
+  border-radius: var(--salmon-radius-sm);
+}
+
+.salmon-chart-crosshair-band {
+  fill: color-mix(in srgb, var(--salmon-text-secondary) 12%, transparent);
+}
+
+.salmon-chart-crosshair-label rect {
+  fill: var(--salmon-text-primary);
+}
+
+.salmon-chart-crosshair-label text {
+  fill: var(--salmon-surface-base);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.salmon-chart .salmon-chart-data-label,
+.salmon-chart .salmon-chart-stack-label {
+  fill: var(--salmon-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.salmon-chart .salmon-chart-stack-label {
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-chart-series-group[data-dimmed],
+.salmon-chart [data-dimmed] {
+  opacity: 0.25;
+}
+
+.salmon-chart [data-faded] {
+  opacity: 0.3;
+}
+
+.salmon-chart-drag-preview {
+  stroke: var(--salmon-text-primary);
+  stroke-dasharray: 3 3;
+}
+
+.salmon-chart [data-selected] {
+  stroke: var(--salmon-text-primary);
+  stroke-width: 2;
+}
+
+.salmon-chart-annotation {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  color: var(--salmon-text-primary);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-chart-empty {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-viz-canvas > canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.salmon-chart-zoom-toolbar {
+  position: absolute;
+  inset-block-start: 4px;
+  inset-inline-end: 4px;
+  gap: 4px;
+}
+
+.salmon-chart-zoom-toolbar[data-position^='bottom'] {
+  inset-block: auto 4px;
+}
+
+.salmon-chart-zoom-toolbar[data-position$='Start'] {
+  inset-inline: 4px auto;
+}
+
+/* Toolbar glyphs: SVG masks in currentColor, 14px at the sm button size. */
+.salmon-chart-zoom-toolbar [data-icon]::before {
+  content: '';
+  inline-size: 14px;
+  block-size: 14px;
+  background: currentColor;
+  mask: var(--salmon-chart-icon) center / contain no-repeat;
+  forced-color-adjust: none;
+}
+
+.salmon-chart-zoom-toolbar [data-icon='zoom'] {
+  --salmon-chart-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6'><path d='M2 5V2h3m6 0h3v3m0 6v3h-3m-6 0H2v-3'/></svg>");
+}
+
+.salmon-chart-zoom-toolbar [data-icon='pan'] {
+  --salmon-chart-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6'><path d='M8 1v14M1 8h14M6 3l2-2 2 2M6 13l2 2 2-2M3 6L1 8l2 2M13 6l2 2-2 2'/></svg>");
+}
+
+.salmon-chart-zoom-toolbar [data-icon='in'] {
+  --salmon-chart-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.8'><path d='M8 3v10M3 8h10'/></svg>");
+}
+
+.salmon-chart-zoom-toolbar [data-icon='out'] {
+  --salmon-chart-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.8'><path d='M3 8h10'/></svg>");
+}
+
+.salmon-chart-zoom-toolbar [data-icon='reset'] {
+  --salmon-chart-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6'><path d='M3 8a5 5 0 1 0 1.5-3.5M3 2v3h3'/></svg>");
+}
+
+/* one entrance reveal and path transitions, client only (data-animate is set after hydration). */
+@media (prefers-reduced-motion: no-preference) {
+  .salmon-chart[data-animate] .salmon-chart-series-group,
+  .salmon-chart[data-animate] .salmon-chart-canvas {
+    animation: salmon-chart-enter 0.6s ease-out;
+  }
+
+  .salmon-chart[data-animate='update'] .salmon-viz-mark {
+    transition: d 0.3s ease-out;
+  }
+
+  .salmon-chart [data-dragging] .salmon-viz-mark {
+    transition: none;
+  }
+}
+
+@keyframes salmon-chart-enter {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+/* BulletChart legend: value, targets and bands, a static list beside the figure. */
+.salmon-chart-bullet-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--salmon-text-secondary);
+  font-size: 0.75rem;
+}
+
+.salmon-chart-bullet-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}

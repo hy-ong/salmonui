@@ -1,0 +1,65 @@
+/* PieChart and FunnelChart,
+   after the shared viz.css. Data colors arrive as inline fills. */
+.salmon-accumulation-point {
+  stroke: var(--salmon-surface-base);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.salmon-accumulation-point[data-selected] {
+  stroke: var(--salmon-text-primary);
+  stroke-width: 2;
+}
+
+.salmon-funnel-chart-connector {
+  opacity: 0.4;
+}
+
+.salmon-accumulation-connector {
+  fill: none;
+  stroke: var(--salmon-border-default);
+  stroke-width: 1;
+}
+
+.salmon-viz .salmon-accumulation-label {
+  fill: var(--salmon-text-primary);
+}
+
+.salmon-viz .salmon-accumulation-label-inside {
+  fill: var(--salmon-text-inverse);
+  paint-order: stroke;
+  stroke: rgb(0 0 0 / 0.25);
+  stroke-width: 2px;
+}
+
+.salmon-pie-chart-center,
+.salmon-viz-annotation {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.salmon-pie-chart-center {
+  color: var(--salmon-text-primary);
+  font-size: var(--salmon-font-size-md);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-accumulation-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.salmon-accumulation-pattern {
+  pointer-events: none;
+}
+
+.salmon-accumulation-pattern-ink {
+  fill: var(--salmon-surface-base);
+  stroke: var(--salmon-surface-base);
+  stroke-width: 1.5;
+  opacity: 0.55;
+}

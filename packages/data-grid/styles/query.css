@@ -1,0 +1,284 @@
+/*
+ * Query UI: sort order badges, filter bar operator, filter menu
+ * conditions, the pager, and the search box. Concatenated after data-grid.css
+ * into dist/data-grid.css. Reads --salmon-* theme variables only; logical
+ * properties only; no transitions.
+ */
+
+/* Multi-sort order number next to the sort arrow. */
+.salmon-data-grid-sort-indicator__order {
+  min-width: 1em;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* Filter bar operator dropdown. */
+.salmon-data-grid-filter-bar__cell {
+  container-type: inline-size;
+  gap: var(--salmon-space-1);
+}
+
+.salmon-data-grid-filter-bar__cell .salmon-data-grid-filter-bar__operator {
+  --salmon-data-grid-select-inset: var(--salmon-space-1);
+  flex: 0 1 40%;
+  width: auto;
+  min-width: 64px;
+  padding-inline: var(--salmon-space-1) 14px;
+}
+
+/* Narrow columns: an icon-only trigger (the chevron; the padding leaves no room for the text), the open list names the operators. */
+@container (width < 120px) {
+  .salmon-data-grid-filter-bar__cell .salmon-data-grid-filter-bar__operator {
+    --salmon-data-grid-select-inset: 9px;
+    flex: 0 0 28px;
+    min-width: 0;
+    padding-inline: 26px 0;
+  }
+}
+
+.salmon-data-grid-filter-bar__cell .salmon-data-grid-filter-bar__input {
+  flex: 1 1 auto;
+}
+
+.salmon-data-grid-input[aria-invalid='true'] {
+  border-color: var(--salmon-state-invalid);
+}
+
+/* Filter menu: AND/OR, between range, template. */
+.salmon-data-grid-filter-menu__predicate,
+.salmon-data-grid-filter-builder__logic {
+  display: flex;
+  gap: var(--salmon-space-4);
+  margin-block-start: var(--salmon-space-2);
+}
+
+.salmon-data-grid-filter-menu__predicate label,
+.salmon-data-grid-filter-builder__logic label,
+.salmon-data-grid-filter-builder__not {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-1);
+}
+
+.salmon-data-grid-filter-menu__range {
+  display: flex;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-data-grid-filter-menu__range .salmon-data-grid-input {
+  flex: 1 1 0;
+}
+
+/* Filter builder dialog: nested AND/OR groups of conditions. */
+.salmon-data-grid-filter-builder {
+  width: min(640px, calc(100vw - 16px));
+  max-width: none;
+  max-height: calc(100vh - 16px);
+  overflow: auto;
+}
+
+.salmon-data-grid-filter-builder__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-data-grid-filter-builder__group .salmon-data-grid-filter-builder__group {
+  padding-inline-start: var(--salmon-space-3);
+  border-inline-start: 2px solid var(--salmon-border-default);
+}
+
+.salmon-data-grid-filter-builder__bar,
+.salmon-data-grid-filter-builder__rule {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-data-grid-filter-builder__bar {
+  gap: var(--salmon-space-3);
+}
+
+.salmon-data-grid-filter-builder__bar .salmon-data-grid-filter-builder__logic {
+  margin: 0;
+}
+
+.salmon-data-grid-filter-builder__rule .salmon-data-grid-input {
+  flex: 1 1 8em;
+  width: auto;
+}
+
+/* Pager: the next sibling of the grid root, drawn as its bottom edge. */
+.salmon-data-grid:has(+ .salmon-data-grid-pager) {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.salmon-data-grid-pager {
+  box-sizing: border-box;
+  border: 1px solid var(--salmon-border-subtle);
+  border-block-start: 0;
+  border-end-start-radius: var(--salmon-radius-lg);
+  border-end-end-radius: var(--salmon-radius-lg);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2) var(--salmon-space-4);
+  padding: var(--salmon-space-2) var(--salmon-space-3);
+  color: var(--salmon-text-secondary);
+  background: var(--salmon-surface-header);
+  container-type: inline-size;
+}
+
+.salmon-data-grid-pager__nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-1);
+}
+
+.salmon-data-grid-pager__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--salmon-control-height-md, 32px);
+  height: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-space-4);
+  font: inherit;
+  color: var(--salmon-text-primary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--salmon-radius-md);
+  cursor: pointer;
+}
+
+.salmon-data-grid-pager__button:hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-data-grid-pager__button[aria-current='page'] {
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+  border-color: var(--salmon-color-primary);
+}
+
+.salmon-data-grid-pager__button[aria-disabled='true'] {
+  color: var(--salmon-text-disabled);
+  background: transparent;
+  cursor: default;
+}
+
+.salmon-data-grid-pager__button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 1px;
+}
+
+.salmon-data-grid-pager__size {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-data-grid-pager__info {
+  margin-inline-start: auto;
+  white-space: nowrap;
+}
+
+/* Filter status (filtering.showStatus): its own line under the controls. */
+.salmon-data-grid-pager__filter-status {
+  flex-basis: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Narrow pagers: drop the numeric buttons and the item count. */
+@container (max-width: 480px) {
+  .salmon-data-grid-pager__number:not([aria-current='page']),
+  .salmon-data-grid-pager__prev-set,
+  .salmon-data-grid-pager__next-set,
+  .salmon-data-grid-pager__items {
+    display: none;
+  }
+}
+
+/* Search box. */
+.salmon-data-grid-search {
+  display: inline-flex;
+}
+
+.salmon-data-grid-search[hidden] {
+  display: none;
+}
+
+.salmon-data-grid-search__input {
+  width: 200px;
+}
+
+/* Search highlight (`search.highlight`). */
+.salmon-data-grid-search-mark {
+  color: inherit;
+  background: color-mix(in srgb, var(--salmon-color-warning) 30%, transparent);
+  border-radius: var(--salmon-radius-sm);
+}
+
+@media (forced-colors: active) {
+  .salmon-data-grid-search-mark {
+    color: MarkText;
+    background: Mark;
+  }
+
+  .salmon-data-grid-pager__button[aria-current='page'] {
+    color: HighlightText;
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+}
+
+/* Touch multi-sort popup: shown by a header after a touch sort. */
+.salmon-data-grid-touch-sort {
+  position: fixed;
+  inset: 0 auto auto 0;
+  margin: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  padding: var(--salmon-space-1);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  box-shadow: var(--salmon-shadow-md);
+}
+
+.salmon-data-grid-touch-sort:not([data-placed]) {
+  visibility: hidden;
+}
+
+.salmon-data-grid-touch-sort__toggle {
+  box-sizing: border-box;
+  min-block-size: 44px;
+  padding-inline: var(--salmon-space-3);
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-data-grid-touch-sort__toggle[aria-pressed='true'] {
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+  border-color: var(--salmon-color-primary);
+}
+
+.salmon-data-grid-touch-sort__toggle:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 1px;
+}

@@ -1,0 +1,65 @@
+{
+  "name": "@salmonui/export",
+  "version": "0.2.0",
+  "description": "Zero-dependency XLSX, PDF, image and iCalendar writers for Salmon UI exports, built on the @salmonui/core export model.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/export"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./blob": {
+      "types": "./dist/blob.d.ts",
+      "import": "./dist/blob.js"
+    },
+    "./xlsx": {
+      "types": "./dist/xlsx.d.ts",
+      "import": "./dist/xlsx.js"
+    },
+    "./pdf": {
+      "types": "./dist/pdf.d.ts",
+      "import": "./dist/pdf.js"
+    },
+    "./graphics": {
+      "types": "./dist/graphics.d.ts",
+      "import": "./dist/graphics.js"
+    },
+    "./image": {
+      "types": "./dist/image.d.ts",
+      "import": "./dist/image.js"
+    },
+    "./ics": {
+      "types": "./dist/ics.d.ts",
+      "import": "./dist/ics.js"
+    },
+    "./pivot": {
+      "types": "./dist/pivot.d.ts",
+      "import": "./dist/pivot.js"
+    },
+    "./gantt": {
+      "types": "./dist/gantt.d.ts",
+      "import": "./dist/gantt.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,108 @@
+/* InlineAssist: the a11y helper, the Button, Menu
+   and SpeechToText rules come first (prepended by tooling/checks/copy-css.mjs);
+   this file is the panel, the prompt row, the command menu and the response.
+   Logical properties only. */
+.salmon-inline-assist {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  inline-size: min(420px, calc(100vw - 16px));
+  padding: 8px;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: 1.5;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-overlay, Canvas);
+  border: 1px solid var(--salmon-border-default, GrayText);
+  border-radius: var(--salmon-radius-lg, 10px);
+  box-shadow: var(--salmon-shadow-md);
+}
+
+.salmon-inline-assist[data-mode='popover'] {
+  z-index: 1000;
+  max-block-size: var(--salmon-overlay-available-height, calc(100vh - 16px));
+  overflow: auto;
+}
+
+.salmon-inline-assist[data-mode='popover']:not([data-placed]) {
+  visibility: hidden;
+}
+
+.salmon-inline-assist[data-mode='inline'] {
+  inline-size: auto;
+  box-shadow: none;
+}
+
+.salmon-inline-assist__composer,
+.salmon-inline-assist__toolbar,
+.salmon-inline-assist__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.salmon-inline-assist__input {
+  flex: 1;
+  box-sizing: border-box;
+  min-inline-size: 8rem;
+  min-block-size: 32px;
+  max-block-size: 160px;
+  padding: 5px 8px;
+  font: inherit;
+  line-height: 20px;
+  color: inherit;
+  resize: none;
+  field-sizing: content;
+  background: var(--salmon-surface-base, Field);
+  border: 1px solid var(--salmon-border-default, GrayText);
+  border-radius: var(--salmon-radius-md, 6px);
+}
+
+.salmon-inline-assist__input::placeholder {
+  color: var(--salmon-text-placeholder, GrayText);
+}
+
+.salmon-inline-assist__input:focus-visible {
+  outline: var(--salmon-state-focus-ring-width, 2px) solid var(--salmon-state-focus-ring, Highlight);
+  outline-offset: -1px;
+}
+
+.salmon-inline-assist__commands {
+  max-block-size: 240px;
+  overflow: auto;
+}
+
+.salmon-inline-assist__response {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-block-start: 8px;
+  border-block-start: 1px solid var(--salmon-border-subtle, GrayText);
+}
+
+.salmon-inline-assist__text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.salmon-inline-assist__pending,
+.salmon-inline-assist__error {
+  color: var(--salmon-text-secondary, GrayText);
+}
+
+.salmon-inline-assist__error {
+  color: var(--salmon-color-danger, red);
+}
+
+/* Coarse pointers on narrow screens: a bottom sheet instead of an anchored box. */
+@media (pointer: coarse) and (max-width: 640px) {
+  .salmon-inline-assist[data-mode='popover'] {
+    inset: auto 0 0 0 !important;
+    inline-size: 100%;
+    transform: none !important;
+    padding-block-end: max(8px, env(safe-area-inset-bottom));
+    border-radius: var(--salmon-radius-lg, 10px) var(--salmon-radius-lg, 10px) 0 0;
+  }
+}

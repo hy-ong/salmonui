@@ -1,0 +1,28 @@
+/* Field parts of Select and Combobox (`label`, `description`, `errorMessage`):
+   the TextField layout, rendered only when one of
+   them is set. Logical properties only; colors from --salmon-* variables. */
+
+.salmon-dropdown-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--salmon-space-1);
+  min-inline-size: 0;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-dropdown-field-label {
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+.salmon-dropdown-field-description,
+.salmon-dropdown-field-error {
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-dropdown-field-error {
+  color: var(--salmon-color-danger-text);
+}

@@ -1,0 +1,17 @@
+- figure "Map":
+  - text: ""
+  - group "Map"
+  - paragraph: Map, 2 shapes.
+  - table "Map":
+    - caption: Map
+    - rowgroup:
+      - row "Name Value":
+        - columnheader "Name"
+        - columnheader "Value"
+    - rowgroup:
+      - row "A":
+        - rowheader "A"
+        - cell
+      - row "B":
+        - rowheader "B"
+        - cell

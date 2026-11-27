@@ -1,0 +1,230 @@
+/* Page composition of admin-template.html. Colors come from the theme variables only; the
+   SidebarMenu reads the derived --salmon-surface-sidebar-* variables itself. */
+
+html,
+body,
+#root {
+  block-size: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.atlas-root {
+  display: grid;
+  grid-template-rows: 48px minmax(0, 1fr);
+  block-size: 100dvh;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+}
+
+/* Top bar */
+
+.atlas-topbar {
+  gap: var(--salmon-space-4);
+  min-block-size: 48px;
+  padding-inline: 16px 32px;
+}
+
+.atlas-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+}
+
+.atlas-brand strong {
+  font-weight: 600;
+}
+
+.atlas-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-inline-start: auto;
+  block-size: 32px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: var(--salmon-radius-md);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.atlas-account:hover {
+  background: var(--salmon-surface-hover);
+}
+
+/* Sidebar */
+
+.atlas-layout {
+  min-block-size: 0;
+}
+
+/* Main content */
+
+.atlas-main {
+  min-block-size: 0;
+  overflow: hidden;
+  background: var(--salmon-surface-base);
+}
+
+.atlas-page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  block-size: 100%;
+  box-sizing: border-box;
+  padding: 16px 40px;
+}
+
+.atlas-card.salmon-card {
+  border-color: var(--salmon-border-subtle);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.atlas-filter.salmon-card {
+  flex: none;
+  padding: 8px;
+}
+
+.atlas-filter__form {
+  display: grid;
+  gap: 8px;
+}
+
+.atlas-filter__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  align-items: end;
+  gap: 8px;
+}
+
+.atlas-filter__item {
+  display: grid;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.atlas-filter__item > * {
+  inline-size: 100%;
+}
+
+.atlas-filter__label {
+  font-size: 13px;
+  color: var(--salmon-text-primary);
+}
+
+.atlas-filter__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.atlas-filter__group {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.atlas-table {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 10px;
+  min-block-size: 0;
+}
+
+.atlas-table__card.salmon-card {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.atlas-table__card .salmon-data-grid {
+  border: 0;
+}
+
+.atlas-pager.salmon-card {
+  display: flex;
+  flex: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+}
+
+.atlas-pager__end {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* The pager is an inline-size container: give it a width of its own. */
+.atlas-pager__end .salmon-pager {
+  flex: 0 1 500px;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+.atlas-muted {
+  color: var(--salmon-text-secondary);
+}
+
+/* Cells */
+
+.atlas-link {
+  color: var(--salmon-color-primary-text, var(--salmon-color-primary));
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.atlas-strong {
+  font-weight: 600;
+}
+
+.atlas-customer,
+.atlas-owner,
+.atlas-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-inline-size: 0;
+}
+
+.atlas-owner {
+  gap: 6px;
+}
+
+.atlas-customer__text {
+  display: grid;
+  min-inline-size: 0;
+  line-height: 1.4;
+}
+
+.atlas-customer__text > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.atlas-customer__text > span {
+  color: var(--salmon-text-secondary);
+}
+
+.atlas-status {
+  gap: 6px;
+}
+
+.atlas-status__dot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+}

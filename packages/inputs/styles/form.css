@@ -1,0 +1,15 @@
+/* Required mark (`requiredMark` on Form and Field): a
+   decorative asterisk before the label of a field whose control is required
+   (`required` or `aria-required`). The mark's alternative text is empty, so
+   the requirement is announced once, from the control itself. A
+   `data-required-mark="true"` ancestor (Form) marks every field inside it; a
+   field opts out with `data-required-mark="false"` (Field
+   `requiredMark={false}`).
+   Select and Combobox labels are marked too. */
+
+:is([data-required-mark='true'] :is(.salmon-field, .salmon-dropdown-field):not([data-required-mark='false']), .salmon-field[data-required-mark='true']):has(:required, [aria-required='true']) > :is(.salmon-field-label, .salmon-dropdown-field-label)::before {
+  content: '*';
+  content: '*' / '';
+  margin-inline-end: 4px;
+  color: var(--salmon-color-danger-text);
+}

@@ -1,0 +1,8 @@
+- heading "TimePicker" [level=2]
+- text: Start time
+- group "Start time":
+  - spinbutton "hour": /\d+/
+  - spinbutton "minute": /\d+/
+  - spinbutton "AM/PM"
+- button "Clear"
+- button "Choose time"

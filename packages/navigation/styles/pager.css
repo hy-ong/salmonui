@@ -1,0 +1,135 @@
+/* @salmonui/react/pager: the standalone Pager. Self-contained;
+   colors-only theme: --salmon-* variables, logical properties only. */
+
+.salmon-pager {
+  gap: var(--salmon-space-2) var(--salmon-space-4);
+  padding: var(--salmon-space-2) var(--salmon-space-3);
+  font: var(--salmon-font-size-md) var(--salmon-font-sans);
+  color: var(--salmon-text-secondary);
+  container-type: inline-size;
+}
+
+.salmon-pager-button,
+.salmon-pager-size-select {
+  block-size: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-control-padding-md, 12px);
+  font: inherit;
+  color: var(--salmon-text-primary);
+  border: 1px solid transparent;
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-pager-button,
+.salmon-pager-size {
+  display: inline-flex;
+  align-items: center;
+}
+
+.salmon-pager-button {
+  justify-content: center;
+  min-inline-size: var(--salmon-control-height-md, 32px);
+  background: none;
+  cursor: pointer;
+}
+
+/* Icon-only navigation buttons stay square. */
+.salmon-pager-button:has(> .salmon-pager-icon) {
+  padding: 0;
+}
+
+.salmon-pager-button:hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-pager-button[aria-current='page'] {
+  color: var(--salmon-color-primary-on);
+  /* The transparent border shows the fill. */
+  background: var(--salmon-color-primary);
+}
+
+.salmon-pager-button[aria-disabled='true'] {
+  color: var(--salmon-text-disabled);
+  background: none;
+  cursor: default;
+}
+
+:is(.salmon-pager-button, .salmon-pager-size-select):focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 1px;
+}
+
+/* Built-in icons: SVG masks in currentColor; an `icons` node replaces them.
+   Two glyphs, `>` and `>|`: previous and first are their mirror images, the
+   page size chevron is `>` turned down, and RTL mirrors the arrows. */
+
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+
+.salmon-pager-icon:empty::before {
+  content: '';
+  display: block;
+  inline-size: 16px;
+  block-size: 16px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M5.5 3l5 5-5 5' fill='none' stroke='black' stroke-width='2'/></svg>") center / contain no-repeat;
+  forced-color-adjust: none;
+}
+
+:is([data-part='first'], [data-part='last']) > .salmon-pager-icon::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M4 3l5 5-5 5M12 3v10' fill='none' stroke='black' stroke-width='2'/></svg>");
+}
+
+:is([data-part='first'], [data-part='previous']) > .salmon-pager-icon::before {
+  scale: calc(-1 * var(--salmon-dir, 1)) 1;
+}
+
+:is([data-part='next'], [data-part='last']) > .salmon-pager-icon::before {
+  scale: var(--salmon-dir, 1) 1;
+}
+
+.salmon-pager-size {
+  gap: var(--salmon-space-2);
+}
+
+/* Native select: the chevron box sits
+   at the text's 12px inset from the inline end, the end padding adds the box
+   and the 4px gap. */
+.salmon-pager-size-select {
+  appearance: none;
+  padding-inline-end: 32px;
+  background: var(--salmon-surface-base);
+  border-color: var(--salmon-border-default);
+}
+
+.salmon-pager-size > .salmon-pager-icon {
+  margin-inline: -32px 12px;
+  pointer-events: none;
+  rotate: 90deg;
+}
+
+.salmon-pager-info {
+  margin-inline-start: auto;
+  white-space: nowrap;
+}
+
+.salmon-pager-message {
+  flex-basis: 100%;
+}
+
+/* Narrow pagers (the Data Grid layout): drop the other numbers, the `…` sets and the item count. */
+@container (max-width: 480px) {
+  .salmon-pager-button[data-part='number']:not([aria-current='page']),
+  .salmon-pager-button[data-part$='-set'],
+  .salmon-pager-items {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .salmon-pager-button[aria-current='page'] {
+    color: HighlightText;
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+}

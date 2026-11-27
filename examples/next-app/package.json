@@ -1,0 +1,25 @@
+{
+  "name": "@salmonui/example-next-app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 41780",
+    "build": "next build",
+    "start": "next start --port 41790"
+  },
+  "dependencies": {
+    "@salmonui/buttons": "0.2.0",
+    "@salmonui/calendars": "0.2.0",
+    "@salmonui/charts": "0.2.0",
+    "@salmonui/core": "0.2.0",
+    "@salmonui/data-grid": "0.2.0",
+    "@salmonui/dropdowns": "0.2.0",
+    "@salmonui/kanban": "0.2.0",
+    "@salmonui/navigation": "0.2.0",
+    "@salmonui/notifications": "0.2.0",
+    "next": "16.4.5",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}

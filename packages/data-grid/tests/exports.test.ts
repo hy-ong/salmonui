@@ -1,0 +1,36 @@
+// @salmonui/data-grid export surface: the exports map follows the package manifest and
+// every entry exports the names its docs list.
+import { describeExportSurface } from '../../core/tests/export-surface.ts';
+
+describeExportSurface('@salmonui/data-grid', {
+  '.': ['DataGrid', 'DataGridColumn', 'DataGridAggregate', 'DataGridAggregateRow', 'DataGridDetailRow', 'DataGridToolbar', 'DataGridPager', 'DataGridSearchBox', 'DataGridGroupPanel', 'DataGridIconsProvider', 'useDataGridApi', 'createLocalDataSource', 'DATA_GRID_DEFAULT_LOCALE_TEXT'],
+  './features': ['adaptive', 'aggregates', 'detail', 'editing', 'grouping', 'infiniteScroll', 'lookup', 'paging', 'persistState', 'rowDrag', 'rowPinning', 'search', 'spans', 'toolbar', 'tree'],
+  './server': ['getDataGridInitialRange'],
+  './engine': ['createDataGridEngine', 'createDataGridApi', 'createDataGridQuery', 'createLocalDataSource', 'createRowModel', 'createSortModule', 'createFilterModule', 'createSearchModule', 'createPagingModule', 'createSelectionModule', 'createFocusModule', 'createKeymap', 'EMPTY_GRID_QUERY'],
+  './engine/sort': ['createSortModule'],
+  './engine/filter': ['createFilterModule', 'BLANK_FACET_KEY'],
+  './engine/search': ['createSearchModule'],
+  './engine/paging': ['createPagingModule'],
+  './engine/grouping': ['createGroupingModule'],
+  './engine/aggregates': ['createAggregatesModule', 'AGGREGATE_TYPES'],
+  './engine/selection': ['createSelectionModule', 'createSelectionApi'],
+  './engine/focus': ['createFocusModule'],
+  './engine/keyboard': ['createKeymap', 'DEFAULT_KEY_BINDINGS'],
+  './engine/edit': ['createEditModule', 'createEditApi', 'createInitialEditState', 'DEFAULT_EDIT_MESSAGES'],
+  './engine/edit-state': ['createInitialEditState', 'EDIT_COMMANDS', 'INITIAL_CLIPBOARD_STATE'],
+  './engine/clipboard': ['createClipboardModule', 'parseTsv', 'CLIPBOARD_COMMANDS'],
+  './engine/validation': ['DEFAULT_VALIDATION_MESSAGES', 'NO_ERRORS'],
+  './engine/expansion': ['createDetailModule', 'createSparseRowMetrics', 'DetailView'],
+  './engine/hierarchy': ['createHierarchyModule', 'createChildDataSource'],
+  './engine/row-drag-state': ['createInitialRowDragState', 'createRowDragHandoff', 'ROW_DRAG_COMMANDS'],
+  './engine/row-drag-drop': ['createRowDragDropModule'],
+  './engine/infinite': ['createInfiniteScrollModule', 'INFINITE_SCROLL_COMMANDS'],
+  './engine/lookup': ['createLookupModule'],
+  './engine/persistence': ['createDataGridPersistence', 'createDataGridStateApi', 'DATA_GRID_STATE_VERSION'],
+  './engine/locale': ['createLocaleTextModule', 'formatLocaleText', 'DEFAULT_LOCALE_TEXT'],
+  './engine/export': ['createExportModule', 'createExportModel', 'exportCsv', 'streamCsv', 'writeCsv'],
+  './engine/export-server': ['createExportDataGrid', 'createExportStream', 'exportToResponse', 'exportToStream'],
+  './engine/row-pinning': ['createRowPinningModule', 'PinnedView'],
+  './engine/tree': ['createTreeModule', 'TreeView', 'TREE_COMMANDS'],
+  './engine/tree-remote': ['createRemoteTree'],
+});

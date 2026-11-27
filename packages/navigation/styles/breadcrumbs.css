@@ -1,0 +1,137 @@
+/* @salmonui/react/breadcrumbs.
+   Colors-only: --salmon-* variables, logical properties. Self-contained; the
+   ellipsis menu popup uses @salmonui/react/menu/styles.css. */
+
+.salmon-breadcrumbs {
+  min-inline-size: 0;
+  color: var(--salmon-text-secondary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+}
+
+.salmon-breadcrumbs-list {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--salmon-space-1);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.salmon-breadcrumbs[data-overflow='wrap'] .salmon-breadcrumbs-list {
+  flex-wrap: wrap;
+}
+
+.salmon-breadcrumbs[data-overflow='scroll'] .salmon-breadcrumbs-list {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.salmon-breadcrumbs[data-overflow='none'] .salmon-breadcrumbs-list {
+  overflow: hidden;
+}
+
+.salmon-breadcrumbs-item {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--salmon-space-1);
+  white-space: nowrap;
+}
+
+.salmon-breadcrumbs-item[hidden] {
+  display: none;
+}
+
+/* Default separator: a chevron drawn with two borders, mirrored in RTL. */
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+
+.salmon-breadcrumbs:not([data-separator]) .salmon-breadcrumbs-item:not(:first-child)::before {
+  content: '';
+  inline-size: 0.35em;
+  block-size: 0.35em;
+  margin-inline: 0.2em 0.35em;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  transform: scaleX(var(--salmon-dir, 1)) rotate(45deg);
+}
+
+.salmon-breadcrumbs-item[hidden]:first-child + .salmon-breadcrumbs-item::before,
+.salmon-breadcrumbs-item[hidden]:first-child + * > .salmon-breadcrumbs-separator {
+  display: none;
+}
+
+.salmon-breadcrumbs-separator,
+.salmon-breadcrumbs-icon {
+  display: inline-flex;
+}
+
+/* A custom separator gets the same breathing room as the default chevron. */
+.salmon-breadcrumbs-separator {
+  margin-inline: var(--salmon-space-1);
+}
+
+.salmon-breadcrumbs-link,
+.salmon-breadcrumbs-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  border-radius: var(--salmon-radius-sm);
+}
+
+.salmon-breadcrumbs-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.salmon-breadcrumbs-link:hover {
+  color: var(--salmon-text-primary);
+  text-decoration: underline;
+}
+
+.salmon-breadcrumbs-link:focus-visible,
+.salmon-breadcrumbs .salmon-breadcrumbs-ellipsis:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-breadcrumbs-item[data-current] > :not(.salmon-breadcrumbs-separator) {
+  color: var(--salmon-text-primary);
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+.salmon-breadcrumbs-item[data-disabled] > *:not(.salmon-breadcrumbs-separator) {
+  color: var(--salmon-text-disabled);
+}
+
+.salmon-breadcrumbs .salmon-breadcrumbs-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-block-size: 24px;
+  min-inline-size: 24px;
+  margin: 0;
+  padding: 0 var(--salmon-space-1);
+  color: inherit;
+  font: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-breadcrumbs .salmon-breadcrumbs-ellipsis:hover:not(:disabled) {
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-breadcrumbs .salmon-breadcrumbs-ellipsis:disabled {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}

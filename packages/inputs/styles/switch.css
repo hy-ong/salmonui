@@ -1,0 +1,56 @@
+/*
+ * Switch (@salmonui/react/switch/styles.css): the toggle input drawn as a
+ * track with a thumb. Logical properties mirror it in RTL.
+ */
+.salmon-toggle-switch {
+  inline-size: 32px;
+  block-size: 18px;
+  border-color: transparent;
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-border-strong);
+}
+
+.salmon-toggle-switch::before {
+  position: absolute;
+  inset-block-start: 1px;
+  inset-inline-start: 1px;
+  inline-size: 14px;
+  block-size: 14px;
+  border-radius: 50%;
+  background: var(--salmon-surface-base);
+  visibility: visible;
+  transition: inset-inline-start var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+.salmon-toggle-switch:checked::before {
+  inset-inline-start: 15px;
+}
+
+.salmon-toggle-control {
+  position: relative;
+  display: inline-flex;
+}
+
+.salmon-toggle-extra {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 1px;
+  display: grid;
+  place-items: center;
+  inline-size: 16px;
+  font-size: 10px;
+  color: var(--salmon-text-secondary);
+  pointer-events: none;
+  transition: inset-inline-start var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+.salmon-toggle-control:has(:checked) > .salmon-toggle-extra {
+  inset-inline-start: 15px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-toggle-switch::before,
+  .salmon-toggle-extra {
+    transition: none;
+  }
+}

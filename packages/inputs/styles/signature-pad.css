@@ -1,0 +1,100 @@
+/*
+ * SignaturePad (@salmonui/react/signature-pad/styles.css): a sized surface (rendered on the server) with a canvas
+ * filling it; touch-action: none on the canvas only.
+ */
+.salmon-signature-pad {
+  display: flex;
+  inline-size: 100%;
+  max-inline-size: 32rem;
+}
+
+.salmon-signature-pad-surface {
+  position: relative;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  overflow: hidden;
+}
+
+.salmon-signature-pad-canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.salmon-signature-pad-canvas:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: calc(var(--salmon-state-focus-ring-width) * -1);
+}
+
+.salmon-signature-pad[data-invalid] .salmon-signature-pad-surface {
+  border-color: var(--salmon-state-invalid);
+}
+
+.salmon-signature-pad[data-disabled] .salmon-signature-pad-surface {
+  background: var(--salmon-surface-disabled);
+}
+
+.salmon-signature-pad[data-disabled] .salmon-signature-pad-canvas {
+  cursor: default;
+}
+
+.salmon-signature-pad-toolbar {
+  display: flex;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-signature-pad-button {
+  /* Button's sm metrics: 24px high, 8px inline padding, the control radius. */
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-block-size: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font: inherit;
+  font-size: var(--salmon-font-size-sm);
+  cursor: pointer;
+}
+
+.salmon-signature-pad-button[aria-pressed='true'] {
+  border-color: var(--salmon-color-primary);
+}
+
+.salmon-signature-pad-button:disabled {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+.salmon-signature-pad-button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-signature-pad-type {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-1);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-signature-pad-input {
+  box-sizing: border-box;
+  min-block-size: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--salmon-border-strong);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font: inherit;
+}
+
+.salmon-signature-pad-input:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}

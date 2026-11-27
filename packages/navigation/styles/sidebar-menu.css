@@ -1,0 +1,297 @@
+/* @salmonui/navigation/sidebar-menu.
+   Logical properties only. The colors come from the sidebar surface variables
+   when the theme sets them (a dark sider), else from the neutral theme colors;
+   every --salmon-sidebar-menu-* variable can also be set directly on the menu. */
+
+.salmon-sidebar-menu {
+  --salmon-sidebar-menu-surface: var(--salmon-surface-sidebar-bg, var(--salmon-surface-raised));
+  --salmon-sidebar-menu-bg: var(--salmon-surface-sidebar-bg, transparent);
+  --salmon-sidebar-menu-fg: var(--salmon-surface-sidebar-fg, var(--salmon-text-primary));
+  --salmon-sidebar-menu-hover-bg: var(--salmon-surface-sidebar-hover, var(--salmon-surface-hover));
+  --salmon-sidebar-menu-selected-bg: var(--salmon-surface-sidebar-selected-bg, var(--salmon-color-primary-subtle));
+  --salmon-sidebar-menu-selected-fg: var(--salmon-surface-sidebar-selected-fg, var(--salmon-color-primary-text));
+  --salmon-sidebar-menu-border: var(--salmon-surface-sidebar-border, var(--salmon-border-subtle));
+  --salmon-sidebar-menu-group-fg: color-mix(in srgb, var(--salmon-sidebar-menu-fg) 72%, var(--salmon-sidebar-menu-surface));
+  /* 36px at the default density, 34px at compact (half the control-height step). */
+  --salmon-sidebar-menu-item-height: calc(var(--salmon-control-height-md, 32px) / 2 + 20px);
+  --salmon-sidebar-menu-indent: 26px;
+  /* Row metrics, set on the menu to override (fallbacks at the use sites):
+     --salmon-sidebar-menu-item-inset (8px), -item-padding (12px),
+     -group-inset (20px), -group-font-size. */
+  --salmon-sidebar-menu-level: 1;
+  box-sizing: border-box;
+  padding-block: var(--salmon-space-2);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-sidebar-menu-fg);
+  background: var(--salmon-sidebar-menu-bg);
+}
+
+.salmon-sidebar-menu-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.salmon-sidebar-menu-item {
+  margin: 0;
+  padding: 0;
+}
+
+/* Group headings: not interactive, they name the list below them. */
+.salmon-sidebar-menu-group + .salmon-sidebar-menu-group,
+.salmon-sidebar-menu-item + .salmon-sidebar-menu-group,
+.salmon-sidebar-menu-group + .salmon-sidebar-menu-item {
+  margin-block-start: var(--salmon-space-2);
+}
+
+/* A rail flyout's title is styled like a group heading. */
+.salmon-sidebar-menu-group-label,
+.salmon-sidebar-menu-flyout-title {
+  padding-block: var(--salmon-space-2);
+  padding-inline: var(--salmon-sidebar-menu-group-inset, 20px);
+  font-size: var(--salmon-sidebar-menu-group-font-size, var(--salmon-font-size-sm));
+  font-weight: var(--salmon-font-weight-medium);
+  color: var(--salmon-sidebar-menu-group-fg);
+}
+
+.salmon-sidebar-menu-group-label {
+  padding-block-start: var(--salmon-space-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* A link, an action or a disclosure button: one row. */
+.salmon-sidebar-menu-link {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  inline-size: calc(100% - 2 * var(--salmon-sidebar-menu-item-inset, 8px));
+  min-block-size: var(--salmon-sidebar-menu-item-height);
+  margin-block: var(--salmon-space-1);
+  margin-inline: var(--salmon-sidebar-menu-item-inset, 8px);
+  padding-block: var(--salmon-space-2);
+  padding-inline: calc(var(--salmon-sidebar-menu-item-padding, 12px) + (var(--salmon-sidebar-menu-level) - 1) * var(--salmon-sidebar-menu-indent)) var(--salmon-sidebar-menu-item-padding, 12px);
+  border: 0;
+  border-radius: var(--salmon-radius-md);
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--salmon-motion-duration-fast) var(--salmon-motion-easing),
+    color var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+.salmon-sidebar-menu-link:hover {
+  color: var(--salmon-sidebar-menu-fg);
+  background: var(--salmon-sidebar-menu-hover-bg);
+}
+
+.salmon-sidebar-menu-link:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width));
+}
+
+.salmon-sidebar-menu-link[aria-current] {
+  font-weight: var(--salmon-font-weight-medium);
+  color: var(--salmon-sidebar-menu-selected-fg);
+  background: var(--salmon-sidebar-menu-selected-bg);
+}
+
+/* A submenu that holds the selected item. */
+.salmon-sidebar-menu-link[data-active] {
+  color: var(--salmon-sidebar-menu-selected-fg);
+}
+
+.salmon-sidebar-menu-link:is(:disabled, [aria-disabled='true']) {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: transparent;
+}
+
+.salmon-sidebar-menu-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 16px;
+  block-size: 16px;
+  font-size: 16px;
+}
+
+.salmon-sidebar-menu-icon > svg {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.salmon-sidebar-menu-icon[data-initial] {
+  font-size: var(--salmon-font-size-sm);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-sidebar-menu-label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-sidebar-menu-badge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--salmon-font-size-sm);
+}
+
+/* Chevron: points down while closed, up while open (no RTL mirroring needed). */
+.salmon-sidebar-menu-chevron {
+  flex: none;
+  position: relative;
+  inline-size: 10px;
+  block-size: 10px;
+}
+
+.salmon-sidebar-menu-chevron::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 1px;
+  inset-inline-start: 2px;
+  inline-size: 5px;
+  block-size: 5px;
+  /* Physical on purpose: a vertical chevron must not mirror in RTL. */
+  border-bottom: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--salmon-motion-duration-fast) var(--salmon-motion-easing), inset-block-start var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+.salmon-sidebar-menu-link[aria-expanded='true'] > .salmon-sidebar-menu-chevron::before {
+  inset-block-start: 4px;
+  transform: rotate(-135deg);
+}
+
+/* Inline submenus: always in the markup (find-in-page reveals them); the
+   height animates with interpolate-size where supported. */
+.salmon-sidebar-menu-submenu {
+  overflow: hidden;
+  block-size: auto;
+  interpolate-size: allow-keywords;
+  transition:
+    block-size var(--salmon-motion-duration-normal) var(--salmon-motion-easing),
+    content-visibility var(--salmon-motion-duration-normal) allow-discrete;
+}
+
+.salmon-sidebar-menu-submenu[data-state='closed'] {
+  block-size: 0;
+}
+
+/* Server HTML (before the client sets hidden="until-found"): hide from everyone. */
+.salmon-sidebar-menu-submenu[data-state='closed']:not([hidden]) {
+  visibility: hidden;
+}
+
+/* Icon rail (collapsed): icons only, centered; labels stay in the accessible name. */
+.salmon-sidebar-menu[data-collapsed] > .salmon-sidebar-menu-list > .salmon-sidebar-menu-item > .salmon-sidebar-menu-link,
+.salmon-sidebar-menu[data-collapsed] > .salmon-sidebar-menu-list > .salmon-sidebar-menu-group > .salmon-sidebar-menu-list > .salmon-sidebar-menu-item > .salmon-sidebar-menu-link {
+  position: relative;
+  justify-content: center;
+  padding-inline: 0;
+}
+
+.salmon-sidebar-menu[data-collapsed] > .salmon-sidebar-menu-list > .salmon-sidebar-menu-item > .salmon-sidebar-menu-link > :is(.salmon-sidebar-menu-label, .salmon-sidebar-menu-badge),
+.salmon-sidebar-menu[data-collapsed] > .salmon-sidebar-menu-list > .salmon-sidebar-menu-group > .salmon-sidebar-menu-list > .salmon-sidebar-menu-item > .salmon-sidebar-menu-link > :is(.salmon-sidebar-menu-label, .salmon-sidebar-menu-badge),
+.salmon-sidebar-menu[data-collapsed] .salmon-sidebar-menu-group-label {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.salmon-sidebar-menu[data-collapsed] .salmon-sidebar-menu-group {
+  position: relative;
+}
+
+/* Groups are separated by a rule instead of their (hidden) heading, and with `dividers`. */
+.salmon-sidebar-menu:is([data-collapsed], [data-dividers]) .salmon-sidebar-menu-group + .salmon-sidebar-menu-group::before {
+  content: '';
+  display: block;
+  block-size: 1px;
+  margin-block: var(--salmon-space-2);
+  margin-inline: calc(var(--salmon-sidebar-menu-item-inset, 8px) + var(--salmon-space-2));
+  background: var(--salmon-sidebar-menu-border);
+}
+
+.salmon-sidebar-menu-link[data-sidebar-menu-flyout]:is([data-active], [aria-expanded='true']) {
+  background: var(--salmon-sidebar-menu-selected-bg);
+}
+
+/* Rail flyout (a submenu) and tooltip (a link label): top layer, or fixed. */
+.salmon-sidebar-menu-flyout {
+  box-sizing: border-box;
+  z-index: 1000;
+  min-inline-size: 200px;
+  max-block-size: var(--salmon-overlay-available-height, calc(100vh - 16px));
+  overflow: auto;
+  padding-block: var(--salmon-space-2);
+  padding-inline: 0;
+  border: 1px solid var(--salmon-sidebar-menu-border);
+  border-radius: var(--salmon-radius-lg);
+  box-shadow: var(--salmon-shadow-lg);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-sidebar-menu-fg);
+  background: var(--salmon-sidebar-menu-surface);
+}
+
+.salmon-sidebar-menu-flyout:not([data-placed]) {
+  visibility: hidden;
+}
+
+.salmon-sidebar-menu-tooltip {
+  box-sizing: border-box;
+  z-index: 1100;
+  max-inline-size: min(280px, calc(100vw - 16px));
+  padding-block: var(--salmon-space-2);
+  padding-inline: var(--salmon-space-3);
+  border: 0;
+  border-radius: var(--salmon-radius-md);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-sm);
+  line-height: var(--salmon-line-height-tight);
+  white-space: nowrap;
+  color: var(--salmon-surface-base);
+  background: var(--salmon-text-primary);
+  pointer-events: none;
+}
+
+.salmon-sidebar-menu-tooltip:not([data-placed]) {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-sidebar-menu-link,
+  .salmon-sidebar-menu-chevron::before,
+  .salmon-sidebar-menu-submenu {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .salmon-sidebar-menu-link[aria-current] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}

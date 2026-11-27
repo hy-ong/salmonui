@@ -1,0 +1,68 @@
+{
+  "name": "@salmonui/notifications",
+  "version": "0.2.0",
+  "description": "Message, Toast, Badge, Progress, Spinner and Skeleton for Salmon UI.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/notifications"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./message": {
+      "types": "./dist/message.d.ts",
+      "import": "./dist/message.js"
+    },
+    "./toast": {
+      "types": "./dist/toast.d.ts",
+      "import": "./dist/toast.js"
+    },
+    "./badge": {
+      "types": "./dist/badge.d.ts",
+      "import": "./dist/badge.js"
+    },
+    "./progress": {
+      "types": "./dist/progress.d.ts",
+      "import": "./dist/progress.js"
+    },
+    "./spinner": {
+      "types": "./dist/spinner.d.ts",
+      "import": "./dist/spinner.js"
+    },
+    "./skeleton": {
+      "types": "./dist/skeleton.d.ts",
+      "import": "./dist/skeleton.js"
+    },
+    "./message/styles.css": "./dist/message.css",
+    "./toast/styles.css": "./dist/toast.css",
+    "./badge/styles.css": "./dist/badge.css",
+    "./progress/styles.css": "./dist/progress.css",
+    "./spinner/styles.css": "./dist/spinner.css",
+    "./skeleton/styles.css": "./dist/skeleton.css",
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

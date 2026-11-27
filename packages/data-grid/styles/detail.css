@@ -1,0 +1,216 @@
+/*
+ * Detail rows, child grids, and row drag and drop. Plain CSS; reads
+ * --salmon-* theme variables only. Stable hooks: .salmon-data-grid-detail-row,
+ * .salmon-data-grid-detail-row__cell, .salmon-data-grid-detail, .salmon-data-grid-child,
+ * .salmon-data-grid-detail-toggle, .salmon-data-grid-row-drag-handle,
+ * .salmon-data-grid-row-drop-indicator, .salmon-data-grid-row-drag-preview.
+ */
+
+/* Detail rows: content height (measured into the row metrics), one cell spanning every column. */
+.salmon-data-grid-row.salmon-data-grid-detail-row,
+.salmon-data-grid[data-measure-rows] .salmon-data-grid-row.salmon-data-grid-detail-row {
+  height: auto;
+  min-height: 0;
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-data-grid-cell.salmon-data-grid-detail-row__cell {
+  display: block;
+  flex: none;
+  width: var(--salmon-data-grid-total-width);
+  min-width: 100%;
+  height: auto;
+  padding: 0;
+  overflow: visible;
+  white-space: normal;
+}
+
+/* The content stays in view while the columns scroll horizontally (the viewport is an inline-size container). */
+.salmon-data-grid-detail {
+  position: sticky;
+  inset-inline-start: 0;
+  box-sizing: border-box;
+  width: 100cqi;
+  max-width: 100%;
+  padding: var(--salmon-space-3) var(--salmon-space-4);
+}
+
+.salmon-data-grid[data-grouped] .salmon-data-grid-detail {
+  width: calc(100cqi - var(--salmon-data-grid-indent-width, 0px));
+}
+
+.salmon-data-grid-detail__status {
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-data-grid-child > .salmon-data-grid {
+  border-radius: var(--salmon-radius-md);
+}
+
+/* Expand / collapse toggle: a disclosure triangle, like group captions. */
+.salmon-data-grid-detail-toggle {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  color: var(--salmon-text-secondary);
+  background: transparent;
+  cursor: pointer;
+}
+
+.salmon-data-grid-cell[data-column-id='__salmon_detail']:not(.salmon-data-grid-detail-row__cell) {
+  padding-inline: 0;
+  text-align: center;
+}
+
+.salmon-data-grid-detail-toggle:hover {
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-data-grid-detail-toggle:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+}
+
+/* Drag handle: a grip of dots; touch drags start here without scrolling the page. */
+.salmon-data-grid-row-drag-handle {
+  display: inline-block;
+  width: 10px;
+  height: 16px;
+  vertical-align: middle;
+  cursor: grab;
+  touch-action: none;
+  color: var(--salmon-text-secondary);
+}
+
+/* Pinned rows are not drag sources. */
+.salmon-data-grid-row[data-pinned] .salmon-data-grid-row-drag-handle {
+  visibility: hidden;
+}
+
+.salmon-data-grid[data-row-dragging] .salmon-data-grid-row-drag-handle,
+.salmon-data-grid[data-row-dragging] {
+  cursor: grabbing;
+}
+
+.salmon-data-grid[data-row-dragging] .salmon-data-grid-rows {
+  user-select: none;
+}
+
+.salmon-data-grid-row[data-dragging] {
+  opacity: 0.5;
+}
+
+/* Drop indicator: a line at the target edge (moved by transform, never by React). */
+.salmon-data-grid-row-drop-indicator {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 5;
+  display: none;
+  height: 2px;
+  pointer-events: none;
+  background: var(--salmon-state-drag-indicator);
+}
+
+.salmon-data-grid-row-drop-indicator[data-visible] {
+  display: block;
+}
+
+.salmon-data-grid-row-drop-indicator[data-invalid='true'] {
+  background: var(--salmon-state-invalid);
+}
+
+/* A group caption as the target (`into` the group). */
+.salmon-data-grid-row[data-drop-into] {
+  box-shadow: inset 0 0 0 2px var(--salmon-state-drag-indicator);
+}
+
+.salmon-data-grid-row[data-drop-into='invalid'] {
+  box-shadow: inset 0 0 0 2px var(--salmon-state-invalid);
+}
+
+.salmon-data-grid-row-drag-preview {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: 6;
+  display: none;
+  gap: var(--salmon-space-2);
+  align-items: center;
+  max-width: 320px;
+  padding: var(--salmon-space-2) var(--salmon-space-4);
+  overflow: hidden;
+  font-weight: var(--salmon-font-weight-semibold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  box-shadow: var(--salmon-shadow-md);
+}
+
+.salmon-data-grid-row-drag-preview[data-visible] {
+  display: flex;
+}
+
+.salmon-data-grid-row-drag-preview__count {
+  min-width: 1.5em;
+  padding: 0 var(--salmon-space-1);
+  text-align: center;
+  color: var(--salmon-text-inverse);
+  background: var(--salmon-state-drag-indicator);
+  border-radius: var(--salmon-radius-full);
+}
+
+@media (forced-colors: active) {
+  .salmon-data-grid-row-drop-indicator {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+  .salmon-data-grid-row[data-drop-into] {
+    outline: 2px solid Highlight;
+  }
+}
+
+/* Tree mode: the tree cell indents by depth
+ * (--salmon-data-grid-tree-depth, inline per row), the toggle reuses the detail
+ * toggle icon (mirrored in RTL) with a 24px hit target (44px adaptive). */
+.salmon-data-grid-tree-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding-inline-start: calc(var(--salmon-data-grid-tree-depth) * 1.25rem);
+}
+
+.salmon-data-grid-tree-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.salmon-data-grid-tree-toggle {
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+
+.salmon-data-grid[data-adaptive] .salmon-data-grid-tree-toggle {
+  width: 44px;
+  height: 44px;
+}
+
+.salmon-data-grid-tree-toggle[data-loading]::before {
+  border: 2px dotted;
+  border-radius: 50%;
+  background: none;
+  mask: none;
+}
+
+[data-tree-context] {
+  color: var(--salmon-text-secondary);
+}

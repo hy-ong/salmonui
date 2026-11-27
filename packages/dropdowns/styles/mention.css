@@ -1,0 +1,112 @@
+/* @salmonui/react/mention: the suggestion popup.
+   The root only wraps the user's field; colors come from the theme variables. */
+.salmon-mention {
+  display: block;
+}
+
+.salmon-mention-popup {
+  position: fixed;
+  z-index: 1000;
+  box-sizing: border-box;
+  min-inline-size: 180px;
+  max-inline-size: min(360px, calc(100vw - 16px));
+  max-block-size: min(calc(8 * 32px + 2 * var(--salmon-space-2) + 2px), calc(100vh - 16px));
+  overflow: auto;
+  padding: var(--salmon-space-2);
+  font-family: var(--salmon-font-sans, system-ui, sans-serif);
+  font-size: var(--salmon-font-size-md, 14px);
+  line-height: var(--salmon-line-height-tight, 1.25);
+  color: var(--salmon-text-primary, CanvasText);
+  background: var(--salmon-surface-overlay, Canvas);
+  border: 1px solid var(--salmon-border-default, GrayText);
+  border-radius: var(--salmon-radius-lg);
+  box-shadow: var(--salmon-shadow-md, none);
+}
+
+/* Fixed at the viewport origin (inline style) and moved by `transform` in a layout effect; hidden until placed. */
+.salmon-mention-popup:not([data-placed]) {
+  visibility: hidden;
+}
+
+.salmon-mention-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.salmon-mention-option {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-3);
+  min-block-size: 32px;
+  padding-inline: var(--salmon-space-4);
+  border-radius: var(--salmon-radius-sm, 4px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+/* The default item text: one flex item, so a highlighted match sits flush with its text and long labels truncate. */
+.salmon-mention-label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.salmon-mention-option[data-active] {
+  color: var(--salmon-text-primary, CanvasText);
+  background: var(--salmon-surface-selected, Highlight);
+  outline: var(--salmon-state-focus-ring-width, 2px) solid var(--salmon-state-focus-ring, Highlight);
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width, 2px));
+}
+
+.salmon-mention-option[data-disabled] {
+  color: var(--salmon-text-disabled, GrayText);
+  cursor: default;
+}
+
+.salmon-mention-mark {
+  color: inherit;
+  background: none;
+  font-weight: var(--salmon-font-weight-semibold, 600);
+  text-decoration: underline;
+}
+
+.salmon-mention-status {
+  padding: var(--salmon-space-3) var(--salmon-space-4);
+  color: var(--salmon-text-secondary, GrayText);
+}
+
+.salmon-mention-status[data-error] {
+  color: var(--salmon-color-danger-text, CanvasText);
+}
+
+/* a mention inserted into a contenteditable target (createContentEditableMentionTarget). */
+.salmon-mention-chip {
+  padding-inline: var(--salmon-space-2);
+  border-radius: var(--salmon-radius-sm, 4px);
+  color: var(--salmon-text-primary, CanvasText);
+  background: var(--salmon-surface-selected, Highlight);
+  white-space: nowrap;
+  user-select: all;
+}
+
+@media (forced-colors: active) {
+  .salmon-mention-chip {
+    border: 1px solid CanvasText;
+  }
+  .salmon-mention-popup {
+    color: CanvasText;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+  .salmon-mention-option[data-active] {
+    color: HighlightText;
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+  .salmon-mention-option[data-disabled] {
+    color: GrayText;
+  }
+}

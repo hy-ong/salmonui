@@ -1,0 +1,96 @@
+/* RecurrenceEditor parts:
+   rows of labelled controls. The Select, ToggleButtonGroup and DatePicker
+   rules come from their own stylesheets, concatenated before this file. */
+
+.salmon-recurrence-editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-3);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: inherit;
+}
+
+.salmon-recurrence-editor__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-recurrence-editor__choice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-recurrence-editor__label {
+  min-inline-size: 7rem;
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+.salmon-recurrence-editor__choice .salmon-recurrence-editor__label { min-inline-size: 4rem; }
+
+.salmon-recurrence-editor__number {
+  inline-size: 5rem;
+  min-block-size: var(--salmon-control-height-md, 32px);
+  box-sizing: border-box;
+  padding-block: 0;
+  padding-inline: var(--salmon-control-padding-md, 12px);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: inherit;
+  font: inherit;
+}
+
+.salmon-recurrence-editor__number:focus-visible,
+.salmon-recurrence-editor__radio:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-recurrence-editor__number:disabled { background: var(--salmon-surface-disabled); }
+
+.salmon-recurrence-editor__radio {
+  margin: 0;
+  accent-color: var(--salmon-color-primary);
+}
+
+.salmon-recurrence-editor__summary {
+  display: block;
+  padding-block: var(--salmon-space-2);
+  border-block-start: 1px solid var(--salmon-border-subtle);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-recurrence-editor__sr {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.salmon-recurrence-editor[data-disabled] { opacity: 0.6; }
+
+/* Phone widths: the seven weekday buttons fit the row instead of running
+   past the editor's edge. */
+@media (max-width: 480px) {
+  .salmon-recurrence-editor__weekdays { max-inline-size: 100%; }
+  .salmon-recurrence-editor__weekdays > .salmon-button {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    padding-inline: var(--salmon-space-3);
+  }
+}
+
+@media (pointer: coarse) {
+  .salmon-recurrence-editor__number { min-block-size: 44px; }
+}
+
+@media (forced-colors: active) {
+  .salmon-recurrence-editor__number { border-color: CanvasText; }
+}

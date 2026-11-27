@@ -1,0 +1,71 @@
+{
+  "name": "@salmonui/calendars",
+  "version": "0.2.0",
+  "description": "Calendar, DateField, TimeField, DatePicker, DateRangePicker and TimePicker for Salmon UI.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/calendars"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./calendar": {
+      "types": "./dist/calendar.d.ts",
+      "import": "./dist/calendar.js"
+    },
+    "./date-field": {
+      "types": "./dist/date-field.d.ts",
+      "import": "./dist/date-field.js"
+    },
+    "./date-picker": {
+      "types": "./dist/date-picker.d.ts",
+      "import": "./dist/date-picker.js"
+    },
+    "./date-picker/data-grid": {
+      "types": "./dist/date-picker/data-grid.d.ts",
+      "import": "./dist/date-picker/data-grid.js"
+    },
+    "./date-range-picker": {
+      "types": "./dist/date-range-picker.d.ts",
+      "import": "./dist/date-range-picker.js"
+    },
+    "./time-picker": {
+      "types": "./dist/time-picker.d.ts",
+      "import": "./dist/time-picker.js"
+    },
+    "./calendar/styles.css": "./dist/calendar.css",
+    "./date-field/styles.css": "./dist/date-field.css",
+    "./date-picker/styles.css": "./dist/date-picker.css",
+    "./date-range-picker/styles.css": "./dist/date-range-picker.css",
+    "./time-picker/styles.css": "./dist/time-picker.css",
+    "./styles.css": "./dist/styles.css",
+    "./internal/*": {
+      "types": "./dist/internal/*.d.ts",
+      "import": "./dist/internal/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

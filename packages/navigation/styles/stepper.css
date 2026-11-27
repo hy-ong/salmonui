@@ -1,0 +1,177 @@
+/* @salmonui/react/stepper/styles.css: Stepper.
+   Self-contained; colors from --salmon-* theme variables only, logical properties.
+   Connectors are a ::after line on every step but the last, filled when the step
+   is completed (data-status). */
+
+.salmon-stepper {
+  --salmon-stepper-size: 28px;
+  --salmon-stepper-line: var(--salmon-border-default);
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+}
+.salmon-stepper[data-orientation='vertical'] {
+  flex-direction: column;
+}
+
+/* Steps keep their min-content width (the step text wraps at word breaks),
+   so a narrow Stepper never draws a connector over the next step's text. */
+.salmon-stepper-step {
+  display: flex;
+  flex: 1 1 0;
+  align-items: flex-start;
+}
+.salmon-stepper-step:last-child {
+  flex: 0 1 auto;
+}
+.salmon-stepper[data-orientation='vertical'] > .salmon-stepper-step {
+  flex-direction: column;
+}
+
+/* Connector to the next step: a flex item after the step button. */
+.salmon-stepper-step:not(:last-child)::after {
+  content: '';
+  flex: 1 1 auto;
+  background: var(--salmon-stepper-line);
+  transition: background-color var(--salmon-motion-duration-normal) var(--salmon-motion-easing);
+}
+.salmon-stepper-step[data-status='completed']:not(:last-child)::after {
+  background: var(--salmon-color-primary);
+}
+.salmon-stepper[data-orientation='horizontal'] > .salmon-stepper-step:not(:last-child)::after {
+  min-inline-size: var(--salmon-space-5);
+  block-size: 2px;
+  margin-block-start: calc(var(--salmon-stepper-size) / 2 + var(--salmon-space-2) - 1px);
+  margin-inline: var(--salmon-space-2);
+}
+.salmon-stepper[data-orientation='horizontal'][data-label-placement='top'] > .salmon-stepper-step:not(:last-child)::after {
+  align-self: flex-end;
+  margin-block: 0 calc(var(--salmon-stepper-size) / 2 + var(--salmon-space-2) - 1px);
+}
+.salmon-stepper[data-orientation='vertical'] > .salmon-stepper-step:not(:last-child)::after {
+  inline-size: 2px;
+  min-block-size: var(--salmon-space-6);
+  margin-block: var(--salmon-space-1);
+  margin-inline-start: calc(var(--salmon-stepper-size) / 2 + var(--salmon-space-2) - 1px);
+}
+.salmon-stepper[data-orientation='vertical'][data-label-placement='start'] > .salmon-stepper-step {
+  align-items: flex-end;
+}
+.salmon-stepper[data-orientation='vertical'][data-label-placement='start'] > .salmon-stepper-step:not(:last-child)::after {
+  margin-inline: 0 calc(var(--salmon-stepper-size) / 2 + var(--salmon-space-2) - 1px);
+}
+
+.salmon-stepper-step-button {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-3);
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--salmon-space-2);
+  border: 0;
+  border-radius: var(--salmon-radius-md);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+}
+button.salmon-stepper-step-button {
+  cursor: pointer;
+}
+button.salmon-stepper-step-button[aria-disabled='true'] {
+  cursor: default;
+}
+.salmon-stepper-step-button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 0;
+}
+.salmon-stepper[data-label-placement='bottom'] .salmon-stepper-step-button {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.salmon-stepper[data-label-placement='top'] .salmon-stepper-step-button {
+  flex-direction: column-reverse;
+  align-items: flex-start;
+}
+.salmon-stepper[data-label-placement='start'] .salmon-stepper-step-button {
+  flex-direction: row-reverse;
+}
+
+.salmon-stepper-indicator {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--salmon-stepper-size);
+  block-size: var(--salmon-stepper-size);
+  border: 2px solid var(--salmon-stepper-line);
+  border-radius: var(--salmon-radius-full);
+  box-sizing: border-box;
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+.salmon-stepper-step[data-status='inProgress'] .salmon-stepper-indicator {
+  border-color: var(--salmon-color-primary);
+  color: var(--salmon-color-primary-text);
+}
+.salmon-stepper-step[data-status='completed'] .salmon-stepper-indicator {
+  border-color: var(--salmon-color-primary);
+  background: var(--salmon-color-primary);
+  color: var(--salmon-color-primary-on);
+}
+.salmon-stepper-step[data-invalid] .salmon-stepper-indicator {
+  border-color: var(--salmon-color-danger);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-color-danger-text);
+}
+
+.salmon-stepper-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-1);
+  min-inline-size: 0;
+}
+.salmon-stepper-label {
+  font-weight: var(--salmon-font-weight-medium);
+}
+.salmon-stepper-step[data-active] .salmon-stepper-label {
+  font-weight: var(--salmon-font-weight-semibold);
+}
+.salmon-stepper-step[data-invalid] .salmon-stepper-label {
+  color: var(--salmon-color-danger-text);
+}
+.salmon-stepper-step[data-disabled] .salmon-stepper-label,
+.salmon-stepper-step[data-disabled] .salmon-stepper-indicator {
+  color: var(--salmon-text-disabled);
+}
+.salmon-stepper-description,
+.salmon-stepper-optional {
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+}
+
+/* Announced status text, visually hidden. */
+.salmon-stepper-status {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-stepper-step::after {
+    transition: none;
+  }
+}

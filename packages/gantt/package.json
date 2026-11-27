@@ -1,0 +1,57 @@
+{
+  "name": "@salmonui/gantt",
+  "version": "0.2.0",
+  "description": "Gantt chart for Salmon UI on the Data Grid: dependencies, critical path, baselines, resources and undo history.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/gantt"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/gantt.d.ts",
+      "import": "./dist/gantt.js"
+    },
+    "./styles.css": "./dist/gantt.css",
+    "./package.json": "./package.json"
+  },
+  "imports": {
+    "#gantt-modules": {
+      "types": "./dist/gantt/registry-static.d.ts",
+      "workerd": "./dist/gantt/registry-static.js",
+      "worker": "./dist/gantt/registry-static.js",
+      "edge-light": "./dist/gantt/registry-static.js",
+      "browser": "./dist/gantt/registry-lazy.js",
+      "default": "./dist/gantt/registry-static.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0",
+    "@salmonui/data-grid": "0.2.0",
+    "@salmonui/calendars": "0.2.0",
+    "@salmonui/overlays": "0.2.0",
+    "@salmonui/buttons": "0.2.0",
+    "@salmonui/layout": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

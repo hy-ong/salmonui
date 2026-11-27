@@ -1,0 +1,123 @@
+{
+  "name": "@salmonui/inputs",
+  "version": "0.2.0",
+  "description": "Form, text, masked and number fields, FileUpload, Checkbox, RadioGroup, Switch, Rating, OtpField, Slider, SignaturePad, ColorPicker, SpeechToText and FormRenderer for Salmon UI.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/inputs"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./form": {
+      "types": "./dist/form.d.ts",
+      "import": "./dist/form.js"
+    },
+    "./form/state": {
+      "types": "./dist/form-state.d.ts",
+      "import": "./dist/form-state.js"
+    },
+    "./text-field": {
+      "types": "./dist/text-field.d.ts",
+      "import": "./dist/text-field.js"
+    },
+    "./masked-field": {
+      "types": "./dist/masked-field.d.ts",
+      "import": "./dist/masked-field.js"
+    },
+    "./number-field": {
+      "types": "./dist/number-field.d.ts",
+      "import": "./dist/number-field.js"
+    },
+    "./file-upload": {
+      "types": "./dist/file-upload.d.ts",
+      "import": "./dist/file-upload.js"
+    },
+    "./file-upload/xhr": {
+      "types": "./dist/file-upload-xhr.d.ts",
+      "import": "./dist/file-upload-xhr.js"
+    },
+    "./checkbox": {
+      "types": "./dist/checkbox.d.ts",
+      "import": "./dist/checkbox.js"
+    },
+    "./radio-group": {
+      "types": "./dist/radio-group.d.ts",
+      "import": "./dist/radio-group.js"
+    },
+    "./switch": {
+      "types": "./dist/switch.d.ts",
+      "import": "./dist/switch.js"
+    },
+    "./rating": {
+      "types": "./dist/rating.d.ts",
+      "import": "./dist/rating.js"
+    },
+    "./otp-field": {
+      "types": "./dist/otp-field.d.ts",
+      "import": "./dist/otp-field.js"
+    },
+    "./slider": {
+      "types": "./dist/slider.d.ts",
+      "import": "./dist/slider.js"
+    },
+    "./signature-pad": {
+      "types": "./dist/signature-pad.d.ts",
+      "import": "./dist/signature-pad.js"
+    },
+    "./color-picker": {
+      "types": "./dist/color-picker.d.ts",
+      "import": "./dist/color-picker.js"
+    },
+    "./speech-to-text": {
+      "types": "./dist/speech-to-text.d.ts",
+      "import": "./dist/speech-to-text.js"
+    },
+    "./form-renderer": {
+      "types": "./dist/form-renderer.d.ts",
+      "import": "./dist/form-renderer.js"
+    },
+    "./form/styles.css": "./dist/form.css",
+    "./text-field/styles.css": "./dist/text-field.css",
+    "./masked-field/styles.css": "./dist/masked-field.css",
+    "./number-field/styles.css": "./dist/number-field.css",
+    "./file-upload/styles.css": "./dist/file-upload.css",
+    "./checkbox/styles.css": "./dist/checkbox.css",
+    "./radio-group/styles.css": "./dist/radio-group.css",
+    "./switch/styles.css": "./dist/switch.css",
+    "./rating/styles.css": "./dist/rating.css",
+    "./otp-field/styles.css": "./dist/otp-field.css",
+    "./slider/styles.css": "./dist/slider.css",
+    "./signature-pad/styles.css": "./dist/signature-pad.css",
+    "./color-picker/styles.css": "./dist/color-picker.css",
+    "./speech-to-text/styles.css": "./dist/speech-to-text.css",
+    "./form-renderer/styles.css": "./dist/form-renderer.css",
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0",
+    "@salmonui/buttons": "0.2.0",
+    "@salmonui/dropdowns": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

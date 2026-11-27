@@ -1,0 +1,56 @@
+/*
+ * NumberField (@salmonui/react/number-field/styles.css). The input group rules come from field.css.
+ */
+.salmon-number-field .salmon-input {
+  font-variant-numeric: tabular-nums;
+}
+
+.salmon-number-field-stepper {
+  display: inline-flex;
+  flex-direction: column;
+  flex: none;
+  align-self: stretch;
+  margin-inline-end: calc(-1 * var(--salmon-input-pad));
+  border-inline-start: 1px solid var(--salmon-border-default);
+}
+
+.salmon-number-field-step {
+  flex: 1 1 0;
+  inline-size: 24px;
+  min-block-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--salmon-text-secondary);
+  cursor: pointer;
+}
+
+.salmon-number-field-step::before {
+  content: '';
+  display: block;
+  margin: auto;
+  inline-size: 0;
+  block-size: 0;
+  border-inline: 4px solid transparent;
+  border-block-end: 4px solid currentColor;
+}
+
+.salmon-number-field-step[data-direction='down']::before {
+  border-block-end: 0;
+  border-block-start: 4px solid currentColor;
+}
+
+.salmon-number-field-step + .salmon-number-field-step {
+  border-block-start: 1px solid var(--salmon-border-default);
+}
+
+.salmon-number-field-step:hover:not(:disabled) {
+  background: var(--salmon-surface-hover);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-number-field-step:disabled {
+  color: var(--salmon-text-disabled);
+  cursor: not-allowed;
+}

@@ -1,0 +1,64 @@
+- dialog "Choose date":
+  - button "Previous month" [disabled]
+  - button /November \d+/
+  - button "Next month"
+  - grid /November \d+/:
+    - rowgroup:
+      - row "Sun Mon Tue Wed Thu Fri Sat":
+        - columnheader "Sun"
+        - columnheader "Mon"
+        - columnheader "Tue"
+        - columnheader "Wed"
+        - columnheader "Thu"
+        - columnheader "Fri"
+        - columnheader "Sat"
+    - rowgroup:
+      - row /Sunday, November 1, \d+ Monday, November 2, \d+ Tuesday, November 3, \d+ Wednesday, November 4, \d+ Thursday, November 5, \d+ Friday, November 6, \d+ Saturday, November 7, \d+/:
+        - gridcell /Sunday, November 1, \d+/ [disabled]
+        - gridcell /Monday, November 2, \d+/ [disabled]
+        - gridcell /Tuesday, November 3, \d+/ [disabled]
+        - gridcell /Wednesday, November 4, \d+/ [disabled]
+        - gridcell /Thursday, November 5, \d+/
+        - gridcell /Friday, November 6, \d+/
+        - gridcell /Saturday, November 7, \d+/
+      - row /Sunday, November 8, \d+ Monday, November 9, \d+ Tuesday, November \d+, \d+ Wednesday, November \d+, \d+ Thursday, November \d+, \d+ Friday, November \d+, \d+ Saturday, November \d+, \d+/:
+        - gridcell /Sunday, November 8, \d+/
+        - gridcell /Monday, November 9, \d+/
+        - gridcell /Tuesday, November \d+, \d+/
+        - gridcell /Wednesday, November \d+, \d+/
+        - gridcell /Thursday, November \d+, \d+/
+        - gridcell /Friday, November \d+, \d+/
+        - gridcell /Saturday, November \d+, \d+/
+      - row /Sunday, November \d+, \d+ Monday, November \d+, \d+ Tuesday, November \d+, \d+ Wednesday, November \d+, \d+ Thursday, November \d+, \d+ Friday, November \d+, \d+ Saturday, November \d+, \d+/:
+        - gridcell /Sunday, November \d+, \d+/
+        - gridcell /Monday, November \d+, \d+/
+        - gridcell /Tuesday, November \d+, \d+/
+        - gridcell /Wednesday, November \d+, \d+/
+        - gridcell /Thursday, November \d+, \d+/
+        - gridcell /Friday, November \d+, \d+/
+        - gridcell /Saturday, November \d+, \d+/
+      - row /Sunday, November \d+, \d+ Monday, November \d+, \d+ Tuesday, November \d+, \d+ Wednesday, November \d+, \d+ Thursday, November \d+, \d+ Friday, November \d+, \d+ Saturday, November \d+, \d+/:
+        - gridcell /Sunday, November \d+, \d+/
+        - gridcell /Monday, November \d+, \d+/ [selected]
+        - gridcell /Tuesday, November \d+, \d+/
+        - gridcell /Wednesday, November \d+, \d+/
+        - gridcell /Thursday, November \d+, \d+/
+        - gridcell /Friday, November \d+, \d+/
+        - gridcell /Saturday, November \d+, \d+/
+      - row /Sunday, November \d+, \d+ Monday, November \d+, \d+/:
+        - gridcell /Sunday, November \d+, \d+/
+        - gridcell /Monday, November \d+, \d+/
+        - gridcell
+        - gridcell
+        - gridcell
+        - gridcell
+        - gridcell
+      - row:
+        - gridcell
+        - gridcell
+        - gridcell
+        - gridcell
+        - gridcell
+        - gridcell
+        - gridcell
+  - button "Today"

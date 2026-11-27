@@ -1,0 +1,61 @@
+- grid "Customers":
+  - rowgroup:
+    - row "Details ID Name Extra 0 Extra 1 Extra 2 Extra 3 Extra 4 Total":
+      - columnheader "Details"
+      - columnheader "ID"
+      - columnheader "Name"
+      - columnheader "Extra 0"
+      - columnheader "Extra 1"
+      - columnheader "Extra 2"
+      - columnheader "Extra 3"
+      - columnheader "Extra 4"
+      - columnheader "Total"
+  - rowgroup:
+    - row /Expand details c0 Customer 0 X0-0 X1-0 X2-0 X3-0 X4-0 \d+,\d+/:
+      - gridcell "Expand details":
+        - button "Expand details"
+      - gridcell "c0"
+      - gridcell "Customer 0"
+      - gridcell "X0-0"
+      - gridcell "X1-0"
+      - gridcell "X2-0"
+      - gridcell "X3-0"
+      - gridcell "X4-0"
+      - gridcell /\d+,\d+/
+    - row /Collapse details c1 Customer 1 X0-1 X1-1 X2-1 X3-1 X4-1 \d+,\d+/:
+      - gridcell "Collapse details":
+        - button "Collapse details" [expanded]
+      - gridcell "c1"
+      - gridcell "Customer 1"
+      - gridcell "X0-1"
+      - gridcell "X1-1"
+      - gridcell "X2-1"
+      - gridcell "X3-1"
+      - gridcell "X4-1"
+      - gridcell /\d+,\d+/
+    - row "Customer 1 Open":
+      - gridcell "Customer 1 Open":
+        - strong: Customer 1
+        - button "Open"
+    - row /Expand details c2 Customer 2 X0-2 X1-2 X2-2 X3-2 X4-2 \d+,\d+/:
+      - gridcell "Expand details":
+        - button "Expand details"
+      - gridcell "c2"
+      - gridcell "Customer 2"
+      - gridcell "X0-2"
+      - gridcell "X1-2"
+      - gridcell "X2-2"
+      - gridcell "X3-2"
+      - gridcell "X4-2"
+      - gridcell /\d+,\d+/
+    - row /Expand details c3 Customer 3 X0-3 X1-3 X2-3 X3-3 X4-3 \d+,\d+/:
+      - gridcell "Expand details":
+        - button "Expand details"
+      - gridcell "c3"
+      - gridcell "Customer 3"
+      - gridcell "X0-3"
+      - gridcell "X1-3"
+      - gridcell "X2-3"
+      - gridcell "X3-3"
+      - gridcell "X4-3"
+      - gridcell /\d+,\d+/

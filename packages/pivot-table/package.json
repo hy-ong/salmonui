@@ -1,0 +1,66 @@
+{
+  "name": "@salmonui/pivot-table",
+  "version": "0.2.0",
+  "description": "PivotTable and PivotFieldList for Salmon UI on a framework-agnostic pivot engine with formulas and a worker runner.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/pivot-table"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/pivot-table.d.ts",
+      "import": "./dist/pivot-table.js"
+    },
+    "./chart": {
+      "types": "./dist/pivot-table-chart.d.ts",
+      "import": "./dist/pivot-table-chart.js"
+    },
+    "./engine": {
+      "types": "./dist/engine/index.d.ts",
+      "import": "./dist/engine/index.js"
+    },
+    "./engine/formula": {
+      "types": "./dist/engine/formula.d.ts",
+      "import": "./dist/engine/formula.js"
+    },
+    "./engine/worker": {
+      "types": "./dist/engine/worker.d.ts",
+      "import": "./dist/engine/worker.js"
+    },
+    "./styles.css": "./dist/pivot-table.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0",
+    "@salmonui/data-grid": "0.2.0",
+    "@salmonui/buttons": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19",
+    "@salmonui/charts": "0.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@salmonui/charts": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,8 @@
+- group "Visible dates":
+  - radiogroup "Period":
+    - radio /[\d,.]+[bkmBKM]+/
+    - radio /[\d,.]+[bkmBKM]+/
+    - radio "All"
+  - slider "Selected range"
+  - slider "Start"
+  - slider "End"

@@ -1,0 +1,279 @@
+/* @salmonui/react/markdown-editor: MarkdownEditor.
+   The published styles.css prepends the Button and Menu rules the toolbar
+   composes, so the subpath stylesheet is self-contained. Logical properties only. */
+
+.salmon-markdown-editor {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+}
+
+.salmon-markdown-editor:focus-within {
+  border-color: var(--salmon-border-strong);
+}
+
+.salmon-markdown-editor[data-fullscreen] {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  border-radius: 0;
+}
+
+.salmon-markdown-editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--salmon-space-1);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  background: var(--salmon-surface-header);
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
+  overflow: hidden;
+}
+
+.salmon-markdown-editor-toolbar[data-overflow='wrap'] {
+  flex-wrap: wrap;
+}
+
+.salmon-markdown-editor-toolbar[data-overflow='scroll'] {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.salmon-markdown-editor-toolbar[data-sticky] {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+}
+
+.salmon-markdown-editor-toolbar > * {
+  flex: none;
+}
+
+.salmon-markdown-editor-toolbar [hidden] {
+  display: none !important;
+}
+
+.salmon-markdown-editor-separator {
+  inline-size: 1px;
+  block-size: 20px;
+  margin-inline: var(--salmon-space-1);
+  background: var(--salmon-border-subtle);
+}
+
+.salmon-markdown-editor-glyph {
+  display: inline-block;
+  min-inline-size: 16px;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.salmon-markdown-editor-glyph[data-glyph='bold']::before {
+  content: 'B';
+}
+
+.salmon-markdown-editor-glyph[data-glyph='italic']::before {
+  content: 'I';
+}
+
+.salmon-markdown-editor-glyph[data-glyph='strikethrough']::before {
+  content: 'S';
+}
+
+.salmon-markdown-editor-glyph[data-glyph='superscript']::before {
+  content: 'x\B2';
+}
+
+.salmon-markdown-editor-glyph[data-glyph='subscript']::before {
+  content: 'x\2082';
+}
+
+.salmon-markdown-editor-glyph[data-glyph='uppercase']::before {
+  content: 'AA';
+}
+
+.salmon-markdown-editor-glyph[data-glyph='lowercase']::before {
+  content: 'aa';
+}
+
+.salmon-markdown-editor-glyph[data-glyph='heading']::before {
+  content: 'H';
+}
+
+.salmon-markdown-editor-glyph[data-glyph='bold'] {
+  font-weight: 700;
+}
+
+.salmon-markdown-editor-glyph[data-glyph='italic'] {
+  font-style: italic;
+  font-family: Georgia, serif;
+}
+
+.salmon-markdown-editor-glyph[data-glyph='strikethrough'] {
+  text-decoration: line-through;
+}
+
+.salmon-markdown-editor-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  flex: 1 1 auto;
+  min-block-size: 0;
+}
+
+.salmon-markdown-editor[data-preview='split'] .salmon-markdown-editor-body {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+@container (max-width: 40rem) {
+  .salmon-markdown-editor[data-preview='split'] .salmon-markdown-editor-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.salmon-markdown-editor-textarea {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: 10rem;
+  margin: 0;
+  padding: var(--salmon-space-3);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: var(--salmon-font-mono);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  resize: none;
+  outline: none;
+}
+
+.salmon-markdown-editor-textarea[data-resizable] {
+  resize: vertical;
+}
+
+.salmon-markdown-editor-textarea[hidden] {
+  display: none;
+}
+
+.salmon-markdown-editor-textarea:focus-visible {
+  box-shadow: inset 0 0 0 var(--salmon-state-focus-ring-width) var(--salmon-state-focus-ring);
+}
+
+.salmon-markdown-editor-textarea::placeholder {
+  color: var(--salmon-text-placeholder);
+}
+
+.salmon-markdown-editor[data-fullscreen] .salmon-markdown-editor-textarea {
+  block-size: 100%;
+}
+
+.salmon-markdown-editor-preview {
+  min-inline-size: 0;
+  padding: var(--salmon-space-3);
+  overflow: auto;
+  overflow-wrap: anywhere;
+}
+
+.salmon-markdown-editor[data-preview='split'] .salmon-markdown-editor-preview {
+  border-inline-start: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-markdown-editor-count {
+  padding-block: 2px;
+  padding-inline: var(--salmon-space-3);
+  border-block-start: 1px solid var(--salmon-border-subtle);
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+  text-align: end;
+}
+
+.salmon-markdown-editor-status,
+.salmon-markdown-editor-dialog-status:empty {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.salmon-markdown-editor-menu {
+  z-index: 1001;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+.salmon-markdown-editor-menu:not([data-placed]) {
+  visibility: hidden;
+}
+
+.salmon-markdown-editor-dialog {
+  box-sizing: border-box;
+  inline-size: min(26rem, calc(100vw - 32px));
+  padding: var(--salmon-space-4);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-overlay);
+  color: var(--salmon-text-primary);
+  box-shadow: var(--salmon-shadow-lg);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+}
+
+.salmon-markdown-editor-dialog::backdrop {
+  background: var(--salmon-surface-backdrop);
+}
+
+.salmon-markdown-editor-dialog form {
+  display: grid;
+  gap: var(--salmon-space-3);
+}
+
+.salmon-markdown-editor-dialog-title {
+  margin: 0;
+  font-size: var(--salmon-font-size-lg);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-markdown-editor-dialog-field {
+  display: grid;
+  gap: var(--salmon-space-1);
+}
+
+.salmon-markdown-editor-dialog-field input {
+  box-sizing: border-box;
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding-inline: var(--salmon-space-2);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font: inherit;
+}
+
+.salmon-markdown-editor-dialog-field input:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 0;
+}
+
+.salmon-markdown-editor-dialog-status {
+  margin: 0;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-markdown-editor-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--salmon-space-2);
+}

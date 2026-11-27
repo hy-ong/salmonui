@@ -1,0 +1,27 @@
+/* FormRenderer: rows of fields; a row with
+   several properties shows them as equal columns, stacked in a narrow
+   container. The field, select and button rules are prepended by
+   tooling/checks/copy-css.mjs. */
+.salmon-form-renderer {
+  container-type: inline-size;
+  display: grid;
+  gap: 16px;
+}
+
+.salmon-form-renderer-row {
+  display: grid;
+  grid-template-columns: repeat(var(--salmon-form-renderer-columns, 1), minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+@container (max-width: 30rem) {
+  .salmon-form-renderer-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.salmon-form-renderer-actions {
+  display: flex;
+  gap: 8px;
+}

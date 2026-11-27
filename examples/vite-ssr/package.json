@@ -1,0 +1,24 @@
+{
+  "name": "@salmonui/example-vite-ssr",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "build": "vite build --outDir dist/client && vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "start": "NODE_ENV=production node server.mjs"
+  },
+  "dependencies": {
+    "@salmonui/buttons": "0.2.0",
+    "@salmonui/calendars": "0.2.0",
+    "@salmonui/chat": "0.2.0",
+    "@salmonui/core": "0.2.0",
+    "@salmonui/data-grid": "0.2.0",
+    "@salmonui/dropdowns": "0.2.0",
+    "@salmonui/inputs": "0.2.0",
+    "@salmonui/kanban": "0.2.0",
+    "@salmonui/pivot-table": "0.2.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}

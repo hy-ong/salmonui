@@ -1,0 +1,101 @@
+/* DateRangePicker parts: two fields with a
+   separator, presets, two months side by side (one under a narrow container,
+   by container query), the range summary. */
+
+.salmon-date-range-picker__separator { flex: none; color: var(--salmon-text-secondary); }
+
+/* A control wider than its text keeps the separator next to the start date:
+   only the end field takes the free space. */
+.salmon-date-range-picker .salmon-picker__field:first-child { flex: none; }
+
+/* Hidden with the fields under the empty watermark (picker.css). */
+.salmon-picker[data-empty] .salmon-picker__control:not(:focus-within):has(.salmon-picker__placeholder) .salmon-date-range-picker__separator {
+  opacity: 0;
+}
+
+.salmon-date-range-picker__body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--salmon-space-3);
+}
+
+.salmon-date-range-picker__presets {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 9rem;
+  padding-inline-end: var(--salmon-space-3);
+  border-inline-end: 1px solid var(--salmon-border-subtle);
+  outline: none;
+}
+
+.salmon-date-range-picker__presets:focus-visible .salmon-date-range-picker__preset[data-active] {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: -2px;
+}
+
+.salmon-date-range-picker__preset {
+  padding: var(--salmon-space-1) var(--salmon-space-2);
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.salmon-date-range-picker__preset:hover,
+.salmon-date-range-picker__preset[data-active] { background: var(--salmon-surface-hover); }
+.salmon-date-range-picker__preset[data-selected] { color: var(--salmon-color-primary-text); font-weight: var(--salmon-font-weight-semibold); }
+
+.salmon-date-range-picker__main { display: flex; flex-direction: column; min-inline-size: 0; }
+/* Two 252px months and their 16px gap fit at 520px; px, not rem, so the
+   container query below agrees with the minimum at any root font size. */
+.salmon-date-range-picker__calendars { container-type: inline-size; min-inline-size: min(536px, 100vw - 32px); }
+
+.salmon-date-range-picker__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--salmon-space-2);
+  padding-block-start: var(--salmon-space-2);
+  border-block-start: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-date-range-picker__summary { display: flex; gap: var(--salmon-space-2); color: var(--salmon-text-secondary); font-size: var(--salmon-font-size-sm); }
+.salmon-date-range-picker__summary-range { color: var(--salmon-text-primary); }
+
+/* One month under a narrow container: the second month is hidden by CSS, no measuring. */
+@container (max-width: 520px) {
+  .salmon-calendar__body > .salmon-calendar__month:nth-child(n + 2),
+  .salmon-calendar__heading > span,
+  .salmon-calendar__month-heading { display: none; }
+}
+
+.salmon-picker__popup[data-mode='modal'] .salmon-date-range-picker__body { flex-direction: column; }
+.salmon-picker__popup[data-mode='modal'] .salmon-date-range-picker__calendars { min-inline-size: 0; }
+.salmon-picker__popup[data-mode='modal'] .salmon-date-range-picker__presets {
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-inline-end: 0;
+  border-inline-end: 0;
+}
+
+/* A popover narrower than presets plus two months wraps the presets above
+   the calendars: lay them out as in the bottom sheet. */
+@media (max-width: 720px) {
+  .salmon-date-range-picker__body { flex-direction: column; }
+  .salmon-date-range-picker__presets {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-inline-end: 0;
+    padding-block-end: var(--salmon-space-3);
+    border-inline-end: 0;
+    border-block-end: 1px solid var(--salmon-border-subtle);
+  }
+}
+
+/* The calendar inside the popup surface draws no second frame. */
+.salmon-picker__popup .salmon-calendar {
+  padding: 0;
+  background: none;
+  border: 0;
+}

@@ -1,0 +1,200 @@
+/* Dialog core (no subpath): the native <dialog> surface, parts, close button,
+   drag and resize handles, full-screen sheets. Carried by /dialog/styles.css
+   and /drawer/styles.css. Logical properties only. */
+
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+
+.salmon-dialog {
+  --salmon-dialog-x: 0px;
+  --salmon-dialog-y: 0px;
+  box-sizing: border-box;
+  display: none;
+  flex-direction: column;
+  inline-size: min(560px, calc(100vw - 32px));
+  max-inline-size: calc(100vw - 32px);
+  max-block-size: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  box-shadow: var(--salmon-shadow-lg);
+  translate: calc(var(--salmon-dialog-x) * var(--salmon-dir, 1)) var(--salmon-dialog-y);
+  opacity: 1;
+  transition: opacity 150ms ease-out, display 150ms allow-discrete, overlay 150ms allow-discrete;
+}
+
+.salmon-dialog[open] {
+  display: flex;
+}
+
+@starting-style {
+  .salmon-dialog[open] {
+    opacity: 0;
+  }
+}
+
+.salmon-dialog *,
+.salmon-dialog ::before,
+.salmon-dialog ::after {
+  box-sizing: border-box;
+}
+
+.salmon-dialog::backdrop {
+  background: var(--salmon-surface-backdrop);
+}
+
+.salmon-dialog:not([data-modal]) {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.salmon-dialog[data-contained] {
+  position: absolute;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+}
+
+.salmon-dialog[data-placement='top'] {
+  margin-block-start: 48px;
+}
+
+.salmon-dialog:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-dialog-title {
+  margin: 0;
+  padding: var(--salmon-space-4) var(--salmon-space-4) var(--salmon-space-2);
+  padding-inline-end: 48px;
+  font-size: var(--salmon-font-size-lg);
+  font-weight: 600;
+  line-height: var(--salmon-line-height-tight);
+}
+
+.salmon-dialog[data-draggable] .salmon-dialog-title {
+  cursor: move;
+  touch-action: none;
+  user-select: none;
+}
+
+.salmon-dialog-description {
+  margin: 0;
+  padding: 0 var(--salmon-space-4) var(--salmon-space-2);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-dialog-body {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  padding: var(--salmon-space-2) var(--salmon-space-4);
+  overflow: auto;
+}
+
+.salmon-dialog-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--salmon-space-2);
+  padding: var(--salmon-space-3) var(--salmon-space-4) var(--salmon-space-4);
+}
+
+.salmon-dialog-close-button {
+  position: absolute;
+  inset-block-start: 6px;
+  inset-inline-end: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--salmon-control-height-md, 32px);
+  block-size: var(--salmon-control-height-md, 32px);
+  padding: 0;
+  color: var(--salmon-text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--salmon-radius-md);
+  cursor: pointer;
+}
+
+.salmon-dialog-close-button > svg {
+  flex: none;
+  inline-size: 16px;
+  block-size: 16px;
+}
+
+.salmon-dialog-close-button:hover {
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-dialog-close-button:focus-visible,
+.salmon-dialog-resize-handle:focus-visible,
+.salmon-dialog-title:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width));
+}
+
+.salmon-dialog-live {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.salmon-dialog-resize-handle {
+  position: absolute;
+  inline-size: 12px;
+  block-size: 12px;
+  touch-action: none;
+}
+
+.salmon-dialog-resize-handle[data-edge='bottomEnd'] { inset-block-end: 0; inset-inline-end: 0; cursor: nwse-resize; }
+.salmon-dialog-resize-handle[data-edge='bottomStart'] { inset-block-end: 0; inset-inline-start: 0; cursor: nesw-resize; }
+.salmon-dialog-resize-handle[data-edge='topEnd'] { inset-block-start: 0; inset-inline-end: 0; cursor: nesw-resize; }
+.salmon-dialog-resize-handle[data-edge='topStart'] { inset-block-start: 0; inset-inline-start: 0; cursor: nwse-resize; }
+.salmon-dialog-resize-handle:is([data-edge='top'], [data-edge='bottom']) { inset-inline: 12px; inline-size: auto; cursor: ns-resize; }
+.salmon-dialog-resize-handle[data-edge='top'] { inset-block-start: 0; }
+.salmon-dialog-resize-handle[data-edge='bottom'] { inset-block-end: 0; }
+.salmon-dialog-resize-handle:is([data-edge='start'], [data-edge='end']) { inset-block: 12px; block-size: auto; cursor: ew-resize; }
+.salmon-dialog-resize-handle[data-edge='start'] { inset-inline-start: 0; }
+.salmon-dialog-resize-handle[data-edge='end'] { inset-inline-end: 0; }
+
+/* Full screen: always, or below the mobile width (the Data Grid adaptive sheet rule). */
+.salmon-dialog[data-full-screen='always'] {
+  inline-size: 100vw;
+  max-inline-size: none;
+  block-size: 100dvh;
+  max-block-size: none;
+  border: 0;
+  border-radius: 0;
+  translate: none;
+}
+
+@media (max-width: 640px) {
+  .salmon-dialog[data-full-screen='mobile'] {
+    inline-size: 100vw;
+    max-inline-size: none;
+    block-size: 100dvh;
+    max-block-size: none;
+    border: 0;
+    border-radius: 0;
+    translate: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-dialog {
+    transition: none;
+  }
+}

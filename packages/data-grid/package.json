@@ -1,0 +1,174 @@
+{
+  "name": "@salmonui/data-grid",
+  "version": "0.2.0",
+  "description": "Virtualized React Data Grid for Salmon UI on a framework-agnostic engine: sorting, filtering, grouping, editing, tree, detail rows, export and server helpers.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/data-grid"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/data-grid.d.ts",
+      "import": "./dist/data-grid.js"
+    },
+    "./features": {
+      "types": "./dist/data-grid/features.d.ts",
+      "import": "./dist/data-grid/features.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    },
+    "./engine": {
+      "types": "./dist/engine/index.d.ts",
+      "import": "./dist/engine/index.js"
+    },
+    "./engine/sort": {
+      "types": "./dist/engine/sort.d.ts",
+      "import": "./dist/engine/sort.js"
+    },
+    "./engine/filter": {
+      "types": "./dist/engine/filter.d.ts",
+      "import": "./dist/engine/filter.js"
+    },
+    "./engine/search": {
+      "types": "./dist/engine/search.d.ts",
+      "import": "./dist/engine/search.js"
+    },
+    "./engine/paging": {
+      "types": "./dist/engine/paging.d.ts",
+      "import": "./dist/engine/paging.js"
+    },
+    "./engine/grouping": {
+      "types": "./dist/engine/grouping.d.ts",
+      "import": "./dist/engine/grouping.js"
+    },
+    "./engine/aggregates": {
+      "types": "./dist/engine/aggregates.d.ts",
+      "import": "./dist/engine/aggregates.js"
+    },
+    "./engine/selection": {
+      "types": "./dist/engine/selection.d.ts",
+      "import": "./dist/engine/selection.js"
+    },
+    "./engine/focus": {
+      "types": "./dist/engine/focus.d.ts",
+      "import": "./dist/engine/focus.js"
+    },
+    "./engine/keyboard": {
+      "types": "./dist/engine/keyboard.d.ts",
+      "import": "./dist/engine/keyboard.js"
+    },
+    "./engine/edit": {
+      "types": "./dist/engine/edit.d.ts",
+      "import": "./dist/engine/edit.js"
+    },
+    "./engine/edit-state": {
+      "types": "./dist/engine/edit-state.d.ts",
+      "import": "./dist/engine/edit-state.js"
+    },
+    "./engine/clipboard": {
+      "types": "./dist/engine/clipboard.d.ts",
+      "import": "./dist/engine/clipboard.js"
+    },
+    "./engine/validation": {
+      "types": "./dist/engine/validation.d.ts",
+      "import": "./dist/engine/validation.js"
+    },
+    "./engine/expansion": {
+      "types": "./dist/engine/expansion.d.ts",
+      "import": "./dist/engine/expansion.js"
+    },
+    "./engine/hierarchy": {
+      "types": "./dist/engine/hierarchy.d.ts",
+      "import": "./dist/engine/hierarchy.js"
+    },
+    "./engine/row-drag-state": {
+      "types": "./dist/engine/row-drag-state.d.ts",
+      "import": "./dist/engine/row-drag-state.js"
+    },
+    "./engine/row-drag-drop": {
+      "types": "./dist/engine/row-drag-drop.d.ts",
+      "import": "./dist/engine/row-drag-drop.js"
+    },
+    "./engine/infinite": {
+      "types": "./dist/engine/infinite.d.ts",
+      "import": "./dist/engine/infinite.js"
+    },
+    "./engine/lookup": {
+      "types": "./dist/engine/lookup.d.ts",
+      "import": "./dist/engine/lookup.js"
+    },
+    "./engine/persistence": {
+      "types": "./dist/engine/persistence.d.ts",
+      "import": "./dist/engine/persistence.js"
+    },
+    "./engine/locale": {
+      "types": "./dist/engine/locale.d.ts",
+      "import": "./dist/engine/locale.js"
+    },
+    "./engine/export": {
+      "types": "./dist/engine/export.d.ts",
+      "import": "./dist/engine/export.js"
+    },
+    "./engine/export-server": {
+      "types": "./dist/engine/export-server.d.ts",
+      "import": "./dist/engine/export-server.js"
+    },
+    "./engine/row-pinning": {
+      "types": "./dist/engine/row-pinning.d.ts",
+      "import": "./dist/engine/row-pinning.js"
+    },
+    "./engine/tree": {
+      "types": "./dist/engine/tree.d.ts",
+      "import": "./dist/engine/tree.js"
+    },
+    "./engine/tree-remote": {
+      "types": "./dist/engine/tree-remote.d.ts",
+      "import": "./dist/engine/tree-remote.js"
+    },
+    "./styles.css": "./dist/data-grid.css",
+    "./package.json": "./package.json"
+  },
+  "imports": {
+    "#data-grid-features": {
+      "types": "./dist/data-grid/features/registry-static.d.ts",
+      "workerd": "./dist/data-grid/features/registry-static.js",
+      "worker": "./dist/data-grid/features/registry-static.js",
+      "edge-light": "./dist/data-grid/features/registry-static.js",
+      "browser": "./dist/data-grid/features/registry-lazy.js",
+      "default": "./dist/data-grid/features/registry-static.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19",
+    "@salmonui/export": "0.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@salmonui/export": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

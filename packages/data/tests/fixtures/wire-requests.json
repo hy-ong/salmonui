@@ -1,0 +1,604 @@
+[
+  {
+    "name": "empty",
+    "request": {
+      "v": 1,
+      "query": {
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "first page",
+    "request": {
+      "v": 1,
+      "query": {
+        "page": {
+          "offset": 0,
+          "limit": 12
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "page 3 sorted desc",
+    "request": {
+      "v": 1,
+      "query": {
+        "sort": [
+          {
+            "field": "OrderID",
+            "dir": "desc"
+          }
+        ],
+        "page": {
+          "offset": 40,
+          "limit": 20
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "multi-sort",
+    "request": {
+      "v": 1,
+      "query": {
+        "sort": [
+          {
+            "field": "ShipCountry",
+            "dir": "asc"
+          },
+          {
+            "field": "Freight",
+            "dir": "desc"
+          },
+          {
+            "field": "OrderDate",
+            "dir": "asc"
+          }
+        ],
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "contains filter",
+    "request": {
+      "v": 1,
+      "query": {
+        "where": {
+          "field": "CustomerID",
+          "op": "contains",
+          "value": "vi"
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "same column or",
+    "request": {
+      "v": 1,
+      "query": {
+        "where": {
+          "or": [
+            {
+              "field": "CustomerID",
+              "op": "equal",
+              "value": "VINET"
+            },
+            {
+              "field": "CustomerID",
+              "op": "equal",
+              "value": "TOMSP"
+            }
+          ]
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "same column three and",
+    "request": {
+      "v": 1,
+      "query": {
+        "where": {
+          "and": [
+            {
+              "field": "ShipName",
+              "op": "startsWith",
+              "value": "Vins"
+            },
+            {
+              "field": "ShipName",
+              "op": "doesNotContain",
+              "value": "x"
+            },
+            {
+              "field": "ShipName",
+              "op": "endsWith",
+              "value": "s",
+              "matchCase": true
+            }
+          ]
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "two columns with number",
+    "request": {
+      "v": 1,
+      "query": {
+        "where": {
+          "and": [
+            {
+              "field": "Freight",
+              "op": "greaterThan",
+              "value": 10.5
+            },
+            {
+              "field": "Freight",
+              "op": "lessThanOrEqual",
+              "value": 100
+            },
+            {
+              "field": "ShipCity",
+              "op": "notEqual",
+              "value": "Reims",
+              "ignoreAccent": true
+            }
+          ]
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "in operator",
+    "request": {
+      "v": 1,
+      "query": {
+        "where": {
+          "field": "EmployeeID",
+          "op": "in",
+          "value": [
+            1,
+            3,
+            5
+          ]
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "null and empty operators",
+    "request": {
+      "v": 1,
+      "query": {
+        "where": {
+          "and": [
+            {
+              "or": [
+                {
+                  "field": "ShipRegion",
+                  "op": "isNull"
+                },
+                {
+                  "field": "ShipRegion",
+                  "op": "isEmpty"
+                }
+              ]
+            },
+            {
+              "field": "ShipCity",
+              "op": "isNotNull"
+            }
+          ]
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "search",
+    "request": {
+      "v": 1,
+      "query": {
+        "search": {
+          "text": "wine",
+          "fields": [
+            "ShipName",
+            "ShipCity"
+          ],
+          "op": "contains",
+          "ignoreCase": true
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "group sort aggregate page",
+    "request": {
+      "v": 1,
+      "query": {
+        "sort": [
+          {
+            "field": "Freight",
+            "dir": "desc"
+          }
+        ],
+        "group": [
+          {
+            "field": "ShipCountry"
+          }
+        ],
+        "aggregates": [
+          {
+            "field": "Freight",
+            "type": "sum"
+          },
+          {
+            "field": "Freight",
+            "type": "average"
+          },
+          {
+            "field": "Verified",
+            "type": "trueCount"
+          }
+        ],
+        "page": {
+          "offset": 12,
+          "limit": 12
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "grouped column sorted desc",
+    "request": {
+      "v": 1,
+      "query": {
+        "sort": [
+          {
+            "field": "ShipCountry",
+            "dir": "desc"
+          },
+          {
+            "field": "OrderID",
+            "dir": "asc"
+          }
+        ],
+        "group": [
+          {
+            "field": "ShipCountry"
+          },
+          {
+            "field": "ShipCity"
+          }
+        ],
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "combined",
+    "request": {
+      "v": 1,
+      "query": {
+        "where": {
+          "and": [
+            {
+              "field": "Freight",
+              "op": "greaterThanOrEqual",
+              "value": 1
+            },
+            {
+              "or": [
+                {
+                  "field": "ShipCountry",
+                  "op": "equal",
+                  "value": "France"
+                },
+                {
+                  "field": "ShipCountry",
+                  "op": "equal",
+                  "value": "Brazil"
+                }
+              ]
+            }
+          ]
+        },
+        "sort": [
+          {
+            "field": "OrderDate",
+            "dir": "desc"
+          }
+        ],
+        "search": {
+          "text": "ra",
+          "fields": [
+            "CustomerID"
+          ],
+          "op": "startsWith",
+          "ignoreAccent": true
+        },
+        "group": [
+          {
+            "field": "ShipCountry"
+          }
+        ],
+        "aggregates": [
+          {
+            "field": "Freight",
+            "type": "max"
+          }
+        ],
+        "page": {
+          "offset": 150,
+          "limit": 50
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "nested group",
+    "request": {
+      "v": 1,
+      "query": {
+        "where": {
+          "and": [
+            {
+              "field": "OrderID",
+              "op": "lessThan",
+              "value": 10300
+            },
+            {
+              "or": [
+                {
+                  "field": "ShipCity",
+                  "op": "equal",
+                  "value": "Lyon"
+                },
+                {
+                  "and": [
+                    {
+                      "field": "Freight",
+                      "op": "greaterThan",
+                      "value": 50
+                    },
+                    {
+                      "field": "ShipName",
+                      "op": "like",
+                      "value": "%Vins%"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  },
+  {
+    "name": "virtual range",
+    "request": {
+      "v": 1,
+      "query": {
+        "sort": [
+          {
+            "field": "OrderID",
+            "dir": "asc"
+          }
+        ],
+        "page": {
+          "offset": 100,
+          "limit": 50
+        },
+        "select": [
+          "OrderID",
+          "CustomerID",
+          "ShipName",
+          "ShipCity",
+          "ShipCountry",
+          "ShipRegion",
+          "Freight",
+          "OrderDate",
+          "EmployeeID",
+          "Verified",
+          "version"
+        ]
+      }
+    }
+  }
+]

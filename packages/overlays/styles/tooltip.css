@@ -1,0 +1,53 @@
+/* @salmonui/react/tooltip: Tooltip content and arrow. Self-contained; logical properties
+   except where the resolved physical side (`data-side`) positions the arrow. */
+
+.salmon-tooltip {
+  box-sizing: border-box;
+  inset: 0 auto auto 0;
+  z-index: 1100;
+  max-inline-size: min(280px, calc(100vw - 16px));
+  padding-block: var(--salmon-space-2);
+  padding-inline: var(--salmon-space-3);
+  overflow: visible;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-sm);
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-surface-base);
+  background: var(--salmon-text-primary);
+  border: 0;
+  border-radius: var(--salmon-radius-md);
+  overflow-wrap: break-word;
+  opacity: 1;
+  transition: opacity 100ms ease-out;
+}
+
+.salmon-tooltip:not([data-placed]) {
+  visibility: hidden;
+}
+
+@starting-style {
+  .salmon-tooltip[data-placed] {
+    opacity: 0;
+  }
+}
+
+.salmon-tooltip-arrow {
+  position: absolute;
+  inline-size: 8px;
+  block-size: 8px;
+  background: inherit;
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+/* Physical on purpose: data-side and --salmon-overlay-arrow are physical (already mirrored for dir). */
+.salmon-tooltip[data-side='top'] > .salmon-tooltip-arrow { bottom: -4px; left: calc(var(--salmon-overlay-arrow, 50%) - 4px); }
+.salmon-tooltip[data-side='bottom'] > .salmon-tooltip-arrow { top: -4px; left: calc(var(--salmon-overlay-arrow, 50%) - 4px); }
+.salmon-tooltip[data-side='left'] > .salmon-tooltip-arrow { right: -4px; top: calc(var(--salmon-overlay-arrow, 50%) - 4px); }
+.salmon-tooltip[data-side='right'] > .salmon-tooltip-arrow { left: -4px; top: calc(var(--salmon-overlay-arrow, 50%) - 4px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-tooltip {
+    transition: none;
+  }
+}

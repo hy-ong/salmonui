@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "noEmit": true,
+    "skipLibCheck": false,
+    "noUnusedLocals": false,
+    "lib": ["ES2023", "DOM"],
+    "types": []
+  },
+  // Every published declaration file is part of the program (not only the
+  // ones the tests import), so a .d.ts that references a missing name (for
+  // example a type removed by `stripInternal`) fails the compile.
+  "include": ["./*.test-d.ts", "./*.test-d.tsx", "../../packages/*/dist/**/*.d.ts"]
+}

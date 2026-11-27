@@ -1,0 +1,146 @@
+/* @salmonui/react/timeline: Timeline and its items. Self-contained; logical properties only.
+   The list is a three-column grid (opposite | marker | content) and each
+   item a subgrid row of it, so the opposite column is as wide as its widest
+   text and the markers line up; the connector is the marker's ::after line
+   toward the next item. */
+
+.salmon-timeline {
+  --salmon-timeline-dot: 12px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: max-content auto minmax(0, 1fr);
+  column-gap: var(--salmon-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-timeline-item {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+}
+
+.salmon-timeline-opposite,
+.salmon-timeline-content {
+  padding-block-end: var(--salmon-space-4);
+}
+
+.salmon-timeline-opposite {
+  color: var(--salmon-text-secondary);
+  text-align: end;
+}
+
+.salmon-timeline-marker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-inline-size: var(--salmon-timeline-dot);
+}
+
+.salmon-timeline-item:not(:last-child) > .salmon-timeline-marker::after {
+  content: '';
+  flex: 1 1 auto;
+  inline-size: 2px;
+  margin-block: var(--salmon-space-1);
+  background: var(--salmon-border-default);
+}
+
+.salmon-timeline-dot {
+  display: block;
+  flex: 0 0 auto;
+  inline-size: var(--salmon-timeline-dot);
+  block-size: var(--salmon-timeline-dot);
+  margin-block-start: 0.35em;
+  border-radius: 50%;
+  background: var(--salmon-text-secondary);
+}
+
+.salmon-timeline-item[data-tone='primary'] .salmon-timeline-dot { background: var(--salmon-color-primary); }
+.salmon-timeline-item[data-tone='info'] .salmon-timeline-dot { background: var(--salmon-color-info); }
+.salmon-timeline-item[data-tone='success'] .salmon-timeline-dot { background: var(--salmon-color-success); }
+.salmon-timeline-item[data-tone='warning'] .salmon-timeline-dot { background: var(--salmon-color-warning); }
+.salmon-timeline-item[data-tone='danger'] .salmon-timeline-dot { background: var(--salmon-color-danger); }
+
+/* A custom marker (an icon drawn in currentColor) takes the item's tone too. */
+.salmon-timeline-item[data-tone='primary'] > .salmon-timeline-marker { color: var(--salmon-color-primary); }
+.salmon-timeline-item[data-tone='info'] > .salmon-timeline-marker { color: var(--salmon-color-info); }
+.salmon-timeline-item[data-tone='success'] > .salmon-timeline-marker { color: var(--salmon-color-success); }
+.salmon-timeline-item[data-tone='warning'] > .salmon-timeline-marker { color: var(--salmon-color-warning); }
+.salmon-timeline-item[data-tone='danger'] > .salmon-timeline-marker { color: var(--salmon-color-danger); }
+
+.salmon-timeline-item[aria-disabled='true'] {
+  color: var(--salmon-text-disabled);
+}
+
+.salmon-timeline-item[aria-disabled='true'] .salmon-timeline-dot {
+  background: var(--salmon-border-default);
+}
+
+/* align: 'end' (default) puts content at the inline end; 'start' mirrors;
+   alternate / alternateReverse switch per item and give both sides room. */
+.salmon-timeline[data-align='start'] {
+  grid-template-columns: minmax(0, 1fr) auto max-content;
+}
+
+.salmon-timeline[data-align='start'] .salmon-timeline-opposite { order: 3; text-align: start; }
+.salmon-timeline[data-align='start'] .salmon-timeline-content { order: -1; text-align: end; }
+
+.salmon-timeline[data-align^='alternate'] {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+
+.salmon-timeline[data-align='alternate'] > .salmon-timeline-item:nth-child(even) .salmon-timeline-opposite,
+.salmon-timeline[data-align='alternateReverse'] > .salmon-timeline-item:nth-child(odd) .salmon-timeline-opposite {
+  order: 3;
+  text-align: start;
+}
+
+.salmon-timeline[data-align='alternate'] > .salmon-timeline-item:nth-child(even) .salmon-timeline-content,
+.salmon-timeline[data-align='alternateReverse'] > .salmon-timeline-item:nth-child(odd) .salmon-timeline-content {
+  order: -1;
+  text-align: end;
+}
+
+/* Horizontal: items in a row (scrolls inline on narrow screens); opposite above, content below. */
+.salmon-timeline[data-orientation='horizontal'] {
+  display: flex;
+  flex-direction: row;
+  column-gap: 0;
+  overflow-x: auto;
+}
+
+.salmon-timeline[data-orientation='horizontal'] > .salmon-timeline-item {
+  flex: 1 0 140px;
+  grid-template-columns: none;
+  grid-template-rows: minmax(1.5em, auto) auto auto;
+  row-gap: var(--salmon-space-2);
+}
+
+.salmon-timeline[data-orientation='horizontal'] .salmon-timeline-opposite,
+.salmon-timeline[data-orientation='horizontal'] .salmon-timeline-content {
+  order: 0;
+  padding-block-end: 0;
+  padding-inline-end: var(--salmon-space-3);
+  text-align: start;
+}
+
+.salmon-timeline[data-orientation='horizontal'] .salmon-timeline-marker {
+  flex-direction: row;
+}
+
+.salmon-timeline[data-orientation='horizontal'] .salmon-timeline-dot {
+  margin-block-start: 0;
+}
+
+.salmon-timeline[data-orientation='horizontal'] > .salmon-timeline-item:not(:last-child) > .salmon-timeline-marker::after {
+  inline-size: auto;
+  block-size: 2px;
+  margin-block: 0;
+  margin-inline: var(--salmon-space-1);
+}

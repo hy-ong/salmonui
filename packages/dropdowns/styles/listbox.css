@@ -1,0 +1,326 @@
+/* @salmonui/react/listbox: Listbox (APG listbox). Colors come from the theme
+   variables only; options have one fixed height for the virtual list. */
+
+.salmon-listbox {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  overflow: hidden;
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+}
+
+.salmon-listbox[data-disabled] {
+  background: var(--salmon-surface-disabled);
+  color: var(--salmon-text-disabled);
+}
+
+.salmon-listbox-search {
+  padding: var(--salmon-space-2);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-listbox-search-input {
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: var(--salmon-control-height-md, 32px);
+  padding-inline: var(--salmon-space-4);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: inherit;
+  font: inherit;
+}
+
+.salmon-listbox-search-input::placeholder {
+  color: var(--salmon-text-placeholder);
+}
+
+.salmon-listbox-select-all {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding-inline: var(--salmon-space-3);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  cursor: pointer;
+}
+
+.salmon-listbox-select-all input {
+  margin: 0;
+  accent-color: var(--salmon-color-primary);
+}
+
+.salmon-listbox-list {
+  position: relative;
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  outline: none;
+}
+
+.salmon-listbox-list:focus-visible,
+.salmon-listbox-search-input:focus-visible,
+.salmon-listbox-retry:focus-visible,
+.salmon-listbox-select-all input:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: -2px;
+}
+
+.salmon-listbox-sizer,
+.salmon-listbox-items {
+  position: relative;
+}
+
+.salmon-listbox-option,
+.salmon-listbox-group-header,
+.salmon-listbox-sticky {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  block-size: var(--salmon-control-height-md, 32px);
+  padding-inline: var(--salmon-space-3);
+  white-space: nowrap;
+}
+
+.salmon-listbox-row {
+  display: grid;
+  grid-template-columns: repeat(var(--salmon-listbox-columns), minmax(0, 1fr));
+}
+
+.salmon-listbox-option {
+  cursor: default;
+  user-select: none;
+}
+
+.salmon-listbox-option[data-draggable] {
+  touch-action: none;
+  cursor: grab;
+}
+
+.salmon-listbox-option:hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-listbox-option[data-selected] {
+  background: var(--salmon-surface-selected);
+}
+
+.salmon-listbox-option[data-selected]:hover {
+  background: var(--salmon-surface-selected-hover);
+}
+
+.salmon-listbox-list:focus-visible .salmon-listbox-option[data-active],
+.salmon-listbox:focus-within .salmon-listbox-option[data-active] {
+  box-shadow: inset 0 0 0 var(--salmon-state-focus-ring-width) var(--salmon-state-focus-ring);
+}
+
+.salmon-listbox-option[data-disabled] {
+  color: var(--salmon-text-disabled);
+}
+
+.salmon-listbox-option[data-placeholder] {
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-listbox-label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.salmon-listbox__match {
+  background: none;
+  color: inherit;
+  font-weight: var(--salmon-font-weight-semibold);
+  text-decoration: underline;
+}
+
+.salmon-listbox-icon {
+  display: inline-flex;
+  flex: none;
+}
+
+.salmon-listbox-check {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  /* The md glyph box, the same
+     for selected and unselected options so the label never shifts. */
+  inline-size: 16px;
+  block-size: 16px;
+  color: var(--salmon-color-primary);
+}
+
+/* The mark: a rotated corner in currentColor, matching the dropdown check. */
+.salmon-listbox-option[data-selected] .salmon-listbox-check::after {
+  content: '';
+  box-sizing: border-box;
+  inline-size: 6px;
+  block-size: 11px;
+  margin-block-start: -3px;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.salmon-listbox-checkbox {
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  inline-size: 16px;
+  block-size: 16px;
+  border: 1px solid var(--salmon-border-strong);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-base);
+}
+
+.salmon-listbox-checkbox[data-checked] {
+  border-color: var(--salmon-color-primary);
+  background: var(--salmon-color-primary);
+}
+
+.salmon-listbox-checkbox[data-checked]::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 4px;
+  inset-block-start: 1px;
+  inline-size: 5px;
+  block-size: 9px;
+  border: solid var(--salmon-color-primary-on);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.salmon-listbox-group-header,
+.salmon-listbox-sticky {
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-listbox-sticky {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  background: var(--salmon-surface-raised);
+}
+
+.salmon-listbox-empty,
+.salmon-listbox-loading,
+.salmon-listbox-error {
+  padding: var(--salmon-space-3);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-listbox-error {
+  color: var(--salmon-color-danger-text);
+}
+
+.salmon-listbox-retry {
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-base);
+  color: inherit;
+  font: inherit;
+  padding-inline: var(--salmon-space-3);
+  min-block-size: 24px;
+}
+
+.salmon-listbox-live,
+.salmon-listbox-native {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.salmon-listbox-drop-indicator {
+  position: absolute;
+  inset-inline: 0;
+  block-size: 2px;
+  margin-block-start: -1px;
+  background: var(--salmon-state-drag-indicator);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.salmon-listbox-list[data-drop-target] {
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-listbox-drag-ghost {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: 2147483647;
+  padding: var(--salmon-space-1) var(--salmon-space-3);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-overlay);
+  box-shadow: var(--salmon-shadow-md);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-sm);
+  pointer-events: none;
+}
+
+@media (forced-colors: active) {
+  .salmon-listbox-option[data-selected] {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .salmon-listbox-option[data-disabled] {
+    color: GrayText;
+  }
+
+  .salmon-listbox-option[data-active] {
+    outline: 2px solid CanvasText;
+    outline-offset: -2px;
+  }
+
+  .salmon-listbox-checkbox,
+  .salmon-listbox-checkbox[data-checked] {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+
+  .salmon-listbox-checkbox[data-checked]::after {
+    border-color: CanvasText;
+  }
+
+  .salmon-listbox-drop-indicator {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-listbox-list {
+    scroll-behavior: auto;
+  }
+}
+
+/* indicatorPosition="end": the marker moves to the inline end. */
+.salmon-listbox[data-indicator-position='end'] :is(.salmon-listbox-check, .salmon-listbox-checkbox) {
+  order: 1;
+  margin-inline-start: auto;
+}

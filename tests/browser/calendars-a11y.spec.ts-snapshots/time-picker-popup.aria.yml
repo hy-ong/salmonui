@@ -1,0 +1,22 @@
+- listbox "Times":
+  - option /8:\d+ AM/
+  - option /8:\d+ AM/
+  - option /9:\d+ AM/
+  - option /9:\d+ AM/ [selected]
+  - option /\d+:\d+ AM/
+  - option /\d+:\d+ AM/
+  - option /\d+:\d+ AM/
+  - option /\d+:\d+ AM/
+  - option /\d+:\d+ PM/ [disabled]
+  - option /\d+:\d+ PM/ [disabled]
+  - option /1:\d+ PM/
+  - option /1:\d+ PM/
+  - option /2:\d+ PM/
+  - option /2:\d+ PM/
+  - option /3:\d+ PM/
+  - option /3:\d+ PM/
+  - option /4:\d+ PM/
+  - option /4:\d+ PM/
+  - option /5:\d+ PM/
+  - option /5:\d+ PM/
+  - option /6:\d+ PM/

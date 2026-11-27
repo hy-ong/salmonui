@@ -1,0 +1,102 @@
+/* @salmonui/react/message/styles.css. Colors
+   from --salmon-* theme variables only; tone x variant are data hooks.
+   Logical properties only, so the icon and close button follow dir. */
+
+.salmon-message {
+  --salmon-message-c: var(--salmon-text-secondary);
+  --salmon-message-c-on: var(--salmon-surface-base);
+  --salmon-message-c-subtle: var(--salmon-surface-sunken);
+  --salmon-message-c-text: var(--salmon-text-primary);
+  --salmon-message-c-border: var(--salmon-border-default);
+  --salmon-message-bg: var(--salmon-message-c-subtle);
+  --salmon-message-fg: var(--salmon-message-c-text);
+  --salmon-message-bd: var(--salmon-message-c-subtle);
+  --salmon-message-icon: var(--salmon-message-c);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  box-sizing: border-box;
+  padding-block: 10px;
+  padding-inline: 12px;
+  border: 1px solid var(--salmon-message-bd);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-message-bg);
+  color: var(--salmon-message-fg);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+}
+.salmon-message[hidden] { display: none; }
+.salmon-message[data-tone='primary'] { --salmon-message-c: var(--salmon-color-primary); --salmon-message-c-on: var(--salmon-color-primary-on); --salmon-message-c-subtle: var(--salmon-color-primary-subtle); --salmon-message-c-text: var(--salmon-color-primary-text); --salmon-message-c-border: var(--salmon-color-primary-border); }
+.salmon-message[data-tone='info'] { --salmon-message-c: var(--salmon-color-info); --salmon-message-c-on: var(--salmon-color-info-on); --salmon-message-c-subtle: var(--salmon-color-info-subtle); --salmon-message-c-text: var(--salmon-color-info-text); --salmon-message-c-border: var(--salmon-color-info-border); }
+.salmon-message[data-tone='success'] { --salmon-message-c: var(--salmon-color-success); --salmon-message-c-on: var(--salmon-color-success-on); --salmon-message-c-subtle: var(--salmon-color-success-subtle); --salmon-message-c-text: var(--salmon-color-success-text); --salmon-message-c-border: var(--salmon-color-success-border); }
+.salmon-message[data-tone='warning'] { --salmon-message-c: var(--salmon-color-warning); --salmon-message-c-on: var(--salmon-color-warning-on); --salmon-message-c-subtle: var(--salmon-color-warning-subtle); --salmon-message-c-text: var(--salmon-color-warning-text); --salmon-message-c-border: var(--salmon-color-warning-border); }
+.salmon-message[data-tone='danger'] { --salmon-message-c: var(--salmon-color-danger); --salmon-message-c-on: var(--salmon-color-danger-on); --salmon-message-c-subtle: var(--salmon-color-danger-subtle); --salmon-message-c-text: var(--salmon-color-danger-text); --salmon-message-c-border: var(--salmon-color-danger-border); }
+.salmon-message[data-variant='outline'] {
+  --salmon-message-bg: transparent;
+  --salmon-message-bd: var(--salmon-message-c-border);
+}
+.salmon-message[data-variant='solid'] {
+  --salmon-message-bg: var(--salmon-message-c);
+  --salmon-message-fg: var(--salmon-message-c-on);
+  --salmon-message-bd: var(--salmon-message-c);
+  --salmon-message-icon: currentColor;
+}
+
+.salmon-message-icon {
+  display: inline-flex;
+  flex: none;
+  block-size: calc(1em * var(--salmon-line-height-normal));
+  align-items: center;
+  color: var(--salmon-message-icon);
+}
+.salmon-message svg {
+  inline-size: 16px;
+  block-size: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.salmon-message-body {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 2px;
+  min-inline-size: 0;
+}
+.salmon-message-title { font-weight: var(--salmon-font-weight-semibold); }
+.salmon-message[data-align='center'] .salmon-message-body { text-align: center; }
+.salmon-message[data-align='end'] .salmon-message-body { text-align: end; }
+.salmon-message-action {
+  display: flex;
+  flex: none;
+  gap: 8px;
+  align-items: center;
+}
+.salmon-message-dismiss {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  margin-block: -1px;
+  margin-inline-end: -4px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.salmon-message-dismiss:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+.salmon-message-dismiss:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+@media (forced-colors: active) {
+  .salmon-message { border-color: CanvasText; }
+  .salmon-message-dismiss { color: ButtonText; }
+}

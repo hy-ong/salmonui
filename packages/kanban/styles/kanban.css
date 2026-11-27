@@ -1,0 +1,614 @@
+/* @salmonui/react/kanban: Kanban board.
+   Self-contained (the dist file prepends styles/a11y.css); colors come from
+   the theme variables only, logical properties mirror in RTL. Columns share
+   one grid template (--salmon-kanban-template, set inline from the column
+   state); below 600px of board width a container query shows one column at a
+   time with scroll snap and the column picker. Cards keep an 8px block-end
+   margin: the virtual card window measures it (GAP in Kanban.tsx). */
+
+.salmon-kanban {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-base);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+}
+
+.salmon-kanban-frame {
+  container: salmon-kanban / inline-size;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-block-size: 0;
+}
+
+.salmon-kanban-scroller {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-block-size: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.salmon-kanban:not([data-lanes]) .salmon-kanban-scroller {
+  overflow-y: hidden;
+}
+
+.salmon-kanban-groups,
+.salmon-kanban-header,
+.salmon-kanban-lane-cells {
+  display: grid;
+  grid-template-columns: var(--salmon-kanban-template);
+  gap: var(--salmon-space-2);
+  min-inline-size: min-content;
+  padding-inline: var(--salmon-space-2);
+}
+
+.salmon-kanban-groups {
+  padding-block-start: var(--salmon-space-2);
+}
+
+.salmon-kanban-group {
+  padding: var(--salmon-space-1) var(--salmon-space-2);
+  border-block-end: 2px solid var(--salmon-border-default);
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+  font-weight: var(--salmon-font-weight-medium);
+  text-align: center;
+}
+
+.salmon-kanban-group[data-empty] {
+  border-color: transparent;
+}
+
+.salmon-kanban-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  padding-block: var(--salmon-space-2);
+  background: var(--salmon-surface-base);
+}
+
+.salmon-kanban-column-header {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-block-size: 2.5rem;
+  min-inline-size: 0;
+  padding-inline: var(--salmon-space-2);
+  border-block-end: 2px solid var(--salmon-border-subtle);
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+.salmon-kanban-column-header[data-reorderable] {
+  cursor: grab;
+  user-select: none;
+}
+
+.salmon-kanban-column-title {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-kanban-column-header[data-collapsed] {
+  flex-direction: column;
+  align-items: center;
+  padding-block: var(--salmon-space-2);
+}
+
+.salmon-kanban-column-header[data-collapsed] .salmon-kanban-column-title {
+  flex: none;
+  writing-mode: vertical-rl;
+}
+
+.salmon-kanban-count {
+  flex: none;
+  min-inline-size: 1.5em;
+  padding-inline: var(--salmon-space-1);
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-surface-sunken);
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+  font-weight: var(--salmon-font-weight-regular);
+  text-align: center;
+}
+
+.salmon-kanban-limits {
+  flex: none;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+  font-weight: var(--salmon-font-weight-regular);
+}
+
+.salmon-kanban-column-header[data-limit='over'] {
+  border-block-end-color: var(--salmon-color-danger-text);
+}
+
+.salmon-kanban-column-header[data-limit='over'] .salmon-kanban-limits,
+.salmon-kanban-column-header[data-limit='over'] .salmon-kanban-count {
+  color: var(--salmon-color-danger-text);
+}
+
+.salmon-kanban-column-header[data-limit='under'] {
+  border-block-end-color: var(--salmon-color-warning-text);
+}
+
+.salmon-kanban-column-header[data-limit='under'] .salmon-kanban-limits {
+  color: var(--salmon-color-warning-text);
+}
+
+.salmon-kanban-toggle,
+.salmon-kanban-grip,
+.salmon-kanban-add {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--salmon-space-2);
+  min-inline-size: var(--salmon-control-height-sm, 24px);
+  block-size: var(--salmon-control-height-sm, 24px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-md);
+  background: transparent;
+  color: var(--salmon-text-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.salmon-kanban-grip {
+  cursor: grab;
+}
+
+/* Icon buttons at the sm control metrics: square, 14px glyph. */
+.salmon-kanban-toggle svg,
+.salmon-kanban-grip svg,
+.salmon-kanban-add svg {
+  flex: none;
+  inline-size: 14px;
+  block-size: 14px;
+}
+
+.salmon-kanban-toggle:hover,
+.salmon-kanban-grip:hover,
+.salmon-kanban-add:hover {
+  background: var(--salmon-surface-hover);
+  color: var(--salmon-text-primary);
+}
+
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+
+.salmon-kanban-toggle svg {
+  scale: var(--salmon-dir, 1) 1;
+  transform: rotate(90deg);
+  transition: transform var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+.salmon-kanban-toggle[aria-expanded='false'] svg {
+  transform: none;
+}
+
+.salmon-kanban-toggle:focus-visible,
+.salmon-kanban-grip:focus-visible,
+.salmon-kanban-add:focus-visible,
+.salmon-kanban-picker:focus-visible,
+.salmon-kanban-card:focus-visible,
+.salmon-kanban-editor-input:focus-visible,
+.salmon-kanban-editor-button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-kanban-board {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--salmon-space-2);
+  min-block-size: 0;
+  padding-block-end: var(--salmon-space-2);
+  outline: none;
+}
+
+.salmon-kanban:not([data-lanes]) .salmon-kanban-lane-cells {
+  flex: 1 1 auto;
+  min-block-size: 0;
+}
+
+.salmon-kanban-lane-header {
+  position: sticky;
+  inset-inline-start: 0;
+  display: flex;
+  padding: var(--salmon-space-2) var(--salmon-space-3);
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+.salmon-kanban-lane[data-sticky] .salmon-kanban-lane-header {
+  inset-block-start: calc(2.5rem + 2 * var(--salmon-space-2));
+  z-index: 1;
+  background: var(--salmon-surface-base);
+}
+
+.salmon-kanban-lane-title {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-kanban-cell {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 4rem;
+  min-inline-size: 0;
+  padding: var(--salmon-space-2) var(--salmon-space-2) 0;
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-kanban:not([data-lanes]) .salmon-kanban-cell {
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.salmon-kanban-cell[data-collapsed] {
+  padding-inline: 0;
+}
+
+.salmon-kanban-cell[data-limit='over'] {
+  box-shadow: inset 0 0 0 1px var(--salmon-color-danger-text);
+}
+
+.salmon-kanban-cell[data-limit='under'] {
+  box-shadow: inset 0 0 0 1px var(--salmon-color-warning-text);
+}
+
+.salmon-kanban-cell[data-drop='end'] {
+  box-shadow: inset 0 0 0 2px var(--salmon-state-drag-indicator);
+}
+
+.salmon-kanban-cell[data-drop-denied] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.salmon-kanban-spacer {
+  flex: none;
+}
+
+.salmon-kanban-card {
+  position: relative;
+  box-sizing: border-box;
+  flex: none;
+  margin-block-end: 8px;
+  padding: var(--salmon-space-2) var(--salmon-space-3);
+  overflow: hidden;
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-raised);
+  box-shadow: var(--salmon-shadow-sm);
+  cursor: default;
+  user-select: none;
+}
+
+.salmon-kanban-card[data-accent] {
+  border-inline-start: 4px solid var(--salmon-kanban-accent);
+}
+
+.salmon-kanban-card:hover {
+  border-color: var(--salmon-border-default);
+}
+
+.salmon-kanban-card[aria-selected='true'] {
+  border-color: var(--salmon-color-primary-border);
+  background: var(--salmon-surface-selected);
+}
+
+.salmon-kanban[data-drag-active],
+.salmon-kanban[data-drag-active] .salmon-kanban-card {
+  cursor: grabbing;
+}
+
+.salmon-kanban-card[data-dragging],
+.salmon-kanban-column-header[data-dragging] {
+  opacity: 0.4;
+}
+
+.salmon-kanban-card[data-lifted] {
+  outline: 2px dashed var(--salmon-state-drag-indicator);
+  outline-offset: 2px;
+}
+
+.salmon-kanban-card[data-drop]::before,
+.salmon-kanban-column-header[data-drop]::before {
+  position: absolute;
+  content: '';
+  background: var(--salmon-state-drag-indicator);
+  pointer-events: none;
+}
+
+.salmon-kanban-card[data-drop]::before {
+  inset-inline: 0;
+  block-size: 3px;
+}
+
+.salmon-kanban-card[data-drop='before']::before {
+  inset-block-start: 0;
+}
+
+.salmon-kanban-card[data-drop='after']::before {
+  inset-block-end: 0;
+}
+
+.salmon-kanban-column-header[data-drop]::before {
+  inset-block: 0;
+  inline-size: 3px;
+}
+
+.salmon-kanban-column-header[data-drop='before']::before {
+  inset-inline-start: calc(var(--salmon-space-1) * -1);
+}
+
+.salmon-kanban-column-header[data-drop='after']::before {
+  inset-inline-end: calc(var(--salmon-space-1) * -1);
+}
+
+.salmon-kanban-ghost {
+  position: fixed;
+  z-index: 1000;
+  margin: 0;
+  box-shadow: var(--salmon-shadow-lg);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.salmon-kanban-ghost[data-count]::after {
+  position: absolute;
+  inset-block-start: var(--salmon-space-1);
+  inset-inline-end: var(--salmon-space-1);
+  padding-inline: var(--salmon-space-1);
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-color-primary);
+  color: var(--salmon-color-primary-on);
+  font-size: var(--salmon-font-size-sm);
+  content: attr(data-count);
+}
+
+.salmon-kanban-card-header {
+  font-weight: var(--salmon-font-weight-medium);
+  overflow-wrap: anywhere;
+}
+
+.salmon-kanban-card-content {
+  margin-block-start: var(--salmon-space-1);
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+  overflow-wrap: anywhere;
+}
+
+.salmon-kanban-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--salmon-space-1);
+  margin-block-start: var(--salmon-space-2);
+}
+
+.salmon-kanban-tag {
+  padding-inline: var(--salmon-space-2);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-sunken);
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-kanban-empty {
+  padding: var(--salmon-space-3) var(--salmon-space-2);
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+  text-align: center;
+}
+
+.salmon-kanban-add-cell {
+  position: sticky;
+  inset-block-end: 0;
+  margin-inline: calc(var(--salmon-space-2) * -1);
+  padding: var(--salmon-space-1) var(--salmon-space-2) var(--salmon-space-2);
+  border-end-start-radius: inherit;
+  border-end-end-radius: inherit;
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-kanban-add {
+  inline-size: 100%;
+  justify-content: flex-start;
+  padding-inline: var(--salmon-space-3);
+}
+
+.salmon-kanban-status:empty {
+  display: none;
+}
+
+.salmon-kanban-status {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  z-index: 3;
+  padding: var(--salmon-space-2) var(--salmon-space-4);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-raised);
+  box-shadow: var(--salmon-shadow-sm);
+  translate: calc(-50% * var(--salmon-dir, 1)) -50%;
+}
+
+.salmon-kanban[data-state='error'] .salmon-kanban-status {
+  color: var(--salmon-color-danger-text);
+}
+
+.salmon-kanban[data-state='loading'] .salmon-kanban-board {
+  pointer-events: none;
+}
+
+/* "No cards" is not true yet while the first read runs (and dimmed text
+   would fail contrast); the status overlay says what is happening. */
+.salmon-kanban[data-state='loading'] .salmon-kanban-empty {
+  visibility: hidden;
+}
+
+.salmon-kanban-tooltip {
+  position: fixed;
+  z-index: 1000;
+  box-sizing: border-box;
+  max-inline-size: 20rem;
+  margin-block-start: var(--salmon-space-1);
+  padding: var(--salmon-space-1) var(--salmon-space-2);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-text-primary);
+  color: var(--salmon-surface-base);
+  font-size: var(--salmon-font-size-sm);
+  pointer-events: none;
+}
+
+.salmon-kanban-tooltip[data-above] {
+  margin-block-start: calc(var(--salmon-space-1) * -1);
+  translate: 0 -100%;
+}
+
+.salmon-kanban-picker {
+  display: none;
+  box-sizing: border-box;
+  block-size: var(--salmon-control-height-md, 32px);
+  margin: var(--salmon-space-2);
+  padding: 0 var(--salmon-control-padding-md, 12px);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: inherit;
+  font: inherit;
+}
+
+@container salmon-kanban (max-width: 600px) {
+  .salmon-kanban-picker {
+    display: block;
+  }
+
+  .salmon-kanban-scroller {
+    scroll-snap-type: x mandatory;
+  }
+
+  .salmon-kanban-groups {
+    display: none;
+  }
+
+  .salmon-kanban-header,
+  .salmon-kanban-lane-cells {
+    grid-template-columns: repeat(var(--salmon-kanban-count), calc(100cqi - 2 * var(--salmon-space-2)));
+  }
+
+  .salmon-kanban-cell,
+  .salmon-kanban-column-header {
+    scroll-snap-align: start;
+  }
+}
+
+.salmon-kanban-editor {
+  box-sizing: border-box;
+  inline-size: min(32rem, calc(100vw - 2 * var(--salmon-space-4)));
+  padding: var(--salmon-space-4);
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-raised);
+  color: var(--salmon-text-primary);
+  box-shadow: var(--salmon-shadow-lg);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+}
+
+.salmon-kanban-editor::backdrop {
+  background: color-mix(in srgb, var(--salmon-text-primary) 40%, transparent);
+}
+
+.salmon-kanban-editor-title {
+  margin: 0 0 var(--salmon-space-3);
+  font-size: var(--salmon-font-size-lg);
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+.salmon-kanban-editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-3);
+}
+
+.salmon-kanban-editor-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-1);
+}
+
+.salmon-kanban-editor-input,
+.salmon-kanban-editor-button {
+  box-sizing: border-box;
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-control-padding-md, 12px);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: inherit;
+  font: inherit;
+}
+
+textarea.salmon-kanban-editor-input {
+  padding-block: var(--salmon-space-3);
+}
+
+.salmon-kanban-editor-input[aria-invalid='true'] {
+  border-color: var(--salmon-color-danger-text);
+}
+
+.salmon-kanban-editor-error {
+  color: var(--salmon-color-danger-text);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-kanban-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-kanban-editor-button {
+  color: var(--salmon-text-primary);
+  cursor: pointer;
+}
+
+.salmon-kanban-editor-button[data-variant='primary'] {
+  border-color: var(--salmon-color-primary);
+  background: var(--salmon-color-primary);
+  color: var(--salmon-color-primary-on);
+}
+
+.salmon-kanban-editor-button[data-variant='danger'] {
+  margin-inline-end: auto;
+  color: var(--salmon-color-danger-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-kanban-toggle svg {
+    transition: none;
+  }
+}

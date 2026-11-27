@@ -1,0 +1,317 @@
+/* Shared visualization styles:
+   figure, surface, plot focus target, legend toolbar, tooltip, accessible
+   table, canvas layer and the SVG chrome classes. Prepended to every
+   visualization subpath stylesheet (copy-css.mjs); the aggregate carries it
+   once. Colors come from --salmon-* variables only; logical properties. */
+
+/* Visualization color roles: derived
+   here from the theme semantic colors, not theme inputs. Slots 1..5 take the
+   seed hues, slots 6..10 the OKLCH midpoints of neighbors; lightness alternates
+   between two fixed values per scheme and chroma is fixed (viz/palette.ts is the
+   same formula, unit-tested for 3:1 contrast and color-vision distance). The
+   static values below are the default theme, for engines without relative
+   color syntax. */
+.salmon-viz {
+  --salmon-chart-1: light-dark(#2b55ae, #a5c4ff);
+  --salmon-chart-2: light-dark(#cd710a, #bf7028);
+  --salmon-chart-3: light-dark(#00657d, #4fd6ff);
+  --salmon-chart-4: light-dark(#d86358, #c8645a);
+  --salmon-chart-5: light-dark(#006e2d, #84dc95);
+  --salmon-chart-6: light-dark(#c763a8, #b9649e);
+  --salmon-chart-7: light-dark(#1f6d02, #96d987);
+  --salmon-chart-8: light-dark(#a172d5, #9870c5);
+  --salmon-chart-9: light-dark(#715700, #e7bf57);
+  --salmon-chart-10: light-dark(#009ead, #0098a5);
+  --salmon-chart-sequential-1: color-mix(in oklch, var(--salmon-color-primary) 12%, var(--salmon-surface-base));
+  --salmon-chart-sequential-2: color-mix(in oklch, var(--salmon-color-primary) 23%, var(--salmon-surface-base));
+  --salmon-chart-sequential-3: color-mix(in oklch, var(--salmon-color-primary) 34%, var(--salmon-surface-base));
+  --salmon-chart-sequential-4: color-mix(in oklch, var(--salmon-color-primary) 45%, var(--salmon-surface-base));
+  --salmon-chart-sequential-5: color-mix(in oklch, var(--salmon-color-primary) 56%, var(--salmon-surface-base));
+  --salmon-chart-sequential-6: color-mix(in oklch, var(--salmon-color-primary) 67%, var(--salmon-surface-base));
+  --salmon-chart-sequential-7: color-mix(in oklch, var(--salmon-color-primary) 78%, var(--salmon-surface-base));
+  --salmon-chart-sequential-8: color-mix(in oklch, var(--salmon-color-primary) 89%, var(--salmon-surface-base));
+  --salmon-chart-sequential-9: color-mix(in oklch, var(--salmon-color-primary) 100%, var(--salmon-surface-base));
+  --salmon-chart-diverging-1: color-mix(in oklch, var(--salmon-color-danger) 100%, var(--salmon-surface-sunken));
+  --salmon-chart-diverging-2: color-mix(in oklch, var(--salmon-color-danger) 80%, var(--salmon-surface-sunken));
+  --salmon-chart-diverging-3: color-mix(in oklch, var(--salmon-color-danger) 60%, var(--salmon-surface-sunken));
+  --salmon-chart-diverging-4: color-mix(in oklch, var(--salmon-color-danger) 40%, var(--salmon-surface-sunken));
+  --salmon-chart-diverging-5: color-mix(in oklch, var(--salmon-color-danger) 20%, var(--salmon-surface-sunken));
+  --salmon-chart-diverging-6: var(--salmon-surface-sunken);
+  --salmon-chart-diverging-7: color-mix(in oklch, var(--salmon-color-primary) 20%, var(--salmon-surface-sunken));
+  --salmon-chart-diverging-8: color-mix(in oklch, var(--salmon-color-primary) 40%, var(--salmon-surface-sunken));
+  --salmon-chart-diverging-9: color-mix(in oklch, var(--salmon-color-primary) 60%, var(--salmon-surface-sunken));
+  --salmon-chart-diverging-10: color-mix(in oklch, var(--salmon-color-primary) 80%, var(--salmon-surface-sunken));
+  --salmon-chart-diverging-11: color-mix(in oklch, var(--salmon-color-primary) 100%, var(--salmon-surface-sunken));
+}
+
+@supports (color: oklch(from red l c h)) {
+  .salmon-viz {
+    --salmon-chart-1: light-dark(oklch(from var(--salmon-color-primary) 0.47 0.15 h), oklch(from var(--salmon-color-primary) 0.82 0.13 h));
+    --salmon-chart-2: light-dark(oklch(from var(--salmon-color-warning) 0.64 0.15 h), oklch(from var(--salmon-color-warning) 0.62 0.13 h));
+    --salmon-chart-3: light-dark(oklch(from var(--salmon-color-info) 0.47 0.15 h), oklch(from var(--salmon-color-info) 0.82 0.13 h));
+    --salmon-chart-4: light-dark(oklch(from var(--salmon-color-danger) 0.64 0.15 h), oklch(from var(--salmon-color-danger) 0.62 0.13 h));
+    --salmon-chart-5: light-dark(oklch(from var(--salmon-color-success) 0.47 0.15 h), oklch(from var(--salmon-color-success) 0.82 0.13 h));
+    --salmon-chart-6: light-dark(oklch(from color-mix(in oklch, var(--salmon-color-primary), var(--salmon-color-warning)) 0.64 0.15 h), oklch(from color-mix(in oklch, var(--salmon-color-primary), var(--salmon-color-warning)) 0.62 0.13 h));
+    --salmon-chart-7: light-dark(oklch(from color-mix(in oklch, var(--salmon-color-warning), var(--salmon-color-info)) 0.47 0.15 h), oklch(from color-mix(in oklch, var(--salmon-color-warning), var(--salmon-color-info)) 0.82 0.13 h));
+    --salmon-chart-8: light-dark(oklch(from color-mix(in oklch, var(--salmon-color-info), var(--salmon-color-danger)) 0.64 0.15 h), oklch(from color-mix(in oklch, var(--salmon-color-info), var(--salmon-color-danger)) 0.62 0.13 h));
+    --salmon-chart-9: light-dark(oklch(from color-mix(in oklch, var(--salmon-color-danger), var(--salmon-color-success)) 0.47 0.15 h), oklch(from color-mix(in oklch, var(--salmon-color-danger), var(--salmon-color-success)) 0.82 0.13 h));
+    --salmon-chart-10: light-dark(oklch(from color-mix(in oklch, var(--salmon-color-success), var(--salmon-color-primary)) 0.64 0.15 h), oklch(from color-mix(in oklch, var(--salmon-color-success), var(--salmon-color-primary)) 0.62 0.13 h));
+  }
+}
+
+.salmon-visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.salmon-viz {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  min-inline-size: 0;
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-viz-surface {
+  position: relative;
+  inline-size: 100%;
+  touch-action: pan-y;
+}
+
+.salmon-viz-surface > svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+  user-select: none;
+}
+
+.salmon-viz-canvas {
+  position: absolute;
+  pointer-events: none;
+}
+
+.salmon-viz-plot {
+  position: absolute;
+  outline: none;
+  border-radius: var(--salmon-radius-sm);
+}
+
+.salmon-viz-plot:focus-visible {
+  box-shadow: 0 0 0 var(--salmon-state-focus-ring-width) var(--salmon-state-focus-ring);
+}
+
+/* SVG chrome */
+.salmon-viz text {
+  fill: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-viz .salmon-viz-title {
+  fill: var(--salmon-text-primary);
+  font-size: var(--salmon-font-size-lg);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-viz .salmon-viz-subtitle {
+  fill: var(--salmon-text-secondary);
+}
+
+.salmon-viz .salmon-viz-axis-title,
+.salmon-viz .salmon-viz-legend-title {
+  fill: var(--salmon-text-primary);
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+.salmon-viz .salmon-viz-legend-item text {
+  fill: var(--salmon-text-primary);
+}
+
+.salmon-viz .salmon-viz-legend-item[data-hidden] text {
+  fill: var(--salmon-text-disabled);
+  text-decoration: line-through;
+}
+
+.salmon-viz-grid {
+  stroke: var(--salmon-border-subtle);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.salmon-viz-axis-line,
+.salmon-viz-tick {
+  stroke: var(--salmon-border-default);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.salmon-viz-focus-mark {
+  fill: none;
+  stroke: var(--salmon-state-focus-ring);
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.salmon-viz [data-dimmed] {
+  opacity: 0.25;
+}
+
+.salmon-viz-mark {
+  transition: opacity var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+/* the drawing never mirrors, so its text anchors keep their LTR
+   meaning under an inherited dir="rtl" (start-anchored labels would otherwise
+   run off the drawing). Mirroring the drawn titles and legends is the opt-in
+   @salmonui/react/viz-rtl.css. */
+.salmon-viz svg {
+  direction: ltr;
+}
+
+/* Legend toolbar laid over the drawn legend */
+.salmon-viz-legend {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.salmon-viz-legend-button {
+  position: absolute;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.salmon-viz-legend-button:hover {
+  background: color-mix(in srgb, var(--salmon-surface-hover) 60%, transparent);
+}
+
+.salmon-viz-legend-button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 1px;
+}
+
+.salmon-viz-legend-pager {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  pointer-events: auto;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-viz-legend-page {
+  min-inline-size: 20px;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-raised);
+  color: var(--salmon-text-primary);
+  cursor: pointer;
+}
+
+.salmon-viz-legend-page:disabled {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+/* Tooltip (shares the Layout tooltip surface look) */
+.salmon-viz-tooltip {
+  /* Placed by inline physical offsets from the drawing, which never mirrors. */
+  position: absolute;
+  z-index: 2;
+  box-sizing: border-box;
+  max-inline-size: 280px;
+  padding: 6px 8px;
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-overlay);
+  box-shadow: var(--salmon-shadow-md);
+  color: var(--salmon-text-primary);
+  font-size: var(--salmon-font-size-sm);
+  line-height: var(--salmon-line-height-tight);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.salmon-viz-tooltip-header {
+  margin-block-end: 4px;
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-viz-tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.salmon-viz-tooltip-swatch {
+  flex: none;
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: var(--salmon-radius-full);
+}
+
+.salmon-viz-tooltip-value {
+  margin-inline-start: auto;
+  padding-inline-start: 12px;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+/* Visible data table (showDataTable) */
+.salmon-viz-table {
+  inline-size: 100%;
+  margin-block-start: 8px;
+  border-collapse: collapse;
+  font-size: var(--salmon-font-size-sm);
+}
+
+/* A table keeps its min-content width under the 1px visually hidden box, so
+   it is anchored at the inline end: the overflow then runs toward the inline
+   start, which never adds a horizontal page scroll. */
+.salmon-viz-table.salmon-visually-hidden {
+  inset-inline-end: 0;
+}
+
+.salmon-viz-table caption {
+  padding-block-end: 4px;
+  text-align: start;
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+.salmon-viz-table th,
+.salmon-viz-table td {
+  padding-block: 4px;
+  padding-inline: 8px;
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  text-align: start;
+}
+
+.salmon-viz-table td {
+  font-variant-numeric: tabular-nums;
+}
+
+.salmon-viz-empty {
+  fill: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-viz-mark {
+    transition: none;
+  }
+}

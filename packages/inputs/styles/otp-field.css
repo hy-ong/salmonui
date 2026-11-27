@@ -1,0 +1,72 @@
+/*
+ * OtpField (@salmonui/react/otp-field/styles.css):
+ * one transparent native input over cells drawn from the value and the
+ * caret.
+ */
+.salmon-otp {
+  position: relative;
+  display: inline-flex;
+}
+
+.salmon-otp-input {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  font: inherit;
+}
+
+.salmon-otp-cells {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-otp-cell {
+  display: grid;
+  place-items: center;
+  /* Square cells at the control height of the size (Button's). */
+  inline-size: var(--salmon-control-height-md, 32px);
+  block-size: var(--salmon-control-height-md, 32px);
+  box-sizing: border-box;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  font-variant-numeric: tabular-nums;
+}
+
+.salmon-otp-cell[data-placeholder] {
+  color: var(--salmon-text-placeholder);
+}
+
+.salmon-otp-separator {
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-otp:focus-within .salmon-otp-cell[data-active] {
+  border-color: var(--salmon-border-selected);
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-field[data-size='sm'] .salmon-otp-cell {
+  inline-size: var(--salmon-control-height-sm, 24px);
+  block-size: var(--salmon-control-height-sm, 24px);
+}
+
+.salmon-field[data-size='lg'] .salmon-otp-cell {
+  inline-size: var(--salmon-control-height-lg, 40px);
+  block-size: var(--salmon-control-height-lg, 40px);
+}
+
+.salmon-field[data-invalid] .salmon-otp-cell {
+  border-color: var(--salmon-state-invalid);
+}
+
+.salmon-field[data-disabled] .salmon-otp-cell {
+  background: var(--salmon-surface-disabled);
+  color: var(--salmon-text-disabled);
+}

@@ -1,0 +1,101 @@
+/* TreeMap, after the shared viz.css. Item
+   colors are data colors or the derived palette, set inline. */
+.salmon-tree-map-group > rect {
+  stroke: var(--salmon-surface-base);
+  stroke-width: 1;
+}
+
+.salmon-tree-map-leaf > rect {
+  stroke: var(--salmon-surface-base);
+  stroke-width: 1;
+  fill-opacity: 0.85;
+}
+
+.salmon-tree-map-group > rect {
+  fill-opacity: 0.35;
+}
+
+.salmon-tree-map-leaf[data-selected] > rect,
+.salmon-tree-map-group[data-selected] > rect {
+  stroke: var(--salmon-text-primary);
+  stroke-width: 2;
+}
+
+.salmon-viz .salmon-tree-map-label,
+.salmon-viz .salmon-tree-map-header {
+  fill: var(--salmon-text-primary);
+  pointer-events: none;
+}
+
+.salmon-viz .salmon-tree-map-header {
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+/* Leaf labels sit on data colors of any lightness: the surface halo keeps
+   them readable, as heat map cell labels. */
+.salmon-viz .salmon-tree-map-label {
+  paint-order: stroke;
+  stroke: var(--salmon-surface-base);
+  stroke-width: 2px;
+  stroke-opacity: 0.6;
+}
+
+.salmon-tree-map-hover {
+  fill: none;
+  stroke: var(--salmon-text-primary);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.salmon-tree-map-parent > rect {
+  fill: var(--salmon-surface-sunken);
+}
+
+.salmon-tree-map-content {
+  position: absolute;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 2px 4px;
+  pointer-events: none;
+}
+
+.salmon-tree-map-breadcrumbs {
+  position: absolute;
+  z-index: 1;
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-tree-map-breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.salmon-tree-map-breadcrumbs li + li::before {
+  content: "/";
+  margin-inline-end: 4px;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-tree-map-breadcrumbs button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--salmon-text-link);
+  font: inherit;
+  cursor: pointer;
+}
+
+.salmon-tree-map-breadcrumbs button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 1px;
+  border-radius: var(--salmon-radius-sm);
+}
+
+.salmon-tree-map-breadcrumbs [aria-current] {
+  color: var(--salmon-text-primary);
+  font-weight: var(--salmon-font-weight-medium);
+}

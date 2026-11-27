@@ -1,0 +1,65 @@
+- treegrid "Sales report":
+  - rowgroup:
+    - row /Region \/ Country \d+ \d+ \d+ \d+ Grand total/:
+      - columnheader "Region / Country"
+      - columnheader /\d+/
+      - columnheader /\d+/
+      - columnheader /\d+/
+      - columnheader /\d+/
+      - columnheader "Grand total"
+  - rowgroup:
+    - row /Expand Americas Americas \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+/ [level=1]:
+      - rowheader "Expand Americas Americas":
+        - button "Expand Americas"
+        - text: ""
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+    - row /Collapse Asia Asia \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+/ [expanded] [level=1]:
+      - rowheader "Collapse Asia Asia":
+        - button "Collapse Asia" [expanded]
+        - text: ""
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+    - row /India \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+/ [level=2]:
+      - rowheader "India"
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+    - row /Japan \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+/ [level=2]:
+      - rowheader "Japan"
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+    - row /Singapore \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+/ [level=2]:
+      - rowheader "Singapore"
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+    - row /Expand Europe Europe \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+/ [level=1]:
+      - rowheader "Expand Europe Europe":
+        - button "Expand Europe"
+        - text: ""
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+    - row /Grand total \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+ \d+,\d+/ [level=1]:
+      - rowheader "Grand total"
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/
+      - gridcell /\d+,\d+/

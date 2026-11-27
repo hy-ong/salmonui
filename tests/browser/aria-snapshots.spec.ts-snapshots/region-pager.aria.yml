@@ -1,0 +1,9 @@
+- navigation "Pagination":
+  - button "First page" [disabled]
+  - button "Previous page" [disabled]
+  - button "Page 1"
+  - button "Page 2"
+  - button "Page 3"
+  - button "Next page"
+  - button "Last page"
+  - text: /1 of 3 pages \(\d+ items\)/

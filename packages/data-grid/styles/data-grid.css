@@ -1,0 +1,1412 @@
+/*
+ * @salmonui/react DataGrid styles. Plain CSS; reads --salmon-* theme variables only.
+ * Stable hooks: .salmon-data-grid, .salmon-data-grid-viewport, .salmon-data-grid-header,
+ * .salmon-data-grid-header-row, .salmon-data-grid-header-cell, .salmon-data-grid-body,
+ * .salmon-data-grid-rows, .salmon-data-grid-row, .salmon-data-grid-cell, .salmon-data-grid-pin,
+ * .salmon-data-grid-center, .salmon-data-grid-empty, plus data attributes for modifiers.
+ * No content-visibility (it conflicts with manual virtualization) and no
+ * transitions or animations on rows or cells (the one exception is the
+ * opt-in, transform-only skeleton row shimmer in infinite.css).
+ */
+
+.salmon-data-grid {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-cell, var(--salmon-font-size-md));
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-lg);
+  --salmon-data-grid-cell-padding-inline: var(--salmon-control-padding-md, 12px);
+  --salmon-data-grid-row-line: var(--salmon-border-subtle);
+}
+
+.salmon-data-grid *,
+.salmon-data-grid *::before,
+.salmon-data-grid *::after {
+  box-sizing: border-box;
+}
+
+/* Single scroll container: header, body, frozen columns share one coordinate space. */
+.salmon-data-grid-viewport {
+  position: relative;
+  flex: none;
+  width: 100%;
+  overflow: auto;
+  contain: strict;
+  container-type: inline-size;
+  overflow-anchor: none;
+  overscroll-behavior: contain;
+}
+
+.salmon-data-grid[data-auto-height] .salmon-data-grid-viewport {
+  contain: layout paint style;
+  overflow-y: hidden;
+}
+
+/* Sticky header. */
+.salmon-data-grid-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  width: var(--salmon-data-grid-total-width);
+  min-width: 100%;
+  background: var(--salmon-surface-header);
+}
+
+.salmon-data-grid-header-row,
+.salmon-data-grid-row {
+  display: flex;
+  width: var(--salmon-data-grid-total-width);
+  min-width: 100%;
+}
+
+.salmon-data-grid-header-row {
+  height: var(--salmon-data-grid-header-height);
+  background: var(--salmon-surface-header);
+  border-block-end: 1px solid var(--salmon-border-default);
+}
+
+/* Center zone: the rendered column slice starts after the unrendered columns. */
+.salmon-data-grid-center {
+  display: flex;
+  flex: none;
+  /* Zones keep the row's height when a row template changes align-items (row spans overflow down, never up). */
+  align-self: stretch;
+  width: var(--salmon-data-grid-center-width);
+  padding-inline-start: var(--salmon-data-grid-col-offset, 0px);
+}
+
+/* Frozen zones are sticky and outside horizontal virtualization. */
+.salmon-data-grid-pin {
+  position: sticky;
+  z-index: 2;
+  display: flex;
+  flex: none;
+  align-self: stretch;
+  background: inherit;
+}
+
+/* Frozen edges: the shadow shows only while content is scrolled under the zone. */
+.salmon-data-grid-pin--left {
+  inset-inline-start: 0;
+}
+
+.salmon-data-grid-pin--right {
+  inset-inline-end: 0;
+  margin-inline-start: auto;
+}
+
+.salmon-data-grid-viewport[data-scrolled-start] .salmon-data-grid-pin--left {
+  box-shadow: 4px 0 6px -4px var(--salmon-shadow-pinned);
+}
+
+.salmon-data-grid-viewport[data-scrolled-end] .salmon-data-grid-pin--right {
+  box-shadow: -4px 0 6px -4px var(--salmon-shadow-pinned);
+}
+
+[dir='rtl'] .salmon-data-grid-viewport[data-scrolled-start] .salmon-data-grid-pin--left {
+  box-shadow: -4px 0 6px -4px var(--salmon-shadow-pinned);
+}
+
+[dir='rtl'] .salmon-data-grid-viewport[data-scrolled-end] .salmon-data-grid-pin--right {
+  box-shadow: 4px 0 6px -4px var(--salmon-shadow-pinned);
+}
+
+/*
+ * Fixed zone (`pinned: 'center'`): a fixed column keeps its center slot
+ * and its cells stick at the slot's scroll-start position (insets per leaf from
+ * the column layout); the center columns scroll on both sides of it.
+ */
+.salmon-data-grid-center[data-fixed] {
+  background: inherit;
+}
+
+.salmon-data-grid-fixed {
+  position: sticky;
+  z-index: 2;
+  display: flex;
+  flex: none;
+  align-self: stretch;
+  background: inherit;
+}
+
+.salmon-data-grid-viewport[data-scrolled-start] .salmon-data-grid-fixed {
+  box-shadow: 4px 0 6px -4px var(--salmon-shadow-pinned), -4px 0 6px -4px var(--salmon-shadow-pinned);
+}
+
+/* Body: a sizer of the (possibly compressed) scroll height; rows are positioned by one transform. */
+.salmon-data-grid-body {
+  position: relative;
+  width: var(--salmon-data-grid-total-width);
+  min-width: 100%;
+}
+
+.salmon-data-grid-rows {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  will-change: transform;
+}
+
+.salmon-data-grid-row {
+  height: var(--salmon-data-grid-row-height);
+  background: var(--salmon-surface-raised);
+  /* The row line continues past the last column, across the filler width. */
+  box-shadow: inset 0 -1px var(--salmon-data-grid-row-line);
+}
+
+.salmon-data-grid[data-measure-rows] .salmon-data-grid-row {
+  height: auto;
+  min-height: var(--salmon-data-grid-row-height);
+}
+
+/* Hover and stripe rules skip selected rows: the selected-row rules below must win on every row. */
+.salmon-data-grid[data-hover] .salmon-data-grid-row:not([data-selected]):hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-data-grid[data-striped] .salmon-data-grid-row[data-alt]:not([data-selected]) {
+  background: var(--salmon-surface-header);
+}
+
+.salmon-data-grid[data-striped][data-hover] .salmon-data-grid-row[data-alt]:not([data-selected]):hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-data-grid-cell,
+.salmon-data-grid-header-cell {
+  flex: none;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-inline: var(--salmon-data-grid-cell-padding-inline);
+}
+
+.salmon-data-grid-cell {
+  display: block;
+  /* Row lines live on the cells so every point of a row hits a cell. */
+  border-block-end: 1px solid var(--salmon-data-grid-row-line);
+  line-height: calc(var(--salmon-data-grid-row-height) - 1px);
+  text-overflow: ellipsis;
+}
+
+.salmon-data-grid-cell[data-align='center'] { text-align: center; }
+.salmon-data-grid-cell[data-align='end'] { text-align: end; }
+.salmon-data-grid-cell[data-align='justify'] { text-align: justify; }
+.salmon-data-grid-cell[data-clip='clip'] { text-overflow: clip; }
+
+/* RTL: each cell's text keeps its own direction (an LTR date or amount is not reordered), aligned to the grid's sides. */
+[dir='rtl'] .salmon-data-grid-cell { unicode-bidi: plaintext; }
+[dir='rtl'] .salmon-data-grid-cell:not([data-align]) { text-align: right; }
+[dir='rtl'] .salmon-data-grid-cell[data-align='end'] { text-align: left; }
+
+/* Text wrap: content wrap implies measured row heights. */
+.salmon-data-grid[data-text-wrap='content'] .salmon-data-grid-cell,
+.salmon-data-grid[data-text-wrap='both'] .salmon-data-grid-cell {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: var(--salmon-line-height-normal);
+  padding-block: calc((var(--salmon-data-grid-row-height) - 1px - 1.5em) / 2);
+}
+
+.salmon-data-grid[data-text-wrap='header'] .salmon-data-grid-header-cell__content,
+.salmon-data-grid[data-text-wrap='both'] .salmon-data-grid-header-cell__content {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Grid lines: default and horizontal draw row lines only. */
+.salmon-data-grid[data-grid-lines='both'] .salmon-data-grid-cell,
+.salmon-data-grid[data-grid-lines='both'] .salmon-data-grid-header-cell,
+.salmon-data-grid[data-grid-lines='vertical'] .salmon-data-grid-cell,
+.salmon-data-grid[data-grid-lines='vertical'] .salmon-data-grid-header-cell {
+  border-inline-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-data-grid[data-grid-lines='vertical'],
+.salmon-data-grid[data-grid-lines='none'] {
+  --salmon-data-grid-row-line: transparent;
+}
+
+/* Header cells. */
+.salmon-data-grid-header-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  height: 100%;
+  font-weight: var(--salmon-font-weight-semibold);
+  background: var(--salmon-surface-header);
+  user-select: none;
+  outline: none;
+}
+
+.salmon-data-grid-header-cell__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-data-grid-header-cell[data-clip='clip'] .salmon-data-grid-header-cell__content { text-overflow: clip; }
+.salmon-data-grid-header-cell[data-align='center'] .salmon-data-grid-header-cell__content { text-align: center; }
+.salmon-data-grid-header-cell[data-align='end'] .salmon-data-grid-header-cell__content { text-align: end; }
+.salmon-data-grid-header-cell[data-sortable] { cursor: pointer; }
+
+.salmon-data-grid-header-cell:focus-visible,
+.salmon-data-grid-cell:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width));
+}
+
+/* Sort and filter indicators (state comes from the engine query). */
+.salmon-data-grid-sort-indicator {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 2px;
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-data-grid-filter-indicator {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-color-primary);
+}
+
+/* Lookup column load status: a ring while remote values load, a solid dot on error. */
+.salmon-data-grid-lookup-status {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-inline-start: 4px;
+  border-radius: var(--salmon-radius-full);
+  border: 2px solid var(--salmon-color-primary);
+}
+
+.salmon-data-grid-lookup-status[data-status='error'] {
+  border-color: var(--salmon-color-danger);
+  background: var(--salmon-color-danger);
+}
+
+/* Column resize handle. */
+.salmon-data-grid-resize-handle {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: 1;
+  width: 8px;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.salmon-data-grid-resize-handle::after {
+  content: '';
+  position: absolute;
+  inset-block: 25%;
+  inset-inline-end: 3px;
+  width: 2px;
+  background: var(--salmon-border-strong);
+  opacity: 0;
+}
+
+.salmon-data-grid-header-cell:hover .salmon-data-grid-resize-handle::after,
+.salmon-data-grid-resize-handle:focus-visible::after {
+  opacity: 1;
+}
+
+.salmon-data-grid[data-resizing],
+.salmon-data-grid[data-resizing] * {
+  cursor: col-resize;
+  user-select: none;
+}
+
+/* Column reorder: indicator and preview are positioned by transform only. */
+.salmon-data-grid-drop-indicator,
+.salmon-data-grid-drag-preview {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: 5;
+  display: none;
+  pointer-events: none;
+}
+
+.salmon-data-grid-drop-indicator {
+  width: 2px;
+  height: var(--salmon-data-grid-header-total-height, var(--salmon-data-grid-header-height));
+  margin-inline-start: -1px;
+  background: var(--salmon-state-drag-indicator);
+}
+
+.salmon-data-grid-drop-indicator[data-invalid='true'] {
+  background: var(--salmon-state-invalid);
+}
+
+.salmon-data-grid-drag-preview {
+  padding: var(--salmon-space-2) var(--salmon-space-4);
+  font-weight: var(--salmon-font-weight-semibold);
+  white-space: nowrap;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  box-shadow: var(--salmon-shadow-md);
+}
+
+.salmon-data-grid[data-reordering] .salmon-data-grid-drop-indicator,
+.salmon-data-grid[data-reordering] .salmon-data-grid-drag-preview {
+  display: block;
+}
+
+.salmon-data-grid[data-reordering] .salmon-data-grid-header-cell[data-reorderable] {
+  cursor: grabbing;
+}
+
+/* Selection: never color alone; aria-selected plus a start-edge indicator. */
+.salmon-data-grid-row[data-selected] {
+  background: var(--salmon-surface-selected);
+}
+
+.salmon-data-grid[data-hover] .salmon-data-grid-row[data-selected]:hover,
+.salmon-data-grid[data-striped] .salmon-data-grid-row[data-selected][data-alt] {
+  background: var(--salmon-surface-selected-hover);
+}
+
+.salmon-data-grid-row[data-selected] > :first-child > .salmon-data-grid-cell:first-child {
+  box-shadow: inset 3px 0 0 var(--salmon-border-selected);
+}
+
+[dir='rtl'] .salmon-data-grid-row[data-selected] > :first-child > .salmon-data-grid-cell:first-child,
+.salmon-data-grid[dir='rtl'] .salmon-data-grid-row[data-selected] > :first-child > .salmon-data-grid-cell:first-child {
+  box-shadow: inset -3px 0 0 var(--salmon-border-selected);
+}
+
+.salmon-data-grid-cell[data-selected] {
+  background: var(--salmon-surface-selected);
+  box-shadow: inset 0 0 0 1px var(--salmon-border-selected);
+}
+
+.salmon-data-grid-header-cell[aria-selected='true'] {
+  background: var(--salmon-surface-selected);
+}
+
+.salmon-data-grid-cell[data-selection-column],
+.salmon-data-grid-header-cell[data-selection-column] {
+  justify-content: center;
+  text-align: center;
+  padding-inline: 0;
+  cursor: pointer;
+}
+
+.salmon-data-grid-select-checkbox[data-indeterminate] {
+  border-color: var(--salmon-color-primary);
+  background: var(--salmon-color-primary);
+}
+
+.salmon-data-grid-select-checkbox[data-indeterminate]::after {
+  content: '';
+  position: absolute;
+  inset-inline: 3px;
+  top: 6px;
+  height: 2px;
+  background: var(--salmon-color-primary-on);
+}
+
+/* Shift+click range selection must not paint a native text selection. */
+.salmon-data-grid-rows {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.salmon-data-grid-rows .salmon-data-grid-cell :is(input, textarea, [contenteditable]) {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* The grid root is focusable (Alt+J, parked focus while the target cell is virtualized away). */
+.salmon-data-grid:focus {
+  outline: none;
+}
+
+.salmon-data-grid:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width));
+}
+
+/* Live regions and visually hidden text: in the accessibility tree, off screen. */
+.salmon-data-grid-live,
+.salmon-data-grid-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Read-only checkbox display. */
+.salmon-data-grid-checkbox {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  border: 1px solid var(--salmon-border-strong);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-base);
+}
+
+.salmon-data-grid-checkbox[data-checked] {
+  border-color: var(--salmon-color-primary);
+  background: var(--salmon-color-primary);
+}
+
+.salmon-data-grid-checkbox[data-checked]::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid var(--salmon-color-primary-on);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Native checkboxes (editor, Select all, column chooser) and radios (sort sheet, filter menu): the box above. */
+.salmon-data-grid-check {
+  appearance: none;
+  display: inline-grid;
+  place-content: center;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border: 1px solid var(--salmon-border-strong);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-color-primary-on);
+}
+
+.salmon-data-grid-check:is(:checked, :indeterminate) {
+  border-color: var(--salmon-color-primary);
+  background: var(--salmon-color-primary);
+}
+
+.salmon-data-grid-check:checked::before {
+  content: '';
+  width: 5px;
+  height: 9px;
+  margin-block-start: -2px;
+  border: solid;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.salmon-data-grid-check:indeterminate::before {
+  content: '';
+  width: 8px;
+  height: 2px;
+  background: currentColor;
+}
+
+.salmon-data-grid-check[type='radio'] {
+  border-radius: 50%;
+}
+
+.salmon-data-grid-check[type='radio']:checked::before {
+  width: 6px;
+  height: 6px;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Empty state. */
+.salmon-data-grid-empty {
+  height: auto;
+  border-block-end: 0;
+  box-shadow: none;
+}
+
+.salmon-data-grid-empty__cell {
+  position: sticky;
+  inset-inline-start: 0;
+  width: 100cqw;
+  padding: var(--salmon-space-6) var(--salmon-space-4);
+  text-align: center;
+  white-space: normal;
+  color: var(--salmon-text-secondary);
+  border-block-end: 0;
+}
+
+/* Offscreen measurer for autofit. */
+.salmon-data-grid-measure {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  visibility: hidden;
+  pointer-events: none;
+  contain: layout style;
+}
+
+.salmon-data-grid-measure__group {
+  width: max-content;
+}
+
+.salmon-data-grid-measure__cell,
+.salmon-data-grid-measure__header {
+  padding-inline: var(--salmon-data-grid-cell-padding-inline);
+  white-space: nowrap;
+}
+
+.salmon-data-grid-measure__header {
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+/*
+ * Reduced motion: rows, cells, and the header never animate (the
+ * package test forbids motion properties in this file), so state changes are
+ * instant by construction. The only motion left is smooth scrolling that an
+ * application stylesheet may opt into; reduced motion turns it off.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .salmon-data-grid-viewport {
+    scroll-behavior: auto;
+  }
+}
+
+@media (forced-colors: active) {
+  .salmon-data-grid,
+  .salmon-data-grid-header,
+  .salmon-data-grid-header-row,
+  .salmon-data-grid-header-cell,
+  .salmon-data-grid-row,
+  .salmon-data-grid-cell,
+  .salmon-data-grid-pin,
+  .salmon-data-grid-fixed {
+    color: CanvasText;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+
+  .salmon-data-grid[data-hover] .salmon-data-grid-row:not([data-selected]):hover {
+    background: Canvas;
+  }
+
+  /* Striped rows (default on) keep the system colors; selected rows stay Highlight, hovered or not. */
+  .salmon-data-grid[data-striped] .salmon-data-grid-row[data-alt]:not([data-selected]),
+  .salmon-data-grid[data-striped][data-hover] .salmon-data-grid-row[data-alt]:not([data-selected]):hover {
+    background: Canvas;
+  }
+
+  .salmon-data-grid[data-striped] .salmon-data-grid-row[data-selected][data-alt],
+  .salmon-data-grid[data-hover] .salmon-data-grid-row[data-selected]:hover {
+    forced-color-adjust: none;
+    color: HighlightText;
+    background: Highlight;
+  }
+
+  .salmon-data-grid-pin {
+    box-shadow: none;
+    border-inline: 1px solid CanvasText;
+  }
+
+  .salmon-data-grid-viewport[data-scrolled-start] .salmon-data-grid-fixed {
+    box-shadow: none;
+    outline: 1px solid CanvasText;
+    outline-offset: -1px;
+  }
+
+  .salmon-data-grid-header-cell:focus-visible,
+  .salmon-data-grid-cell:focus-visible {
+    forced-color-adjust: none;
+    outline-color: Highlight;
+  }
+
+  .salmon-data-grid-checkbox,
+  .salmon-data-grid-checkbox[data-checked] {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+
+  .salmon-data-grid-checkbox[data-checked]::after {
+    border-color: CanvasText;
+  }
+
+  .salmon-data-grid-drop-indicator {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+
+  /* Selection uses Highlight / HighlightText; the start-edge indicator becomes a solid border. */
+  .salmon-data-grid-row[data-selected],
+  .salmon-data-grid-row[data-selected] .salmon-data-grid-cell,
+  .salmon-data-grid-row[data-selected] .salmon-data-grid-pin,
+  .salmon-data-grid-cell[data-selected],
+  .salmon-data-grid-header-cell[aria-selected='true'] {
+    forced-color-adjust: none;
+    color: HighlightText;
+    background: Highlight;
+  }
+
+  .salmon-data-grid-row[data-selected] > :first-child > .salmon-data-grid-cell:first-child {
+    box-shadow: none;
+    border-inline-start: 3px solid HighlightText;
+  }
+
+  .salmon-data-grid-cell:focus-visible,
+  .salmon-data-grid:focus-visible {
+    forced-color-adjust: none;
+    outline: 2px solid -webkit-focus-ring-color;
+    outline-color: Highlight;
+  }
+
+  .salmon-data-grid-row[data-selected] .salmon-data-grid-cell:focus-visible {
+    outline-color: HighlightText;
+  }
+
+  .salmon-data-grid-select-checkbox[data-checked],
+  .salmon-data-grid-select-checkbox[data-indeterminate] {
+    forced-color-adjust: none;
+    border-color: CanvasText;
+    background: CanvasText;
+  }
+
+  .salmon-data-grid-select-checkbox[data-checked]::after {
+    border-color: Canvas;
+  }
+
+  .salmon-data-grid-select-checkbox[data-indeterminate]::after {
+    background: Canvas;
+  }
+}
+
+/* Grouping. The indent block is frozen at the start of every row and
+ * the header; the left frozen zone sticks right after it, so grouping works
+ * with horizontal (column) virtualization. */
+.salmon-data-grid-indent {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 2;
+  flex: none;
+  align-self: stretch;
+  width: var(--salmon-data-grid-indent-width, 0px);
+  background: inherit;
+  border-block-end: 1px solid var(--salmon-data-grid-row-line);
+}
+
+.salmon-data-grid-header-row .salmon-data-grid-indent {
+  background: var(--salmon-surface-header);
+  border-block-end: 0;
+}
+
+.salmon-data-grid[data-grouped] .salmon-data-grid-pin--left {
+  inset-inline-start: var(--salmon-data-grid-indent-width, 0px);
+}
+
+.salmon-data-grid-group-caption {
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-data-grid[data-hover] .salmon-data-grid-row.salmon-data-grid-group-caption:hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-data-grid-cell.salmon-data-grid-group-caption__cell {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  width: 100cqw;
+  padding-inline-start: calc(var(--salmon-data-grid-group-depth, 0) * var(--salmon-data-grid-indent-step, 28px) + var(--salmon-space-2));
+  font-weight: var(--salmon-font-weight-semibold);
+  background: inherit;
+}
+
+.salmon-data-grid-group-caption__text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-data-grid-group-caption__count,
+.salmon-data-grid-group-caption__status {
+  font-weight: normal;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-data-grid-group-caption__aggregate {
+  margin-inline-start: var(--salmon-space-4);
+  font-weight: normal;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-data-grid-group-toggle {
+  flex: none;
+  position: relative;
+  width: calc(var(--salmon-data-grid-row-height) - 9px);
+  height: calc(var(--salmon-data-grid-row-height) - 9px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-md);
+  color: var(--salmon-text-secondary);
+  background: transparent;
+  cursor: pointer;
+}
+
+.salmon-data-grid-group-toggle:hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-data-grid-group-caption__retry,
+.salmon-data-grid-group-caption__more {
+  height: calc(var(--salmon-data-grid-row-height) - 9px);
+  padding: 0 var(--salmon-space-3);
+  font: inherit;
+  font-weight: normal;
+  color: var(--salmon-color-primary-text);
+  background: transparent;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  cursor: pointer;
+}
+
+.salmon-data-grid-group-footer {
+  height: auto;
+  min-height: var(--salmon-data-grid-row-height);
+  flex-direction: column;
+  background: var(--salmon-surface-header);
+}
+
+.salmon-data-grid-group-footer__line {
+  display: flex;
+  width: var(--salmon-data-grid-total-width);
+  min-width: 100%;
+  height: var(--salmon-data-grid-row-height);
+}
+
+.salmon-data-grid-aggregate-cell {
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-data-grid-aggregate__value + .salmon-data-grid-aggregate__value {
+  margin-inline-start: var(--salmon-space-2);
+}
+
+/* Sticky grid footer. */
+.salmon-data-grid-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  width: var(--salmon-data-grid-total-width);
+  min-width: 100%;
+  background: var(--salmon-surface-header);
+  border-block-start: 1px solid var(--salmon-border-default);
+}
+
+.salmon-data-grid-footer-row {
+  background: var(--salmon-surface-header);
+}
+
+/*
+ * Group drop area and chips: a sibling before the grid root
+ * (outside role="grid"), drawn as its top edge like the toolbar.
+ */
+.salmon-data-grid-group-panel {
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-height: 44px;
+  padding: var(--salmon-space-2) var(--salmon-space-4);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-text-secondary);
+  background: var(--salmon-surface-base);
+  border: 1px solid var(--salmon-border-subtle);
+  border-block-end: 0;
+  border-start-start-radius: var(--salmon-radius-lg);
+  border-start-end-radius: var(--salmon-radius-lg);
+}
+
+.salmon-data-grid-group-panel *,
+.salmon-data-grid-group-panel *::before,
+.salmon-data-grid-group-panel *::after {
+  box-sizing: border-box;
+}
+
+.salmon-data-grid-toolbar + .salmon-data-grid-group-panel,
+.salmon-data-grid-adaptive-bar + .salmon-data-grid-group-panel {
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+}
+
+.salmon-data-grid-group-panel + .salmon-data-grid {
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+}
+
+.salmon-data-grid-group-panel[data-drop-active] {
+  background: var(--salmon-color-primary-subtle);
+  outline: 2px dashed var(--salmon-color-primary-border);
+  outline-offset: -4px;
+}
+
+.salmon-data-grid-group-chip {
+  display: inline-flex;
+  align-items: center;
+  height: var(--salmon-control-height-md, 32px);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-raised);
+  box-shadow: inset 0 0 0 1px var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  touch-action: none;
+  user-select: none;
+}
+
+.salmon-data-grid-group-chip[data-dragging] {
+  position: relative;
+  z-index: 1;
+  box-shadow: var(--salmon-shadow-md);
+}
+
+.salmon-data-grid-group-chip__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  height: 100%;
+  padding: 0 var(--salmon-space-1) 0 var(--salmon-space-4);
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-data-grid-group-chip__remove {
+  position: relative;
+  flex: none;
+  width: var(--salmon-control-height-md, 32px);
+  height: var(--salmon-control-height-md, 32px);
+  padding: 0;
+  color: var(--salmon-text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-data-grid-group-chip__label:focus-visible,
+.salmon-data-grid-group-chip__remove:focus-visible,
+.salmon-data-grid-group-toggle:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+}
+
+@media (forced-colors: active) {
+  .salmon-data-grid-indent,
+  .salmon-data-grid-group-caption,
+  .salmon-data-grid-group-footer,
+  .salmon-data-grid-footer,
+  .salmon-data-grid-group-panel,
+  .salmon-data-grid-group-chip {
+    color: CanvasText;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+
+  .salmon-data-grid-group-panel[data-drop-active] {
+    outline-color: Highlight;
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * Column chrome: stacked headers, header buttons, spans, frozen rows,
+ * menus, filter menu, column chooser, toolbar.
+ * ------------------------------------------------------------------------ */
+
+/* Stacked headers: a leaf above the deepest level spans the rows below it. */
+.salmon-data-grid-header[data-stacked] .salmon-data-grid-pin {
+  background: transparent;
+}
+
+.salmon-data-grid-header-cell[data-rowspan] {
+  align-self: flex-start;
+  z-index: 1;
+  border-block-end: 1px solid var(--salmon-border-default);
+}
+
+.salmon-data-grid-header-group {
+  justify-content: center;
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  border-inline-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-data-grid-header-group[data-align='start'] {
+  justify-content: flex-start;
+}
+
+.salmon-data-grid-header-group .salmon-data-grid-header-cell__content {
+  flex: 0 1 auto;
+}
+
+.salmon-data-grid-header-spacer,
+.salmon-data-grid-cell-spacer {
+  flex: none;
+}
+
+/* Header column-menu and filter buttons. */
+.salmon-data-grid-header-button {
+  position: relative;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  color: var(--salmon-text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-data-grid-header-button:hover {
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-data-grid-filter-button[data-active] {
+  color: var(--salmon-color-primary-text);
+}
+
+/* Spans: a spanning cell covers its neighbours (and the rows below for row spans). */
+.salmon-data-grid-cell[data-span] {
+  position: relative;
+  z-index: 1;
+  background: var(--salmon-surface-raised);
+}
+
+/* A frozen zone holding a row span stays above the later rows' frozen zones it covers. */
+.salmon-data-grid-pin:has(> [data-span]) {
+  z-index: 3;
+}
+
+/* Frozen rows: sticky rowgroups inside the body, above the scrolling rows. */
+.salmon-data-grid-body[data-frozen-rows] {
+  display: flex;
+  flex-direction: column;
+}
+
+.salmon-data-grid-frozen-rows {
+  position: sticky;
+  z-index: 2;
+  flex: none;
+  width: var(--salmon-data-grid-total-width);
+  min-width: 100%;
+  background: var(--salmon-surface-raised);
+}
+
+.salmon-data-grid-frozen-rows--top {
+  inset-block-start: var(--salmon-data-grid-header-total-height, var(--salmon-data-grid-header-height));
+  box-shadow: 0 4px 6px -4px var(--salmon-shadow-pinned);
+}
+
+.salmon-data-grid-frozen-rows--bottom {
+  margin-block-start: auto;
+  box-shadow: 0 -4px 6px -4px var(--salmon-shadow-pinned);
+}
+
+/* Pinned rows head the top zone; a line closes them (no sibling combinator: row insertions stay cheap to restyle). */
+.salmon-data-grid-row[data-pinned='last'] {
+  box-shadow: inset 0 -1px 0 var(--salmon-border-default);
+}
+
+/* Popovers and menus: portaled, fixed, positioned by one transform; hidden until placed.
+   Inset and margin override the UA [popover] box (top layer inside a modal dialog). */
+[data-salmon-popover] {
+  position: fixed;
+  inset: 0 auto auto 0;
+  margin: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: min(420px, calc(100vw - 16px));
+  max-height: calc(100vh - 16px);
+  overflow: auto;
+  padding: var(--salmon-space-2);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  box-shadow: var(--salmon-shadow-md);
+  outline: none;
+}
+
+[data-salmon-popover] *,
+[data-salmon-popover] *::before,
+[data-salmon-popover] *::after {
+  box-sizing: border-box;
+}
+
+[data-salmon-popover]:not([data-placed]) {
+  visibility: hidden;
+}
+
+.salmon-data-grid-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-height: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-space-3);
+  /* Link items (`href`) look like the other items. */
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--salmon-radius-sm);
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+}
+
+.salmon-data-grid-menu__item[data-active],
+.salmon-data-grid-menu__item:hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-data-grid-menu__item:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width));
+}
+
+.salmon-data-grid-menu__item[aria-disabled='true'] {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+.salmon-data-grid-menu__icon,
+.salmon-data-grid-menu__check {
+  display: inline-flex;
+  flex: none;
+  width: 16px;
+}
+
+.salmon-data-grid-menu__text {
+  flex: 1 1 auto;
+}
+
+.salmon-data-grid-menu__separator {
+  height: 1px;
+  margin: var(--salmon-space-2) 0;
+  background: var(--salmon-border-subtle);
+}
+
+/* Inputs and buttons of the grid dialogs and toolbar. */
+.salmon-data-grid-input {
+  min-width: 0;
+  height: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-space-4);
+  font: inherit;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-base);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+}
+
+select.salmon-data-grid-input {
+  --salmon-data-grid-select-inset: var(--salmon-space-4);
+  appearance: none;
+  padding-inline-end: calc(var(--salmon-data-grid-select-inset) + 14px);
+  background-image: linear-gradient(45deg, #0000 40%, currentColor 0 60%, #0000 0), linear-gradient(135deg, #0000 40%, currentColor 0 60%, #0000 0);
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  background-position: right calc(var(--salmon-data-grid-select-inset) + 5px) center, right var(--salmon-data-grid-select-inset) center;
+}
+
+[dir='rtl'] select.salmon-data-grid-input {
+  background-position-x: left var(--salmon-data-grid-select-inset), left calc(var(--salmon-data-grid-select-inset) + 5px);
+}
+
+.salmon-data-grid-input:focus-visible,
+.salmon-data-grid-button:focus-visible,
+.salmon-data-grid-toolbar__item:focus-visible,
+.salmon-data-grid-facet-list:focus-visible,
+.salmon-data-grid-header-button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 1px;
+}
+
+.salmon-data-grid-button {
+  height: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-space-4);
+  font: inherit;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  cursor: pointer;
+}
+
+.salmon-data-grid-button--primary {
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+  border-color: var(--salmon-color-primary);
+}
+
+.salmon-data-grid-button:disabled {
+  color: var(--salmon-text-disabled);
+  background: var(--salmon-surface-disabled);
+  border-color: var(--salmon-border-subtle);
+  cursor: default;
+}
+
+.salmon-data-grid-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--salmon-space-2);
+  margin-block-start: var(--salmon-space-2);
+}
+
+/* Filter menu. */
+.salmon-data-grid-filter-menu {
+  width: 300px;
+}
+
+.salmon-data-grid-filter-menu__search,
+.salmon-data-grid-column-chooser__search {
+  width: 100%;
+  margin-block-end: var(--salmon-space-2);
+}
+
+.salmon-data-grid-filter-menu__all,
+.salmon-data-grid-column-chooser__all,
+.salmon-data-grid-column-chooser__item {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-height: var(--salmon-control-height-md, 32px);
+}
+
+.salmon-data-grid-filter-menu__all {
+  padding-inline-start: calc(1px + var(--salmon-space-2));
+}
+
+.salmon-data-grid-filter-menu__condition {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-2);
+  margin-block-start: var(--salmon-space-2);
+}
+
+.salmon-data-grid-filter-menu__custom summary {
+  cursor: pointer;
+  padding-block: var(--salmon-space-2);
+}
+
+.salmon-data-grid-facet-list {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  contain: strict;
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-data-grid-facet-list__option {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  height: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-space-2);
+  cursor: pointer;
+}
+
+.salmon-data-grid-facet-list__option[data-active] {
+  background: var(--salmon-surface-hover);
+  box-shadow: inset 0 0 0 1px var(--salmon-border-selected);
+}
+
+.salmon-data-grid-facet-list__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-data-grid-facet-list__count {
+  flex: none;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-data-grid-facet-list__empty,
+.salmon-data-grid-column-chooser__empty,
+.salmon-data-grid-filter-menu__empty {
+  padding: var(--salmon-space-4);
+  color: var(--salmon-text-secondary);
+  text-align: center;
+}
+
+/* Column chooser. */
+.salmon-data-grid-column-chooser {
+  width: 280px;
+}
+
+.salmon-data-grid-column-chooser__list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.salmon-data-grid-column-chooser__item[data-group] {
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-data-grid-column-chooser__item[hidden] {
+  display: none;
+}
+
+/* Filter bar. */
+.salmon-data-grid-filter-bar__cell {
+  display: flex;
+  align-items: center;
+  flex: none;
+  height: 100%;
+  padding: var(--salmon-space-2);
+  background: var(--salmon-surface-header);
+}
+
+/* In-row control: fills the filter row inside the cell's 4px inset. */
+.salmon-data-grid-filter-bar__cell .salmon-data-grid-input {
+  width: 100%;
+  height: 100%;
+}
+
+.salmon-data-grid-filter-bar__cell.salmon-data-grid-filter-bar__cell > * {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+/* Toolbar: the previous sibling of the grid root, drawn as its top edge. */
+.salmon-data-grid-toolbar {
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-height: 44px;
+  padding: var(--salmon-space-2) var(--salmon-space-4);
+  overflow: hidden;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-base);
+  border: 1px solid var(--salmon-border-subtle);
+  border-block-end: 0;
+  border-start-start-radius: var(--salmon-radius-lg);
+  border-start-end-radius: var(--salmon-radius-lg);
+}
+
+.salmon-data-grid-toolbar *,
+.salmon-data-grid-toolbar *::before,
+.salmon-data-grid-toolbar *::after {
+  box-sizing: border-box;
+}
+
+.salmon-data-grid-toolbar + .salmon-data-grid {
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+}
+
+.salmon-data-grid-toolbar > [data-align='start'] + [data-align='end'],
+.salmon-data-grid-toolbar > [data-align='end']:first-child {
+  margin-inline-start: auto;
+}
+
+.salmon-data-grid-toolbar > [data-align='center'] {
+  margin-inline: auto;
+}
+
+.salmon-data-grid-toolbar > [hidden] {
+  display: none;
+}
+
+.salmon-data-grid-toolbar__item {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  height: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-space-4);
+  font: inherit;
+  white-space: nowrap;
+  color: var(--salmon-text-primary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--salmon-radius-md);
+  cursor: pointer;
+}
+
+.salmon-data-grid-toolbar__item:hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-data-grid-toolbar__item[aria-disabled='true'] {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+.salmon-data-grid-toolbar__search {
+  flex: none;
+}
+
+@media (forced-colors: active) {
+  [data-salmon-popover],
+  .salmon-data-grid-toolbar,
+  .salmon-data-grid-frozen-rows,
+  .salmon-data-grid-header-group {
+    color: CanvasText;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+
+  .salmon-data-grid-frozen-rows {
+    box-shadow: none;
+    border-block: 1px solid CanvasText;
+  }
+
+  .salmon-data-grid-viewport[data-scrolled-start] .salmon-data-grid-pin--left,
+  .salmon-data-grid-viewport[data-scrolled-end] .salmon-data-grid-pin--right {
+    box-shadow: none;
+  }
+
+  .salmon-data-grid-menu__item[data-active] {
+    forced-color-adjust: none;
+    color: HighlightText;
+    background: Highlight;
+  }
+}

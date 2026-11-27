@@ -1,0 +1,38 @@
+/* DatePicker parts: the time part of the
+   DateTimePicker fold next to the calendar. The shell is picker.css; the
+   calendar and field parts come from their own stylesheets. */
+
+.salmon-date-picker__body:has(> .salmon-date-picker__time) {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: var(--salmon-space-3);
+}
+
+.salmon-date-picker__body:has(> .salmon-date-picker__time) > .salmon-picker__actions { grid-column: 1 / -1; }
+
+.salmon-date-picker__time {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-2);
+  min-inline-size: 8rem;
+  padding-inline-start: var(--salmon-space-3);
+  border-inline-start: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-date-picker__time-list { max-block-size: 220px; }
+
+.salmon-picker__popup[data-mode='modal'] .salmon-date-picker__body:has(> .salmon-date-picker__time) { grid-template-columns: 1fr; }
+.salmon-picker__popup[data-mode='modal'] .salmon-date-picker__time { padding-inline-start: 0; border-inline-start: 0; }
+/* The bottom sheet is as wide as the screen: the calendar sits in the middle. */
+.salmon-picker__popup[data-mode='modal'] .salmon-date-picker__body > .salmon-calendar {
+  display: flex;
+  inline-size: fit-content;
+  margin-inline: auto;
+}
+
+/* The calendar inside the popup surface draws no second frame. */
+.salmon-picker__popup .salmon-calendar {
+  padding: 0;
+  background: none;
+  border: 0;
+}

@@ -1,0 +1,617 @@
+/* Pivot Table: the table renders through the Data Grid
+   (its rules are prepended to the published stylesheet by copy-css.mjs);
+   these rules style the pivot parts. Colors come from the theme tokens. */
+
+.salmon-pivot-table {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-3);
+  min-inline-size: 0;
+  font-family: var(--salmon-font-sans, system-ui, sans-serif);
+  color: var(--salmon-text-primary, CanvasText);
+}
+
+.salmon-pivot-table-body {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.salmon-pivot-table-visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Row headers: tree indentation (compact) and the drill toggle. */
+.salmon-pivot-table-row-header,
+.salmon-pivot-table-column-header {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+.salmon-pivot-table-row-header {
+  padding-inline-start: calc(var(--salmon-pivot-level, 0) * 16px);
+}
+
+.salmon-pivot-table-member {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-pivot-table-member[data-repeat] {
+  color: transparent;
+}
+
+.salmon-pivot-table-toggle,
+.salmon-pivot-table-toggle-space {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  inline-size: 20px;
+  block-size: 20px;
+}
+
+.salmon-pivot-table-toggle {
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: transparent;
+  color: var(--salmon-text-secondary, GrayText);
+  cursor: pointer;
+}
+
+.salmon-pivot-table-toggle:hover {
+  background: var(--salmon-surface-hover, Canvas);
+  color: var(--salmon-text-primary, CanvasText);
+}
+
+.salmon-pivot-table-toggle svg {
+  transition: transform var(--salmon-motion-duration-fast, 120ms) var(--salmon-motion-easing, ease);
+}
+
+.salmon-pivot-table-toggle[aria-expanded='true'] svg {
+  transform: rotate(90deg);
+}
+
+[dir='rtl'] .salmon-pivot-table-toggle[aria-expanded='false'] svg {
+  transform: scaleX(-1);
+}
+
+.salmon-pivot-table-value-sort:not([data-direction]) {
+  opacity: 0.45;
+}
+
+.salmon-pivot-table-value-sort[data-direction='desc'] svg {
+  transform: rotate(180deg);
+}
+
+/* Totals and drill-through affordance. */
+.salmon-pivot-table-subtotal-row .salmon-data-grid-cell,
+.salmon-data-grid-cell.salmon-pivot-table-subtotal {
+  font-weight: var(--salmon-font-weight-medium, 500);
+}
+
+.salmon-pivot-table-grand-total-row .salmon-data-grid-cell,
+.salmon-data-grid-cell.salmon-pivot-table-grand-total {
+  font-weight: var(--salmon-font-weight-semibold, 600);
+  background-color: var(--salmon-surface-header, Canvas);
+}
+
+.salmon-pivot-table-drillable {
+  cursor: pointer;
+}
+
+/* Conditional format tones: the five theme seeds. */
+.salmon-pivot-table-tone-accent { background-color: var(--salmon-color-primary-subtle); color: var(--salmon-color-primary-text); }
+.salmon-pivot-table-tone-success { background-color: var(--salmon-color-success-subtle); color: var(--salmon-color-success-text); }
+.salmon-pivot-table-tone-warning { background-color: var(--salmon-color-warning-subtle); color: var(--salmon-color-warning-text); }
+.salmon-pivot-table-tone-danger { background-color: var(--salmon-color-danger-subtle); color: var(--salmon-color-danger-text); }
+.salmon-pivot-table-tone-neutral { background-color: var(--salmon-surface-sunken); color: var(--salmon-text-primary); }
+
+/* Tooltip (renderTooltip). */
+.salmon-pivot-table-value {
+  position: relative;
+}
+
+.salmon-pivot-table-tooltip {
+  position: absolute;
+  inset-block-end: calc(100% + 4px);
+  inset-inline-end: 0;
+  z-index: 5;
+  display: none;
+  padding: var(--salmon-space-2) var(--salmon-space-3);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-overlay, Canvas);
+  box-shadow: var(--salmon-shadow-md, 0 2px 8px rgb(0 0 0 / 0.2));
+  white-space: nowrap;
+}
+
+.salmon-data-grid-cell:hover .salmon-pivot-table-tooltip,
+.salmon-data-grid-cell:focus .salmon-pivot-table-tooltip {
+  display: block;
+}
+
+/* Loading. */
+.salmon-pivot-table-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--salmon-surface-base, Canvas) 70%, transparent);
+}
+
+.salmon-pivot-table-spinner {
+  inline-size: 28px;
+  block-size: 28px;
+  border: 3px solid var(--salmon-border-subtle, GrayText);
+  border-block-start-color: var(--salmon-color-primary, Highlight);
+  border-radius: 50%;
+  animation: salmon-pivot-table-spin 0.8s linear infinite;
+}
+
+@keyframes salmon-pivot-table-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-pivot-table-spinner { animation-duration: 3s; }
+}
+
+/* Buttons, inputs and chips shared by the parts. */
+.salmon-pivot-table-button,
+.salmon-pivot-table-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--salmon-space-2);
+  box-sizing: border-box;
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-control-padding-md, 12px);
+  border: 1px solid var(--salmon-border-default, ButtonBorder);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-raised, ButtonFace);
+  color: var(--salmon-text-primary, ButtonText);
+  font: inherit;
+  font-size: var(--salmon-font-size-sm, 13px);
+  cursor: pointer;
+  user-select: none;
+}
+
+.salmon-pivot-table-button:hover:not(:disabled),
+.salmon-pivot-table-chip:hover {
+  background: var(--salmon-surface-hover, ButtonFace);
+}
+
+.salmon-pivot-table-button:disabled {
+  color: var(--salmon-text-disabled, GrayText);
+  cursor: default;
+}
+
+.salmon-pivot-table-button[data-variant='primary'] {
+  border-color: var(--salmon-color-primary, Highlight);
+  background: var(--salmon-color-primary, Highlight);
+  color: var(--salmon-color-primary-on, HighlightText);
+}
+
+.salmon-pivot-table-button[data-variant='primary']:hover:not(:disabled) {
+  background: var(--salmon-color-primary-hover, Highlight);
+}
+
+.salmon-pivot-table-button {
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-pivot-table-button[data-variant='icon'] {
+  inline-size: var(--salmon-control-height-md, 32px);
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+}
+
+/* Close glyph: an SVG mask painted with currentColor. */
+.salmon-pivot-table-button[data-variant='icon']::before {
+  content: '';
+  inline-size: 16px;
+  block-size: 16px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3 3l10 10M13 3L3 13' stroke='black' stroke-width='1.8'/></svg>") center / contain no-repeat;
+  forced-color-adjust: none;
+}
+
+.salmon-pivot-table-button[aria-pressed='true'] {
+  border-color: var(--salmon-border-selected, Highlight);
+  background: var(--salmon-surface-selected, Canvas);
+}
+
+.salmon-pivot-table-chip[data-axis='values'] {
+  border-color: var(--salmon-color-primary-border, Highlight);
+}
+
+.salmon-pivot-table-chip[data-filtered] {
+  border-style: dashed;
+}
+
+.salmon-pivot-table-chip-caret {
+  inline-size: 0;
+  block-size: 0;
+  border-inline: 4px solid transparent;
+  border-block-start: 5px solid currentColor;
+  opacity: 0.6;
+}
+
+.salmon-pivot-table-button:focus-visible,
+.salmon-pivot-table-chip:focus-visible,
+.salmon-pivot-table-field:focus-visible,
+.salmon-pivot-table-toggle:focus-visible,
+.salmon-pivot-table-member-list:focus-visible,
+.salmon-pivot-table-input:focus-visible {
+  outline: var(--salmon-state-focus-ring-width, 2px) solid var(--salmon-state-focus-ring, Highlight);
+  outline-offset: 1px;
+}
+
+.salmon-pivot-table-input {
+  box-sizing: border-box;
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-control-padding-md, 12px);
+  border: 1px solid var(--salmon-border-default, GrayText);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base, Field);
+  color: var(--salmon-text-primary, FieldText);
+  font: inherit;
+  font-size: var(--salmon-font-size-sm, 13px);
+}
+
+/* Native select of the editors: the chevron (two 5px strokes, 10px wide) sits
+   at the text's 12px inset from the inline end; the end padding adds the
+   chevron and an 8px gap. */
+select.salmon-pivot-table-input {
+  appearance: none;
+  padding-inline-end: 30px;
+  background-image:
+    linear-gradient(45deg, transparent calc(50% - 0.75px), var(--salmon-text-secondary, GrayText) calc(50% - 0.75px), var(--salmon-text-secondary, GrayText) calc(50% + 0.75px), transparent calc(50% + 0.75px)),
+    linear-gradient(-45deg, transparent calc(50% - 0.75px), var(--salmon-text-secondary, GrayText) calc(50% - 0.75px), var(--salmon-text-secondary, GrayText) calc(50% + 0.75px), transparent calc(50% + 0.75px));
+  background-repeat: no-repeat;
+  background-size: 6px 6px;
+  background-position:
+    calc(100% - 17px) calc(50% - 1px),
+    calc(100% - 12px) calc(50% - 1px);
+  cursor: pointer;
+}
+
+[dir='rtl'] select.salmon-pivot-table-input {
+  background-position:
+    12px calc(50% - 1px),
+    17px calc(50% - 1px);
+}
+
+textarea.salmon-pivot-table-input {
+  padding-block: var(--salmon-space-2);
+  font-family: var(--salmon-font-mono, monospace);
+}
+
+.salmon-pivot-table-input[aria-invalid='true'] {
+  border-color: var(--salmon-state-invalid, red);
+}
+
+/* Toolbar, axis bar. */
+.salmon-pivot-table-toolbar,
+.salmon-pivot-table-axis-bar,
+.salmon-pivot-table-axis,
+.salmon-pivot-table-column-pager,
+.salmon-pivot-table-actions,
+.salmon-pivot-table-tokens,
+.salmon-pivot-table-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-pivot-table-axis-bar {
+  gap: var(--salmon-space-3);
+}
+
+.salmon-pivot-table-axis {
+  flex: 1 1 200px;
+  min-block-size: 36px;
+  padding: var(--salmon-space-2);
+  border: 1px dashed var(--salmon-border-subtle, GrayText);
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-pivot-table-axis[data-drop-index],
+.salmon-pivot-table-list[data-drop-index] {
+  border-color: var(--salmon-state-drag-indicator, Highlight);
+  background: var(--salmon-surface-selected, Canvas);
+}
+
+.salmon-pivot-table-axis-label {
+  color: var(--salmon-text-secondary, GrayText);
+  font-size: var(--salmon-font-size-sm, 12px);
+  font-weight: var(--salmon-font-weight-medium, 500);
+}
+
+.salmon-pivot-table-axis-empty,
+.salmon-pivot-table-hint,
+.salmon-pivot-table-empty {
+  color: var(--salmon-text-secondary, GrayText);
+  font-size: var(--salmon-font-size-sm, 12px);
+}
+
+.salmon-pivot-table-error {
+  color: var(--salmon-color-danger-text, red);
+  font-size: var(--salmon-font-size-sm, 12px);
+}
+
+.salmon-pivot-table-column-pager {
+  justify-content: flex-end;
+}
+
+/* Field list. */
+/* Wraps to one column when narrower than both parts (no overflow into siblings). */
+.salmon-pivot-table-field-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--salmon-space-4);
+  font-size: var(--salmon-font-size-sm, 13px);
+}
+
+.salmon-pivot-table-field-list .salmon-pivot-table-actions {
+  flex-basis: 100%;
+  justify-content: flex-end;
+}
+
+.salmon-pivot-table-field-list-fields,
+.salmon-pivot-table-field-list-axis {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-2);
+  min-inline-size: 0;
+}
+
+.salmon-pivot-table-field-list-fields {
+  flex: 1 1 180px;
+}
+
+.salmon-pivot-table-field-list-axes {
+  flex: 1.4 1 220px;
+  min-inline-size: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--salmon-space-3);
+}
+
+.salmon-pivot-table-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-block-size: 72px;
+  max-block-size: 260px;
+  overflow: auto;
+  padding: var(--salmon-space-2);
+  border: 1px solid var(--salmon-border-subtle, GrayText);
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-pivot-table-list .salmon-pivot-table-chip {
+  justify-content: space-between;
+}
+
+.salmon-pivot-table-field {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-3);
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-space-2);
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-pivot-table-field:hover {
+  background: var(--salmon-surface-hover, Canvas);
+}
+
+.salmon-pivot-table-folder-label {
+  padding: var(--salmon-space-2);
+  color: var(--salmon-text-secondary, GrayText);
+  font-weight: var(--salmon-font-weight-medium, 500);
+}
+
+.salmon-pivot-table-checkbox {
+  flex: none;
+  inline-size: 14px;
+  block-size: 14px;
+  border: 1px solid var(--salmon-border-strong, GrayText);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-base, Field);
+}
+
+.salmon-pivot-table-checkbox[data-checked] {
+  border-color: var(--salmon-color-primary, Highlight);
+  background: var(--salmon-color-primary, Highlight);
+}
+
+/* Check mark: an SVG mask painted with the on-primary color. */
+.salmon-pivot-table-checkbox[data-checked]::before {
+  content: '';
+  display: block;
+  block-size: 100%;
+  background: var(--salmon-color-primary-on, HighlightText);
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3 8.5l3.5 3.5L13 4.5' fill='none' stroke='black' stroke-width='2.2'/></svg>") center / contain no-repeat;
+}
+
+/* Member editor. */
+.salmon-pivot-table-member-list {
+  position: relative;
+  overflow: auto;
+  border: 1px solid var(--salmon-border-subtle, GrayText);
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-pivot-table-member-option {
+  position: absolute;
+  inset-inline: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-3);
+  padding: 0 var(--salmon-space-3);
+  cursor: pointer;
+}
+
+.salmon-pivot-table-member-option[data-active] {
+  background: var(--salmon-surface-hover, Canvas);
+}
+
+.salmon-pivot-table-member-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-pivot-table-member-count {
+  margin-inline-start: auto;
+  color: var(--salmon-text-secondary, GrayText);
+  font-size: var(--salmon-font-size-sm, 12px);
+}
+
+.salmon-pivot-table-check-all,
+.salmon-pivot-table-check,
+.salmon-pivot-table-radio {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+/* Dialogs (modal; full-screen sheet on narrow viewports). */
+.salmon-pivot-table-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: var(--salmon-space-5);
+  background: var(--salmon-surface-backdrop, rgb(0 0 0 / 0.4));
+}
+
+.salmon-pivot-table-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-4);
+  box-sizing: border-box;
+  inline-size: min(480px, 100%);
+  max-block-size: calc(100dvh - 32px);
+  padding: var(--salmon-space-5);
+  overflow: auto;
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-overlay, Canvas);
+  color: var(--salmon-text-primary, CanvasText);
+  box-shadow: var(--salmon-shadow-lg, 0 8px 24px rgb(0 0 0 / 0.3));
+  font-family: var(--salmon-font-sans, system-ui, sans-serif);
+  font-size: var(--salmon-font-size-md, 14px);
+  /* The native radios and checkboxes of the editors take the theme's primary color. */
+  accent-color: var(--salmon-color-primary, auto);
+}
+
+.salmon-pivot-table-dialog[data-wide] {
+  inline-size: min(860px, 100%);
+}
+
+.salmon-pivot-table-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--salmon-space-3);
+}
+
+.salmon-pivot-table-dialog-title {
+  margin: 0;
+  font-size: var(--salmon-font-size-lg, 16px);
+  font-weight: var(--salmon-font-weight-semibold, 600);
+}
+
+.salmon-pivot-table-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-3);
+  min-block-size: 0;
+}
+
+.salmon-pivot-table-dialog .salmon-pivot-table-actions {
+  justify-content: flex-end;
+}
+
+.salmon-pivot-table-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-3);
+}
+
+.salmon-pivot-table-form label:not(.salmon-pivot-table-check) {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--salmon-font-size-sm, 13px);
+}
+
+.salmon-pivot-table-fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--salmon-space-3);
+  border: 1px solid var(--salmon-border-subtle, GrayText);
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-pivot-table-rules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.salmon-pivot-table-rule {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--salmon-space-3);
+}
+
+.salmon-pivot-table-rule label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--salmon-font-size-sm, 12px);
+}
+
+@media (max-width: 640px) {
+  .salmon-pivot-table-backdrop {
+    padding: 0;
+  }
+
+  .salmon-pivot-table-dialog,
+  .salmon-pivot-table-dialog[data-wide] {
+    inline-size: 100%;
+    block-size: 100dvh;
+    max-block-size: 100dvh;
+    border-radius: 0;
+  }
+
+  .salmon-pivot-table-field-list-axes {
+    grid-template-columns: 1fr;
+  }
+}
+
+.salmon-pivot-table-menu {
+  z-index: 1001;
+}

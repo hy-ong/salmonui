@@ -1,0 +1,47 @@
+- grid "Customers":
+  - rowgroup:
+    - row "Details ID Name City":
+      - columnheader "Details"
+      - columnheader "ID"
+      - columnheader "Name"
+      - columnheader "City"
+  - rowgroup:
+    - row "Expand details c0 Customer 0 Oslo":
+      - gridcell "Expand details":
+        - button "Expand details"
+      - gridcell "c0"
+      - gridcell "Customer 0"
+      - gridcell "Oslo"
+    - row "Collapse details c1 Customer 1 Lima":
+      - gridcell "Collapse details":
+        - button "Collapse details" [expanded]
+      - gridcell "c1"
+      - gridcell "Customer 1"
+      - gridcell "Lima"
+    - row "Child rows":
+      - gridcell "Child rows":
+        - grid "Child rows":
+          - rowgroup:
+            - row "Details Order Amount":
+              - columnheader "Details"
+              - columnheader "Order"
+              - columnheader "Amount"
+          - rowgroup:
+            - row /Expand details o1 \d+\.\d+/:
+              - gridcell "Expand details":
+                - button "Expand details"
+              - gridcell "o1"
+              - gridcell /\d+\.\d+/
+            - row /Expand details o4 \d+\.\d+/:
+              - gridcell "Expand details":
+                - button "Expand details"
+              - gridcell "o4"
+              - gridcell /\d+\.\d+/
+        - status
+        - alert
+    - row "Expand details c2 Customer 2 Pune":
+      - gridcell "Expand details":
+        - button "Expand details"
+      - gridcell "c2"
+      - gridcell "Customer 2"
+      - gridcell "Pune"

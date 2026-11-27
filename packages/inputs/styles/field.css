@@ -1,0 +1,48 @@
+/* Field parts and input group, prepended to every Inputs stylesheet. */
+.salmon-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--salmon-space-1);
+  min-inline-size: 0;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-field[data-size='sm'] {
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-field[data-size='lg'] {
+  font-size: var(--salmon-font-size-lg);
+}
+
+.salmon-field-label {
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+.salmon-field[data-disabled] .salmon-field-label {
+  color: var(--salmon-text-disabled);
+}
+
+.salmon-field-description {
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-field-error {
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-color-danger-text);
+}
+
+
+/* Visually hidden native carriers. */
+.salmon-visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

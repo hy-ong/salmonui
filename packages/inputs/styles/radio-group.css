@@ -1,0 +1,13 @@
+/*
+ * RadioGroup and Radio (@salmonui/react/radio-group/styles.css): the round
+ * toggle input with a dot.
+ */
+.salmon-toggle-radio {
+  border-radius: 50%;
+}
+
+.salmon-toggle-radio::before {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+}

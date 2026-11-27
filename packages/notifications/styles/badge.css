@@ -1,0 +1,101 @@
+/* @salmonui/react/badge/styles.css. Colors from
+   --salmon-* theme variables only; tone x variant are data hooks, written
+   only when set: absent means neutral, soft and rounded inline, solid and
+   pill on a host. Logical properties only; the overlay corner mirrors under
+   dir="rtl". */
+
+.salmon-badge {
+  --salmon-badge-c: var(--salmon-text-secondary);
+  --salmon-badge-c-on: var(--salmon-surface-base);
+  --salmon-badge-c-subtle: var(--salmon-surface-sunken);
+  --salmon-badge-c-text: var(--salmon-text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-inline-size: 20px;
+  block-size: 20px;
+  padding-inline: 6px;
+  border: 1px solid var(--salmon-badge-c-subtle);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-badge-c-subtle);
+  color: var(--salmon-badge-c-text);
+  /* --salmon-badge-font-weight: a lighter tag style without a new variant. */
+  font: var(--salmon-badge-font-weight, var(--salmon-font-weight-semibold)) 12px/1 var(--salmon-font-sans);
+  white-space: nowrap;
+  vertical-align: middle;
+  text-decoration: none;
+}
+.salmon-badge[data-tone='primary'] { --salmon-badge-c: var(--salmon-color-primary); --salmon-badge-c-on: var(--salmon-color-primary-on); --salmon-badge-c-subtle: var(--salmon-color-primary-subtle); --salmon-badge-c-text: var(--salmon-color-primary-text); }
+.salmon-badge[data-tone='info'] { --salmon-badge-c: var(--salmon-color-info); --salmon-badge-c-on: var(--salmon-color-info-on); --salmon-badge-c-subtle: var(--salmon-color-info-subtle); --salmon-badge-c-text: var(--salmon-color-info-text); }
+.salmon-badge[data-tone='success'] { --salmon-badge-c: var(--salmon-color-success); --salmon-badge-c-on: var(--salmon-color-success-on); --salmon-badge-c-subtle: var(--salmon-color-success-subtle); --salmon-badge-c-text: var(--salmon-color-success-text); }
+.salmon-badge[data-tone='warning'] { --salmon-badge-c: var(--salmon-color-warning); --salmon-badge-c-on: var(--salmon-color-warning-on); --salmon-badge-c-subtle: var(--salmon-color-warning-subtle); --salmon-badge-c-text: var(--salmon-color-warning-text); }
+.salmon-badge[data-tone='danger'] { --salmon-badge-c: var(--salmon-color-danger); --salmon-badge-c-on: var(--salmon-color-danger-on); --salmon-badge-c-subtle: var(--salmon-color-danger-subtle); --salmon-badge-c-text: var(--salmon-color-danger-text); }
+.salmon-badge[data-variant='solid'],
+.salmon-badge-host > .salmon-badge:not([data-variant]) {
+  border-color: var(--salmon-badge-c);
+  background: var(--salmon-badge-c);
+  color: var(--salmon-badge-c-on);
+}
+.salmon-badge[data-variant='outline'] {
+  border-color: var(--salmon-badge-c);
+  background: transparent;
+}
+/* Status dot: plain inherited text after a dot in the tone color. The dot is
+   an empty pseudo-element, so assistive technology reads only the text. */
+.salmon-badge[data-variant='dot'] {
+  gap: 6px;
+  min-inline-size: 0;
+  block-size: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+.salmon-badge[data-variant='dot']::before {
+  content: '';
+  flex: none;
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--salmon-badge-c);
+}
+.salmon-badge[data-shape='pill'],
+.salmon-badge-host > .salmon-badge:not([data-shape]) { border-radius: var(--salmon-radius-full); }
+.salmon-badge[data-shape='circle'] { inline-size: 20px; padding: 0; border-radius: 50%; }
+
+/* Overlay mode: the host adds no layout. translate has no
+   logical form, so the end corner moves outward by +50% in LTR and -50% in
+   RTL, the start corner the opposite way. */
+.salmon-badge-host {
+  position: relative;
+  display: inline-grid;
+  vertical-align: middle;
+}
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+
+.salmon-badge-host > .salmon-badge {
+  --salmon-badge-x: calc(50% * var(--salmon-dir, 1));
+  --salmon-badge-o: 0px;
+  position: absolute;
+  z-index: 1;
+  inset-block-start: var(--salmon-badge-o);
+  inset-inline-end: var(--salmon-badge-o);
+  translate: var(--salmon-badge-x) -50%;
+  box-shadow: 0 0 0 2px var(--salmon-surface-base);
+  pointer-events: none;
+}
+.salmon-badge-host[data-placement$='Start'] > .salmon-badge { --salmon-badge-x: calc(-50% * var(--salmon-dir, 1)); }
+.salmon-badge-host[data-placement$='Start'] > .salmon-badge { inset-inline: var(--salmon-badge-o) auto; }
+.salmon-badge-host[data-placement^='bottom'] > .salmon-badge { inset-block: auto var(--salmon-badge-o); translate: var(--salmon-badge-x) 50%; }
+.salmon-badge-host[data-overlap='circular'] > .salmon-badge { --salmon-badge-o: 14%; }
+.salmon-badge[data-dot] { min-inline-size: 0; inline-size: 10px; block-size: 10px; padding: 0; border-radius: 50%; }
+.salmon-badge[hidden] { display: none; }
+
+@media (forced-colors: active) {
+  .salmon-badge { border-color: CanvasText; }
+  .salmon-badge[data-variant='dot']::before { background: CanvasText; }
+}

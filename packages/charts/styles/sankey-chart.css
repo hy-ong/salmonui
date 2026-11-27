@@ -1,0 +1,20 @@
+/* SankeyChart, after the shared
+   viz.css. Node and link colors are data colors or palette roles, inline. */
+.salmon-sankey-chart-link {
+  fill: none;
+  stroke-opacity: 0.4;
+}
+
+.salmon-sankey-chart-node {
+  stroke: var(--salmon-surface-base);
+  stroke-width: 1;
+}
+
+.salmon-viz .salmon-sankey-chart-label {
+  fill: var(--salmon-text-primary);
+  pointer-events: none;
+}
+
+.salmon-viz .salmon-sankey-chart-link[data-dimmed] {
+  opacity: 0.3;
+}

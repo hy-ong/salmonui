@@ -1,0 +1,142 @@
+/*
+ * Rating (@salmonui/react/rating/styles.css): items
+ * drawn as an empty icon (default the ★ character) under a filled icon clipped to
+ * --salmon-rating-fill, with transparent native radios on top (two per
+ * item in half precision). Hover preview is CSS only. Logical properties
+ * mirror the fill in RTL.
+ */
+.salmon-rating {
+  --salmon-rating-size: 24px;
+}
+
+.salmon-rating[data-size='sm'] {
+  --salmon-rating-size: 20px;
+}
+
+.salmon-rating[data-size='lg'] {
+  --salmon-rating-size: 32px;
+}
+
+.salmon-rating-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-rating-row[data-label-placement='top'],
+.salmon-rating-row[data-label-placement='bottom'] {
+  flex-direction: column;
+  align-items: start;
+}
+
+.salmon-rating-items {
+  display: inline-flex;
+}
+
+.salmon-rating-item {
+  --salmon-rating-fill: 0%;
+  position: relative;
+  inline-size: var(--salmon-rating-size);
+  block-size: var(--salmon-rating-size);
+}
+
+.salmon-rating-item[data-fill='full'] {
+  --salmon-rating-fill: 100%;
+}
+
+.salmon-rating-item[data-fill='half'] {
+  --salmon-rating-fill: 50%;
+}
+
+.salmon-rating-icon {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  overflow: hidden;
+  color: var(--salmon-border-strong);
+}
+
+.salmon-rating-full {
+  inline-size: var(--salmon-rating-fill);
+  color: var(--salmon-color-warning);
+}
+
+.salmon-rating-glyph {
+  display: grid;
+  place-items: center;
+  inline-size: var(--salmon-rating-size);
+  block-size: 100%;
+  font-size: calc(var(--salmon-rating-size) * 0.9);
+  line-height: 1;
+}
+
+.salmon-rating-radio {
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.salmon-rating-radio[data-half] {
+  inline-size: 50%;
+}
+
+.salmon-rating-radio[data-half] ~ .salmon-rating-radio {
+  inset-inline-start: 50%;
+}
+
+.salmon-rating-radio:focus-visible,
+.salmon-rating-clear:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+}
+
+.salmon-rating-interactive .salmon-rating-items:hover > .salmon-rating-item {
+  --salmon-rating-fill: 100%;
+}
+
+.salmon-rating-interactive .salmon-rating-item:hover ~ .salmon-rating-item,
+.salmon-rating-interactive [data-highlight-selected-only] .salmon-rating-items:hover > :not(:hover) {
+  --salmon-rating-fill: 0%;
+}
+
+.salmon-rating-interactive .salmon-rating-items:hover > .salmon-rating-item:has(> [data-half]:hover) {
+  --salmon-rating-fill: 50%;
+}
+
+.salmon-rating[data-disabled] .salmon-rating-full {
+  color: var(--salmon-text-disabled);
+}
+
+.salmon-rating-tooltip {
+  display: none;
+  position: absolute;
+  inset-block-end: calc(100% + 4px);
+  left: 50%;
+  translate: -50%;
+  padding: 2px 6px;
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-text-primary);
+  color: var(--salmon-surface-base);
+  font-size: var(--salmon-font-size-sm);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.salmon-rating-radio:hover + .salmon-rating-tooltip,
+.salmon-rating-radio:focus-visible + .salmon-rating-tooltip {
+  display: block;
+}
+
+.salmon-rating-clear {
+  display: grid;
+  place-items: center;
+  align-self: center;
+  padding: 4px;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: none;
+  color: var(--salmon-text-secondary);
+  cursor: pointer;
+}

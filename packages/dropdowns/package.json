@@ -1,0 +1,67 @@
+{
+  "name": "@salmonui/dropdowns",
+  "version": "0.2.0",
+  "description": "ListBox, Select, Combobox, TreeSelect and Mention for Salmon UI.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/dropdowns"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./listbox": {
+      "types": "./dist/listbox.d.ts",
+      "import": "./dist/listbox.js"
+    },
+    "./select": {
+      "types": "./dist/select.d.ts",
+      "import": "./dist/select.js"
+    },
+    "./combobox": {
+      "types": "./dist/combobox.d.ts",
+      "import": "./dist/combobox.js"
+    },
+    "./tree-select": {
+      "types": "./dist/tree-select.d.ts",
+      "import": "./dist/tree-select.js"
+    },
+    "./mention": {
+      "types": "./dist/mention.d.ts",
+      "import": "./dist/mention.js"
+    },
+    "./listbox/styles.css": "./dist/listbox.css",
+    "./select/styles.css": "./dist/select.css",
+    "./combobox/styles.css": "./dist/combobox.css",
+    "./tree-select/styles.css": "./dist/tree-select.css",
+    "./mention/styles.css": "./dist/mention.css",
+    "./styles.css": "./dist/styles.css",
+    "./internal/*": {
+      "types": "./dist/internal/*.d.ts",
+      "import": "./dist/internal/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

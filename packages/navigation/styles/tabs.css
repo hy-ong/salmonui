@@ -1,0 +1,154 @@
+/* @salmonui/react/tabs. Colors-only: --salmon-* variables,
+   logical properties. overflow="menu" also needs @salmonui/react/menu/styles.css for the menu popup. */
+
+.salmon-tabs {
+  display: grid;
+  grid-template: "list" auto "panel" 1fr / minmax(0, 1fr);
+  min-width: 0;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-text-primary);
+}
+.salmon-tabs[data-placement="bottom"] { grid-template: "panel" 1fr "list" auto / minmax(0, 1fr); }
+.salmon-tabs[data-placement="start"] { grid-template: "list panel" auto / auto minmax(0, 1fr); }
+.salmon-tabs[data-placement="end"] { grid-template: "panel list" auto / minmax(0, 1fr) auto; }
+
+.salmon-tab-list {
+  grid-area: list;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 0;
+  border-block-end: 1px solid var(--salmon-border-default);
+}
+.salmon-tabs[data-placement="bottom"] > .salmon-tab-list { border-block-end: 0; border-block-start: 1px solid var(--salmon-border-default); }
+.salmon-tabs[data-orientation="vertical"] > .salmon-tab-list { flex-direction: column; border-block-end: 0; border-inline-end: 1px solid var(--salmon-border-default); }
+.salmon-tabs[data-placement="end"] > .salmon-tab-list { border-inline-end: 0; border-inline-start: 1px solid var(--salmon-border-default); }
+
+.salmon-tab-list-strip {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  scrollbar-width: none;
+}
+.salmon-tabs[data-orientation="vertical"] .salmon-tab-list-strip { flex-direction: column; }
+.salmon-tab-list[data-overflow="scroll"] > .salmon-tab-list-strip { overflow: auto; overscroll-behavior: contain; }
+.salmon-tab-list-strip::-webkit-scrollbar { display: none; }
+
+.salmon-tab {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--salmon-space-2);
+  min-height: calc(var(--salmon-control-height-md, 32px) + 4px);
+  margin: 0;
+  padding-block: var(--salmon-space-2);
+  padding-inline: var(--salmon-space-4);
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: none;
+  color: var(--salmon-text-secondary);
+  font: inherit;
+  font-weight: var(--salmon-font-weight-medium);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  touch-action: pan-x pan-y;
+}
+.salmon-tab[hidden] { display: none; }
+.salmon-tab:hover { color: var(--salmon-text-primary); background: var(--salmon-surface-hover); }
+.salmon-tab[data-selected] { color: var(--salmon-color-primary-text); }
+.salmon-tab[data-disabled] { color: var(--salmon-text-disabled); background: none; cursor: default; }
+.salmon-tab:focus-visible { z-index: 1; outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring); outline-offset: calc(-1 * var(--salmon-state-focus-ring-width)); }
+.salmon-tab[data-selected]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: 2px;
+  background: var(--salmon-color-primary);
+}
+.salmon-tabs[data-placement="bottom"] .salmon-tab[data-selected]::after { inset-block: 0 auto; }
+.salmon-tabs[data-orientation="vertical"] .salmon-tab { justify-content: flex-start; }
+.salmon-tabs[data-orientation="vertical"] .salmon-tab[data-selected]::after { inset-block: 0; inset-inline: auto 0; block-size: auto; inline-size: 2px; }
+.salmon-tabs[data-placement="end"] .salmon-tab[data-selected]::after { inset-inline: 0 auto; }
+
+.salmon-tab[data-icon-placement="end"] { flex-direction: row-reverse; }
+.salmon-tab[data-icon-placement="top"] { flex-direction: column; }
+.salmon-tab[data-icon-placement="bottom"] { flex-direction: column-reverse; }
+.salmon-tab-icon { display: inline-flex; }
+
+.salmon-tab-close,
+.salmon-tab-scroll,
+.salmon-tab-more {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 20px;
+  block-size: 20px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: none;
+  color: var(--salmon-text-secondary);
+  cursor: pointer;
+}
+.salmon-tab-close { inline-size: 24px; block-size: 24px; margin-inline-end: calc(-1 * var(--salmon-space-3)); }
+.salmon-tab-close:hover,
+.salmon-tab-scroll:hover,
+.salmon-tab-more:hover { background: var(--salmon-surface-hover); color: var(--salmon-text-primary); }
+/* Close and more glyphs: 16px SVG masks centered in the square button (never a font character). */
+.salmon-tab-close::before,
+.salmon-tab-more::before { content: ""; inline-size: 16px; block-size: 16px; background: currentColor; mask: center / contain no-repeat; forced-color-adjust: none; }
+.salmon-tab-close::before { mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M4.5 4.5l7 7M11.5 4.5l-7 7' stroke='black' stroke-width='1.5' stroke-linecap='round'/></svg>"); }
+
+.salmon-tab-scroll,
+.salmon-tab-more { align-self: center; inline-size: 28px; block-size: 28px; }
+/* Both buttons take their space while the strip overflows (no layout shift); the inactive one is invisible. */
+.salmon-tab-scroll { display: none; visibility: hidden; }
+.salmon-tab-list[data-scrollable] > .salmon-tab-scroll { display: inline-flex; }
+.salmon-tab-list[data-scroll-back] > .salmon-tab-scroll[data-direction="backward"],
+.salmon-tab-list[data-scroll-forward] > .salmon-tab-scroll[data-direction="forward"] { visibility: visible; }
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+
+.salmon-tab-scroll::before {
+  content: "";
+  inline-size: 7px;
+  block-size: 7px;
+  border: solid currentColor;
+  border-width: 0 0 2px 2px;
+  transform: translateX(1px) rotate(45deg);
+  scale: var(--salmon-dir, 1) 1;
+}
+.salmon-tab-scroll[data-direction="forward"]::before { transform: translateX(-1px) rotate(-135deg); }
+.salmon-tabs[data-orientation="vertical"] .salmon-tab-scroll::before { transform: translateY(1px) rotate(135deg); scale: none; }
+.salmon-tabs[data-orientation="vertical"] .salmon-tab-scroll[data-direction="forward"]::before { transform: translateY(-1px) rotate(-45deg); }
+.salmon-tab-more[hidden] { display: none; }
+.salmon-tab-more::before { mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='3.5' cy='8' r='1.25'/><circle cx='8' cy='8' r='1.25'/><circle cx='12.5' cy='8' r='1.25'/></svg>"); }
+.salmon-tab-more[data-open] { background: var(--salmon-surface-selected); }
+.salmon-tab-scroll:focus-visible,
+.salmon-tab-more:focus-visible { outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring); outline-offset: calc(-1 * var(--salmon-state-focus-ring-width)); }
+
+.salmon-tabs-menu-layer { z-index: 1000; padding: 0; border: 0; background: none; overflow: visible; }
+
+.salmon-tab-list-strip[data-reordering] .salmon-tab:not([data-dragging]) { transition: transform var(--salmon-motion-duration-fast) var(--salmon-motion-easing); }
+.salmon-tab[data-dragging] { z-index: 2; background: var(--salmon-surface-raised); box-shadow: var(--salmon-shadow-sm); cursor: grabbing; }
+
+.salmon-tab-panel { grid-area: panel; min-width: 0; padding: var(--salmon-space-4); }
+.salmon-tab-panel[hidden] { display: none; }
+.salmon-tab-panel:focus-visible { outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring); outline-offset: calc(-1 * var(--salmon-state-focus-ring-width)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-tab-list-strip[data-reordering] .salmon-tab { transition: none; }
+}

@@ -1,0 +1,24 @@
+- grid "Salmon UI Data Grid · 0 × 6":
+  - rowgroup:
+    - row "ID Text 0 Text 1 Text 2 Text 3 Number 4":
+      - columnheader "ID":
+        - text: ""
+        - button "Resize ID"
+      - columnheader "Text 0":
+        - text: ""
+        - button "Resize Text 0"
+      - columnheader "Text 1":
+        - text: ""
+        - button "Resize Text 1"
+      - columnheader "Text 2":
+        - text: ""
+        - button "Resize Text 2"
+      - columnheader "Text 3":
+        - text: ""
+        - button "Resize Text 3"
+      - columnheader "Number 4":
+        - text: ""
+        - button "Resize Number 4"
+  - rowgroup:
+    - row "No records to display":
+      - gridcell "No records to display"

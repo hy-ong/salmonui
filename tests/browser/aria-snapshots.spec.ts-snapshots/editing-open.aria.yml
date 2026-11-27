@@ -1,0 +1,12 @@
+- row /r2 word-6e-\d+ word-d-\d+ word-8-\d+ word-5j-\d+ \d+/:
+  - gridcell "r2"
+  - gridcell /word-6e-\d+/:
+    - textbox "Text 0": /word-6e-\d+/
+  - gridcell /word-d-\d+/:
+    - textbox "Text 1": /word-d-\d+/
+  - gridcell /word-8-\d+/:
+    - textbox "Text 2": /word-8-\d+/
+  - gridcell /word-5j-\d+/:
+    - textbox "Text 3": /word-5j-\d+/
+  - gridcell /\d+/:
+    - textbox "Number 4": /\d+/

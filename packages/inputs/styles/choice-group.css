@@ -1,0 +1,26 @@
+/*
+ * Choice group fieldset: the <fieldset> / <legend> frame of
+ * CheckboxGroup, RadioGroup and Rating. Prepended to their stylesheets by
+ * copy-css.mjs, once in the aggregate.
+ */
+.salmon-choice-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.salmon-choice-group > legend {
+  padding: 0;
+  margin-block-end: var(--salmon-space-1);
+}
+
+.salmon-choice-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-1);
+}
+
+.salmon-choice-group[data-orientation='horizontal'] > .salmon-choice-group-items {
+  flex-flow: row wrap;
+  gap: var(--salmon-space-1) var(--salmon-space-4);
+}

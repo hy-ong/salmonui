@@ -1,0 +1,20 @@
+/* SpeechToTextButton: the button rules come from
+   button.css (prepended by tooling/checks/copy-css.mjs); this file adds the
+   listening cue on top of the button's [data-pressed] colors.
+   The glyph size follows the control size in SpeechToTextButton.tsx. */
+.salmon-speech-to-text[data-state='listening'] {
+  animation: salmon-speech-to-text-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes salmon-speech-to-text-pulse {
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--salmon-button-c, currentColor) 35%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-speech-to-text[data-state='listening'] {
+    animation: none;
+    box-shadow: 0 0 0 2px var(--salmon-button-c, currentColor);
+  }
+}

@@ -1,0 +1,92 @@
+/* Export and print: busy status, print projection and print
+   stylesheet. The print container lives outside any theme scope,
+   so it prints black on white with fallbacks only. The busy ring is static:
+   the grid stylesheet carries no animation (boundary test). */
+
+.salmon-data-grid-output-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-2, 4px);
+  margin-block-start: var(--salmon-space-1, 2px);
+  color: var(--salmon-text-secondary, inherit);
+  font-size: 0.875em;
+}
+
+.salmon-data-grid-output-status__spinner {
+  inline-size: 1em;
+  block-size: 1em;
+  border: 2px solid var(--salmon-border-default, currentColor);
+  border-block-start-color: var(--salmon-color-primary, currentColor);
+  border-radius: 50%;
+}
+
+.salmon-data-grid-print {
+  display: none;
+}
+
+.salmon-data-grid-print__table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  inline-size: 100%;
+  color: #000;
+  background: #fff;
+  font: 10pt/1.3 system-ui, sans-serif;
+}
+
+.salmon-data-grid-print__table th,
+.salmon-data-grid-print__table td {
+  border: 1px solid #999;
+  padding: 2pt 4pt;
+  text-align: start;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.salmon-data-grid-print__table thead {
+  display: table-header-group;
+}
+
+.salmon-data-grid-print__table th {
+  background: #eee;
+  font-weight: 600;
+}
+
+.salmon-data-grid-print__table tr {
+  break-inside: avoid;
+}
+
+.salmon-data-grid-print__table .salmon-data-grid-print__center {
+  text-align: center;
+}
+
+.salmon-data-grid-print__table .salmon-data-grid-print__end {
+  text-align: end;
+}
+
+.salmon-data-grid-print__caption td,
+.salmon-data-grid-print__aggregate td {
+  font-weight: 600;
+  background: #f6f6f6;
+}
+
+.salmon-data-grid-print__detail > td {
+  padding-inline-start: 16pt;
+}
+
+@media print {
+  /* `print()`: only the print projection is printed. */
+  html[data-salmon-printing] body > :not(.salmon-data-grid-print) {
+    display: none !important;
+  }
+
+  html[data-salmon-printing] .salmon-data-grid-print {
+    display: block;
+  }
+
+  /* A page printed from the browser menu: pager, toolbar, and busy status are hidden. */
+  .salmon-data-grid-pager,
+  .salmon-data-grid-toolbar,
+  .salmon-data-grid-output-status {
+    display: none !important;
+  }
+}

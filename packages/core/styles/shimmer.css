@@ -1,0 +1,8 @@
+/* Shared shimmer keyframes: the transform-only wave of the Data Grid skeleton rows and of `Skeleton`. One definition; the Data Grid and
+   Skeleton stylesheets both carry this file, so the keyframes keep one name. */
+
+@keyframes salmon-data-grid-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}

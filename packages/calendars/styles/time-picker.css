@@ -1,0 +1,5 @@
+/* TimePicker parts: the popup around the time
+   list. The shell and the time list are picker.css; the field is
+   date-field.css. */
+
+.salmon-time-picker__popup { padding: var(--salmon-space-1); }

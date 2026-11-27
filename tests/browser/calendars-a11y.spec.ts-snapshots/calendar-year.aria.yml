@@ -1,0 +1,21 @@
+- heading "views" [level=2]
+- button "Previous year"
+- button /\d+/
+- button "Next year"
+- grid /\d+/:
+  - rowgroup:
+    - row "Jan Feb Mar Apr":
+      - gridcell "Jan"
+      - gridcell "Feb"
+      - gridcell "Mar"
+      - gridcell "Apr"
+    - row "May Jun Jul Aug":
+      - gridcell "May"
+      - gridcell "Jun"
+      - gridcell "Jul"
+      - gridcell "Aug"
+    - row "Sep Oct Nov Dec":
+      - gridcell "Sep"
+      - gridcell "Oct"
+      - gridcell "Nov"
+      - gridcell "Dec"

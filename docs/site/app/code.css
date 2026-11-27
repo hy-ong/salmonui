@@ -1,0 +1,59 @@
+/*
+ * Build-time code highlighting.
+ * renderCodeBlock() emits `sugar-high` token spans (`sh__token--*`) without
+ * inline styles; this sheet colors them. The site code tokens are derived
+ * from the semantic `--salmon-*` text colors, which already resolve per
+ * color scheme, so light, dark and auto all work with no client code.
+ */
+
+.site {
+  --site-code-text: var(--salmon-text-primary);
+  --site-code-muted: var(--salmon-text-secondary);
+  --site-code-keyword: var(--salmon-color-primary-text);
+  --site-code-string: var(--salmon-color-success-text);
+  --site-code-literal: var(--salmon-color-warning-text);
+  --site-code-entity: var(--salmon-color-info-text);
+  --site-code-property: var(--salmon-text-link);
+}
+
+.code-block--highlighted code {
+  color: var(--site-code-text);
+}
+
+.code-block--highlighted .sh__line {
+  display: inline;
+}
+
+.sh__token--keyword {
+  color: var(--site-code-keyword);
+}
+
+.sh__token--string {
+  color: var(--site-code-string);
+}
+
+.sh__token--class {
+  color: var(--site-code-literal);
+}
+
+.sh__token--entity {
+  color: var(--site-code-entity);
+}
+
+.sh__token--property {
+  color: var(--site-code-property);
+}
+
+.sh__token--identifier,
+.sh__token--jsxliterals {
+  color: var(--site-code-text);
+}
+
+.sh__token--sign {
+  color: var(--site-code-muted);
+}
+
+.sh__token--comment {
+  color: var(--site-code-muted);
+  font-style: italic;
+}

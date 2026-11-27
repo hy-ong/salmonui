@@ -1,0 +1,39 @@
+/* @salmonui/react/list: the display List. Self-contained; logical properties only. */
+
+.salmon-list {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: var(--salmon-text-primary);
+}
+
+ol.salmon-list {
+  padding-inline-start: 1.5em;
+  list-style: decimal;
+}
+
+.salmon-list-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-1) var(--salmon-space-3);
+  padding: var(--salmon-space-2) var(--salmon-space-3);
+}
+
+ol.salmon-list > .salmon-list-item {
+  display: list-item;
+}
+
+.salmon-list-item + .salmon-list-item {
+  border-block-start: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-list-item-description {
+  flex-basis: 100%;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+}

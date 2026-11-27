@@ -1,0 +1,11 @@
+/* Shared keyframes (`motion`):
+   the indeterminate linear bar (Progress `value={null}`). */
+
+@keyframes salmon-indeterminate {
+  from {
+    transform: translateX(-100%) scaleX(0.4);
+  }
+  to {
+    transform: translateX(250%) scaleX(0.4);
+  }
+}

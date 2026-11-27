@@ -1,0 +1,57 @@
+{
+  "name": "@salmonui/buttons",
+  "version": "0.2.0",
+  "description": "Button, ToggleButton, button groups, Menu, MenuButton, SplitButton, ContextMenu, Menubar and TagGroup for Salmon UI.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/buttons"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./button": {
+      "types": "./dist/button.d.ts",
+      "import": "./dist/button.js"
+    },
+    "./menu": {
+      "types": "./dist/menu.d.ts",
+      "import": "./dist/menu.js"
+    },
+    "./tag-group": {
+      "types": "./dist/tag-group.d.ts",
+      "import": "./dist/tag-group.js"
+    },
+    "./button/styles.css": "./dist/button.css",
+    "./menu/styles.css": "./dist/menu.css",
+    "./tag-group/styles.css": "./dist/tag-group.css",
+    "./styles.css": "./dist/styles.css",
+    "./internal/*": {
+      "types": "./dist/internal/*.d.ts",
+      "import": "./dist/internal/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,29 @@
+/*
+ * TextField and TextArea (@salmonui/react/text-field/styles.css). The input group rules come from field.css.
+ */
+.salmon-text-field .salmon-input {
+  min-block-size: 1.5em;
+}
+
+.salmon-text-area {
+  min-block-size: 4.5em;
+  resize: both;
+  line-height: var(--salmon-line-height-normal);
+}
+
+.salmon-text-area[data-resize='vertical'] {
+  resize: vertical;
+}
+
+.salmon-text-area[data-resize='horizontal'] {
+  resize: horizontal;
+}
+
+.salmon-text-area[data-resize='none'] {
+  resize: none;
+}
+
+.salmon-text-area[data-auto-resize] {
+  field-sizing: content;
+  overflow: hidden;
+}

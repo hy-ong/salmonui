@@ -1,0 +1,230 @@
+/* Built-in icons: SVG masks painted with currentColor, so they follow
+ * the theme colors, hover and active states, forced-colors mode and RTL
+ * without any icon markup. A host with `data-custom-icon` renders the node
+ * from the `icons` prop instead and hides its built-in. */
+.salmon-data-grid-sort-indicator::before,
+.salmon-data-grid-filter-button::before,
+.salmon-data-grid-column-menu-button::before,
+.salmon-data-grid-group-toggle-button::before,
+.salmon-data-grid-group-toggle::before,
+.salmon-data-grid-detail-toggle::before,
+.salmon-data-grid-group-chip__remove::before,
+.salmon-data-grid-edit-dialog__close::before,
+.salmon-data-grid-sheet__close-icon::before,
+.salmon-data-grid-button[data-action='removeCondition']::before,
+.salmon-data-grid-pager__first::before,
+.salmon-data-grid-pager__prev::before,
+.salmon-data-grid-pager__next::before,
+.salmon-data-grid-pager__last::before,
+.salmon-data-grid-menu__check[data-checked]::before,
+.salmon-data-grid-menu__submenu-arrow::before,
+.salmon-data-grid-toolbar__more-icon::before,
+.salmon-data-grid-row-drag-handle::before {
+  content: '';
+  display: block;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  background: currentColor;
+  mask: center / contain no-repeat;
+  forced-color-adjust: none;
+}
+
+/* Centered in a fixed-size button. */
+.salmon-data-grid-filter-button::before,
+.salmon-data-grid-column-menu-button::before,
+.salmon-data-grid-group-toggle-button::before,
+.salmon-data-grid-group-toggle::before,
+.salmon-data-grid-detail-toggle::before,
+.salmon-data-grid-group-chip__remove::before,
+.salmon-data-grid-edit-dialog__close::before,
+.salmon-data-grid-button[data-action='removeCondition']::before {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.salmon-data-grid-sort-indicator::before {
+  width: 8px;
+  height: 5px;
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'><path d='M4 0l4 5H0z'/></svg>");
+}
+
+.salmon-data-grid-sort-indicator[data-direction='desc']::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'><path d='M0 0h8L4 5z'/></svg>");
+}
+
+/* sorting.indicators 'always': an up and down pair, the active direction at full strength. */
+.salmon-data-grid-sort-indicator[data-pair] {
+  flex-direction: column;
+  gap: 1px;
+}
+
+.salmon-data-grid-sort-indicator[data-pair][data-direction]::before {
+  opacity: 0.5;
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'><path d='M4 0l4 5H0z'/></svg>");
+}
+
+.salmon-data-grid-sort-indicator[data-pair]::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 5px;
+  opacity: 0.5;
+  background: currentColor;
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'><path d='M0 0h8L4 5z'/></svg>") center / contain no-repeat;
+  forced-color-adjust: none;
+}
+
+.salmon-data-grid-sort-indicator[data-pair][data-direction='asc']::before,
+.salmon-data-grid-sort-indicator[data-pair][data-direction='desc']::after {
+  opacity: 1;
+}
+
+.salmon-data-grid-filter-button::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M1.5 2.5h13l-5 6v5l-3 1.5V8.5z'/></svg>");
+}
+
+.salmon-data-grid-column-menu-button::before {
+  width: 16px;
+  height: 16px;
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='3' r='1.6'/><circle cx='8' cy='8' r='1.6'/><circle cx='8' cy='13' r='1.6'/></svg>");
+}
+
+.salmon-data-grid-toolbar__more-icon {
+  display: inline-flex;
+}
+
+.salmon-data-grid-toolbar__more-icon::before {
+  width: 16px;
+  height: 16px;
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='3' cy='8' r='1.6'/><circle cx='8' cy='8' r='1.6'/><circle cx='13' cy='8' r='1.6'/></svg>");
+}
+
+.salmon-data-grid-group-toggle-button::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M1 2h9v2H1zm3 5h9v2H4zm3 5h8v2H7z'/></svg>");
+}
+
+.salmon-data-grid-group-toggle::before,
+.salmon-data-grid-detail-toggle::before,
+.salmon-data-grid-menu__submenu-arrow::before {
+  width: 12px;
+  height: 12px;
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M5 2.5l7 5.5-7 5.5z'/></svg>");
+}
+
+.salmon-data-grid-group-toggle[data-expanded]::before,
+.salmon-data-grid-detail-toggle[data-expanded]::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M2.5 5h11L8 12z'/></svg>");
+}
+
+.salmon-data-grid-menu__submenu-arrow::before {
+  width: 10px;
+  height: 10px;
+}
+
+.salmon-data-grid-group-chip__remove::before,
+.salmon-data-grid-edit-dialog__close::before,
+.salmon-data-grid-sheet__close-icon::before,
+.salmon-data-grid-button[data-action='removeCondition']::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3 3l10 10M13 3L3 13' stroke='black' stroke-width='1.8'/></svg>");
+}
+
+/* Search fields: the grid's close glyph replaces the browser's clear button (which still clears). Its own rule: an
+   unknown pseudo-element would drop a whole selector list. */
+.salmon-data-grid-input::-webkit-search-cancel-button {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3 3l10 10M13 3L3 13' stroke='black' stroke-width='1.8'/></svg>") center / contain no-repeat;
+  cursor: pointer;
+}
+
+.salmon-data-grid-group-chip__remove::before,
+.salmon-data-grid-edit-dialog__close::before,
+.salmon-data-grid-pager__first::before,
+.salmon-data-grid-pager__prev::before,
+.salmon-data-grid-pager__next::before,
+.salmon-data-grid-pager__last::before,
+.salmon-data-grid-button[data-action='removeCondition']::before {
+  width: 16px;
+  height: 16px;
+}
+
+.salmon-data-grid-button[data-action='removeCondition'] {
+  position: relative;
+  flex: none;
+  width: var(--salmon-control-height-md, 32px);
+  padding: 0;
+}
+
+.salmon-data-grid-sheet__close-icon {
+  display: inline-flex;
+}
+
+.salmon-data-grid-sheet__close-icon::before {
+  width: 20px;
+  height: 20px;
+}
+
+.salmon-data-grid-menu__check[data-checked]::before {
+  width: 12px;
+  height: 12px;
+  margin-inline-start: 2px;
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M2 8.5l4 4L14 4' fill='none' stroke='black' stroke-width='2.2'/></svg>");
+}
+
+.salmon-data-grid-pager__first::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M12 3L7 8l5 5M4 3v10' fill='none' stroke='black' stroke-width='2'/></svg>");
+}
+
+.salmon-data-grid-pager__prev::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M10.5 3l-5 5 5 5' fill='none' stroke='black' stroke-width='2'/></svg>");
+}
+
+.salmon-data-grid-pager__next::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M5.5 3l5 5-5 5' fill='none' stroke='black' stroke-width='2'/></svg>");
+}
+
+.salmon-data-grid-pager__last::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M4 3l5 5-5 5M12 3v10' fill='none' stroke='black' stroke-width='2'/></svg>");
+}
+
+.salmon-data-grid-row-drag-handle::before {
+  width: 10px;
+  height: 16px;
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'><circle cx='3' cy='3' r='1.3'/><circle cx='7' cy='3' r='1.3'/><circle cx='3' cy='8' r='1.3'/><circle cx='7' cy='8' r='1.3'/><circle cx='3' cy='13' r='1.3'/><circle cx='7' cy='13' r='1.3'/></svg>");
+}
+
+/* Direction-dependent icons mirror in RTL. */
+[dir='rtl'] .salmon-data-grid-group-toggle-button::before,
+[dir='rtl'] .salmon-data-grid-group-toggle:not([data-expanded])::before,
+[dir='rtl'] .salmon-data-grid-detail-toggle:not([data-expanded])::before,
+[dir='rtl'] .salmon-data-grid-menu__submenu-arrow::before,
+[dir='rtl'] .salmon-data-grid-pager__first::before,
+[dir='rtl'] .salmon-data-grid-pager__prev::before,
+[dir='rtl'] .salmon-data-grid-pager__next::before,
+[dir='rtl'] .salmon-data-grid-pager__last::before {
+  transform: scaleX(-1);
+}
+
+/* Custom icons (`icons` prop). */
+[data-custom-icon][data-custom-icon]::before,
+[data-custom-icon][data-custom-icon]::after {
+  content: none;
+}
+
+:where([data-custom-icon]) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.salmon-data-grid-filter-indicator[data-custom-icon] {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  color: var(--salmon-color-primary-text);
+  background: none;
+}

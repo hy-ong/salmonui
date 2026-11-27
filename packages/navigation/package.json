@@ -1,0 +1,89 @@
+{
+  "name": "@salmonui/navigation",
+  "version": "0.2.0",
+  "description": "Accordion, Breadcrumbs, Carousel, SidebarLayout, SidebarMenu, Tabs, Toolbar, TreeView, Stepper and Pager for Salmon UI.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/navigation"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./accordion": {
+      "types": "./dist/accordion.d.ts",
+      "import": "./dist/accordion.js"
+    },
+    "./breadcrumbs": {
+      "types": "./dist/breadcrumbs.d.ts",
+      "import": "./dist/breadcrumbs.js"
+    },
+    "./carousel": {
+      "types": "./dist/carousel.d.ts",
+      "import": "./dist/carousel.js"
+    },
+    "./sidebar-layout": {
+      "types": "./dist/sidebar-layout.d.ts",
+      "import": "./dist/sidebar-layout.js"
+    },
+    "./sidebar-menu": {
+      "types": "./dist/sidebar-menu.d.ts",
+      "import": "./dist/sidebar-menu.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs.d.ts",
+      "import": "./dist/tabs.js"
+    },
+    "./toolbar": {
+      "types": "./dist/toolbar.d.ts",
+      "import": "./dist/toolbar.js"
+    },
+    "./tree-view": {
+      "types": "./dist/tree-view.d.ts",
+      "import": "./dist/tree-view.js"
+    },
+    "./stepper": {
+      "types": "./dist/stepper.d.ts",
+      "import": "./dist/stepper.js"
+    },
+    "./pager": {
+      "types": "./dist/pager.d.ts",
+      "import": "./dist/pager.js"
+    },
+    "./accordion/styles.css": "./dist/accordion.css",
+    "./breadcrumbs/styles.css": "./dist/breadcrumbs.css",
+    "./carousel/styles.css": "./dist/carousel.css",
+    "./sidebar-layout/styles.css": "./dist/sidebar-layout.css",
+    "./sidebar-menu/styles.css": "./dist/sidebar-menu.css",
+    "./tabs/styles.css": "./dist/tabs.css",
+    "./toolbar/styles.css": "./dist/toolbar.css",
+    "./tree-view/styles.css": "./dist/tree-view.css",
+    "./stepper/styles.css": "./dist/stepper.css",
+    "./pager/styles.css": "./dist/pager.css",
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0",
+    "@salmonui/buttons": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

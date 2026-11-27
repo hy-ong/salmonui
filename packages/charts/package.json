@@ -1,0 +1,148 @@
+{
+  "name": "@salmonui/charts",
+  "version": "0.2.0",
+  "description": "Charts and data visualization for Salmon UI: Chart, RangeSelector, StockChart, Sparkline, PieChart, HeatMap, TreeMap, SankeyChart, Gauge, GeoMap and Barcode, with server-side SVG.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/charts"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./chart": {
+      "types": "./dist/chart.d.ts",
+      "import": "./dist/chart.js"
+    },
+    "./chart/features": {
+      "types": "./dist/chart/features.d.ts",
+      "import": "./dist/chart/features.js"
+    },
+    "./chart/export": {
+      "types": "./dist/chart-export.d.ts",
+      "import": "./dist/chart-export.js"
+    },
+    "./chart/indicators": {
+      "types": "./dist/chart/indicators.d.ts",
+      "import": "./dist/chart/indicators.js"
+    },
+    "./chart/bullet": {
+      "types": "./dist/chart-bullet.d.ts",
+      "import": "./dist/chart-bullet.js"
+    },
+    "./range-selector": {
+      "types": "./dist/range-selector.d.ts",
+      "import": "./dist/range-selector.js"
+    },
+    "./stock-chart": {
+      "types": "./dist/stock-chart.d.ts",
+      "import": "./dist/stock-chart.js"
+    },
+    "./sparkline": {
+      "types": "./dist/sparkline.d.ts",
+      "import": "./dist/sparkline.js"
+    },
+    "./sparkline/canvas": {
+      "types": "./dist/sparkline/canvas.d.ts",
+      "import": "./dist/sparkline/canvas.js"
+    },
+    "./pie-chart": {
+      "types": "./dist/pie-chart.d.ts",
+      "import": "./dist/pie-chart.js"
+    },
+    "./heat-map": {
+      "types": "./dist/heat-map.d.ts",
+      "import": "./dist/heat-map.js"
+    },
+    "./tree-map": {
+      "types": "./dist/tree-map.d.ts",
+      "import": "./dist/tree-map.js"
+    },
+    "./sankey-chart": {
+      "types": "./dist/sankey-chart.d.ts",
+      "import": "./dist/sankey-chart.js"
+    },
+    "./gauge": {
+      "types": "./dist/gauge.d.ts",
+      "import": "./dist/gauge.js"
+    },
+    "./geo-map": {
+      "types": "./dist/geo-map.d.ts",
+      "import": "./dist/geo-map.js"
+    },
+    "./barcode": {
+      "types": "./dist/barcode.d.ts",
+      "import": "./dist/barcode.js"
+    },
+    "./barcode/pdf417": {
+      "types": "./dist/barcode-pdf417.d.ts",
+      "import": "./dist/barcode-pdf417.js"
+    },
+    "./barcode/gs1-databar": {
+      "types": "./dist/barcode-gs1-databar.d.ts",
+      "import": "./dist/barcode-gs1-databar.js"
+    },
+    "./barcode/dotcode": {
+      "types": "./dist/barcode-dotcode.d.ts",
+      "import": "./dist/barcode-dotcode.js"
+    },
+    "./server": {
+      "types": "./dist/server-visualization.d.ts",
+      "import": "./dist/server-visualization.js"
+    },
+    "./chart/styles.css": "./dist/chart.css",
+    "./range-selector/styles.css": "./dist/range-selector.css",
+    "./stock-chart/styles.css": "./dist/stock-chart.css",
+    "./sparkline/styles.css": "./dist/sparkline.css",
+    "./pie-chart/styles.css": "./dist/pie-chart.css",
+    "./heat-map/styles.css": "./dist/heat-map.css",
+    "./tree-map/styles.css": "./dist/tree-map.css",
+    "./sankey-chart/styles.css": "./dist/sankey-chart.css",
+    "./gauge/styles.css": "./dist/gauge.css",
+    "./geo-map/styles.css": "./dist/geo-map.css",
+    "./barcode/styles.css": "./dist/barcode.css",
+    "./styles.css": "./dist/styles.css",
+    "./viz-animations.css": "./dist/viz-animations.css",
+    "./viz-rtl.css": "./dist/viz-rtl.css",
+    "./package.json": "./package.json"
+  },
+  "imports": {
+    "#viz": {
+      "types": "./dist/viz/index.d.ts",
+      "default": "./dist/viz/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0",
+    "@salmonui/buttons": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19",
+    "@salmonui/navigation": "0.2.0",
+    "@salmonui/calendars": "0.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@salmonui/navigation": {
+      "optional": true
+    },
+    "@salmonui/calendars": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

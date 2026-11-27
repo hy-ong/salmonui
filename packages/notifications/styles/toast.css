@@ -1,0 +1,146 @@
+/* @salmonui/react/toast/styles.css. The region is a top-layer popover (or a scoped absolute box);
+   placement and the countdown direction are logical, so they follow dir.
+   One enter / exit transition, none under reduced motion. */
+
+.salmon-toaster {
+  position: fixed;
+  inset: auto;
+  z-index: 1000;
+  box-sizing: border-box;
+  inline-size: auto;
+  block-size: auto;
+  max-inline-size: 100%;
+  margin: 0;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  color: var(--salmon-text-primary);
+  pointer-events: none;
+}
+.salmon-toaster[data-scoped] { position: absolute; }
+.salmon-toaster[data-placement^='top'] { inset-block-start: 0; }
+.salmon-toaster[data-placement^='bottom'] { inset-block-end: 0; }
+.salmon-toaster[data-placement$='Start'] { inset-inline-start: 0; }
+.salmon-toaster[data-placement$='End'] { inset-inline-end: 0; }
+.salmon-toaster:is([data-placement='top'], [data-placement='bottom']) { inset-inline: 0; margin-inline: auto; inline-size: fit-content; }
+.salmon-toaster-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* A toast narrower than the stack (a per-toast width) hugs the placement edge. */
+.salmon-toaster[data-placement$='End'] .salmon-toaster-list { align-items: flex-end; }
+.salmon-toaster:is([data-placement='top'], [data-placement='bottom']) .salmon-toaster-list { align-items: center; }
+
+.salmon-toast {
+  position: relative;
+  box-sizing: border-box;
+  inline-size: 360px;
+  max-inline-size: 100%;
+  overflow: hidden;
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-overlay);
+  box-shadow: var(--salmon-shadow-lg);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  pointer-events: auto;
+  transition: opacity 0.2s, transform 0.2s;
+  --salmon-toast-c: var(--salmon-text-secondary);
+}
+@starting-style { .salmon-toast { opacity: 0; transform: translateY(8px); } }
+.salmon-toast[data-closing] { opacity: 0; transform: scale(0.96); }
+.salmon-toast:focus-visible, .salmon-toast button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+.salmon-toast:focus-visible { outline-offset: -2px; }
+.salmon-toast[data-tone='primary'] { --salmon-toast-c: var(--salmon-color-primary); }
+.salmon-toast[data-tone='info'] { --salmon-toast-c: var(--salmon-color-info); }
+.salmon-toast[data-tone='success'] { --salmon-toast-c: var(--salmon-color-success); }
+.salmon-toast[data-tone='warning'] { --salmon-toast-c: var(--salmon-color-warning); }
+.salmon-toast[data-tone='danger'] { --salmon-toast-c: var(--salmon-color-danger); }
+.salmon-toast-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding-block: 12px;
+  padding-inline: 12px;
+}
+.salmon-toast-icon {
+  display: inline-flex;
+  flex: none;
+  block-size: calc(1em * var(--salmon-line-height-normal));
+  align-items: center;
+  color: var(--salmon-toast-c);
+}
+.salmon-toast svg {
+  inline-size: 16px;
+  block-size: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.salmon-toast-main {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 2px;
+  min-inline-size: 0;
+}
+.salmon-toast-title { font-weight: var(--salmon-font-weight-semibold); }
+.salmon-toast-description { color: var(--salmon-text-secondary); }
+.salmon-toast-actions { display: flex; flex: none; gap: 6px; }
+.salmon-toast button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+/* `sm` button metrics: as tall as the dismiss button. */
+.salmon-toast-action { box-sizing: border-box; block-size: var(--salmon-control-height-sm, 24px); padding-block: 0; padding-inline: var(--salmon-control-padding-sm, 8px); font-weight: var(--salmon-font-weight-medium); }
+/* margin-inline-start: auto keeps it at the inline end after custom `content` too. */
+.salmon-toast-dismiss { inline-size: var(--salmon-control-height-sm, 24px); block-size: var(--salmon-control-height-sm, 24px); margin-inline: auto -4px; padding: 0; }
+.salmon-toast .salmon-toast-dismiss { border-color: transparent; }
+.salmon-toast button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+.salmon-toast-progress {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: 3px;
+  background: var(--salmon-toast-c);
+  transform-origin: calc(50% + 50% * var(--salmon-dir, 1));
+  animation: salmon-toast-countdown linear forwards;
+}
+.salmon-toaster[data-paused] .salmon-toast-progress { animation-play-state: paused; }
+@keyframes salmon-toast-countdown { to { transform: scaleX(0); } }
+
+@media (max-width: 480px) {
+  .salmon-toaster { inset-inline: 0; }
+  .salmon-toast { inline-size: auto; }
+  .salmon-toaster[data-placement] .salmon-toaster-list { align-items: stretch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .salmon-toast { transition: none; }
+  .salmon-toast-progress { animation: none; }
+  .salmon-toast[data-closing] { display: none; }
+}
+@media (forced-colors: active) {
+  .salmon-toast { border-color: CanvasText; }
+  .salmon-toast-progress { background: Highlight; }
+}

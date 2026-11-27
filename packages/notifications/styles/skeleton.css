@@ -1,0 +1,94 @@
+/* Skeleton. The wave is the Data Grid
+   skeleton-row shimmer: the same compositor-only transform on a
+   pseudo-element and the same `salmon-data-grid-shimmer` keyframes
+   (styles/shimmer.css, prepended at build); pulse uses `salmon-pulse`
+   (styles/motion-pulse.css). Both stop under reduced motion and forced colors. */
+
+.salmon-skeleton,
+.salmon-skeleton__line {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-border-subtle);
+}
+
+.salmon-skeleton[data-shape='text'] {
+  block-size: 1em;
+}
+
+.salmon-skeleton[data-shape='circle'] {
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: 50%;
+}
+
+.salmon-skeleton[data-shape='rect'] {
+  block-size: 80px;
+}
+
+/* Several text lines: the root is a transparent stack of bars, the last shorter. */
+.salmon-skeleton[data-lines] {
+  display: grid;
+  gap: 0.5em;
+  block-size: auto;
+  background: none;
+}
+
+.salmon-skeleton__line {
+  block-size: 1em;
+}
+
+.salmon-skeleton__line:last-child {
+  inline-size: 60%;
+}
+
+/* `loading` with children: sized by the hidden, inert children. */
+.salmon-skeleton[data-content] {
+  display: inline-block;
+  inline-size: fit-content;
+  block-size: auto;
+}
+
+.salmon-skeleton__content {
+  visibility: hidden;
+}
+
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+
+/* The wave runs toward the inline end: the pseudo-element mirrors in RTL. */
+.salmon-skeleton[data-animation='wave']:not([data-lines])::after,
+.salmon-skeleton[data-animation='wave'] > .salmon-skeleton__line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--salmon-surface-base), transparent);
+  opacity: 0.7;
+  transform: translateX(-100%);
+  scale: var(--salmon-dir, 1) 1;
+  animation: salmon-data-grid-shimmer 1.4s ease-in-out infinite;
+}
+
+.salmon-skeleton[data-animation='pulse'] {
+  animation: salmon-pulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  .salmon-skeleton::after,
+  .salmon-skeleton__line::after {
+    display: none;
+  }
+
+  .salmon-skeleton[data-animation='pulse'] {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .salmon-skeleton:not([data-lines]),
+  .salmon-skeleton__line {
+    border: 1px solid GrayText;
+  }
+}

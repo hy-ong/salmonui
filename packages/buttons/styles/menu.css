@@ -1,0 +1,303 @@
+/* @salmonui/react/menu: Menu family, MenuButton and SplitButton parts.
+   The trigger buttons are styled by /button/styles.css. Logical properties only. */
+
+.salmon-menu {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* A popup opened from a trigger is at least as wide as the trigger (list.tsx). */
+  min-inline-size: max(160px, var(--salmon-menu-anchor-width, 0px));
+  max-height: calc(100vh - 16px);
+  overflow: auto;
+  padding: var(--salmon-space-2);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  outline: none;
+}
+
+.salmon-menu[data-popup] {
+  inset: 0 auto auto 0;
+  margin: 0;
+  z-index: 1000;
+  box-shadow: var(--salmon-shadow-md);
+}
+
+.salmon-menu[data-popup]:not([data-placed]) {
+  visibility: hidden;
+}
+
+.salmon-menu *,
+.salmon-menu ::before,
+.salmon-menu ::after {
+  box-sizing: border-box;
+}
+
+.salmon-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-height: var(--salmon-control-height-md, 32px);
+  padding-block: var(--salmon-space-1);
+  padding-inline: var(--salmon-space-3);
+  border-radius: var(--salmon-radius-sm);
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+.salmon-menu-item[data-highlighted],
+.salmon-menu-item[data-open] {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-menu-item:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width));
+}
+
+.salmon-menu-item[data-disabled] {
+  color: var(--salmon-text-disabled);
+  background: none;
+  cursor: default;
+}
+
+.salmon-menu-item-icon,
+.salmon-menu-item-check,
+.salmon-menu-submenu-indicator {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.salmon-menu-item-check {
+  visibility: hidden;
+}
+
+.salmon-menu-item[data-checked] .salmon-menu-item-check {
+  visibility: visible;
+}
+
+.salmon-menu-item-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--salmon-radius-full);
+  background: currentColor;
+}
+
+.salmon-menu-item-label {
+  flex: 1 1 auto;
+}
+
+.salmon-menu-submenu-indicator {
+  margin-inline-start: var(--salmon-space-3);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-menu-separator {
+  flex: none;
+  height: 1px;
+  margin-block: var(--salmon-space-1);
+  background: var(--salmon-border-subtle);
+}
+
+.salmon-menu-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.salmon-menu-group-label {
+  padding-block: var(--salmon-space-1);
+  padding-inline: var(--salmon-space-3);
+  font-size: var(--salmon-font-size-sm);
+  font-weight: var(--salmon-font-weight-semibold);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-menu-button-indicator {
+  display: inline-flex;
+  transition: transform var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+[data-open] > .salmon-button__icon > .salmon-menu-button-indicator,
+[data-open] > .salmon-menu-button-indicator {
+  transform: rotate(180deg);
+}
+
+/* Directional icons supplied by the system mirror in RTL. */
+.salmon-menu[dir='rtl'] .salmon-menu-submenu-indicator svg {
+  transform: scaleX(-1);
+}
+
+/* SplitButton is an attached ButtonGroup (button.css). Nested in an outer group
+   it joins its neighbours; in a vertical group it stretches and stays horizontal. */
+[data-attached][data-orientation='horizontal'] > .salmon-split-button:not(:first-child) {
+  margin-inline-start: -1px;
+}
+[data-attached][data-orientation='horizontal'] > .salmon-split-button:not(:first-child) > .salmon-button:first-child,
+[data-attached][data-orientation='horizontal'] > .salmon-split-button + .salmon-button {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
+[data-attached][data-orientation='horizontal'] > .salmon-split-button:not(:last-child) > .salmon-button:last-child,
+[data-attached][data-orientation='horizontal'] > .salmon-button:has(+ .salmon-split-button) {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+[data-orientation='vertical'] > .salmon-split-button {
+  display: flex;
+}
+[data-orientation='vertical'] > .salmon-split-button > .salmon-split-button-primary {
+  flex: 1 1 auto;
+}
+[data-attached][data-orientation='vertical'] > .salmon-split-button:not(:first-child) {
+  margin-block-start: -1px;
+}
+[data-attached][data-orientation='vertical'] > .salmon-split-button:not(:first-child) > .salmon-button,
+[data-attached][data-orientation='vertical'] > .salmon-split-button + .salmon-button {
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+}
+[data-attached][data-orientation='vertical'] > .salmon-split-button:not(:last-child) > .salmon-button,
+[data-attached][data-orientation='vertical'] > .salmon-button:has(+ .salmon-split-button) {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+/* ContextMenu target: a long-press opens the menu, not the touch callout. */
+.salmon-context-menu {
+  -webkit-touch-callout: none;
+}
+
+/* Menubar (APG Menubar, horizontal). */
+.salmon-menubar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--salmon-space-2);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+}
+
+.salmon-menubar[data-overflow='scroll'] {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.salmon-menubar[data-overflow='scroll']::-webkit-scrollbar {
+  display: none;
+}
+
+.salmon-menubar-item {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-height: var(--salmon-control-height-md, 32px);
+  padding-block: var(--salmon-space-1);
+  padding-inline: var(--salmon-space-3);
+  border-radius: var(--salmon-radius-sm);
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+.salmon-menubar-item:hover,
+.salmon-menubar-item[data-open] {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-menubar-item:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width));
+}
+
+.salmon-menubar-item[data-disabled] {
+  color: var(--salmon-text-disabled);
+  background: none;
+  cursor: default;
+}
+
+.salmon-menubar-item-icon {
+  display: inline-flex;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+/* overflow: 'scroll' indicators, shown while there is more to scroll to on that side. */
+.salmon-menubar-scroll {
+  position: sticky;
+  z-index: 1;
+  display: none;
+  flex: none;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  color: var(--salmon-text-secondary);
+  background: var(--salmon-surface-raised);
+  cursor: pointer;
+}
+
+.salmon-menubar-scroll[data-direction='backward'] {
+  inset-inline-start: calc(-1 * var(--salmon-space-2));
+}
+
+.salmon-menubar-scroll[data-direction='forward'] {
+  inset-inline-end: calc(-1 * var(--salmon-space-2));
+  margin-inline-start: auto;
+}
+
+.salmon-menubar-scroll[data-direction='forward'] svg {
+  transform: scaleX(-1);
+}
+
+.salmon-menubar[data-scroll-start] > .salmon-menubar-scroll[data-direction='backward'],
+.salmon-menubar[data-scroll-end] > .salmon-menubar-scroll[data-direction='forward'] {
+  display: flex;
+}
+
+.salmon-menubar[dir='rtl'] .salmon-menubar-scroll svg,
+[dir='rtl'] .salmon-menubar .salmon-menubar-scroll svg {
+  transform: scaleX(-1);
+}
+
+[dir='rtl'] .salmon-menubar .salmon-menubar-scroll[data-direction='forward'] svg {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-menu-button-indicator {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .salmon-menu-item[data-highlighted] {
+    forced-color-adjust: none;
+    color: HighlightText;
+    background: Highlight;
+  }
+}

@@ -1,0 +1,198 @@
+/* GeoMap. Appended to styles/viz.css by
+   copy-css.mjs. Shape, marker and route colors are data colors or
+   --salmon-* roles; logical properties; data never mirrors in RTL. */
+.salmon-geo-map {
+  --salmon-geo-map-shape: color-mix(in oklch, var(--salmon-text-secondary) 22%, var(--salmon-surface-base));
+}
+
+.salmon-geo-map .salmon-viz-surface {
+  overflow: hidden;
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-geo-map-plot {
+  inset: 0;
+}
+
+/* The drawing scales with the surface: `width` / `height` are its size. */
+.salmon-geo-map-plot > svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.salmon-geo-map-plot[data-pan] {
+  cursor: grab;
+  touch-action: none;
+}
+
+.salmon-geo-map-plot[data-pan]:active {
+  cursor: grabbing;
+}
+
+.salmon-geo-map-shape {
+  stroke: var(--salmon-surface-base);
+  stroke-linejoin: round;
+}
+
+.salmon-geo-map-shape[data-highlight]:hover {
+  filter: brightness(0.9);
+}
+
+.salmon-geo-map-shape[data-selected] {
+  stroke: var(--salmon-text-primary);
+  stroke-width: 2;
+}
+
+.salmon-geo-map-route {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.salmon-geo-map-polygon {
+  fill-opacity: 0.35;
+}
+
+.salmon-geo-map-bubble {
+  fill-opacity: 0.7;
+  stroke: var(--salmon-surface-base);
+}
+
+.salmon-geo-map-marker {
+  stroke: var(--salmon-surface-base);
+  stroke-width: 1;
+  cursor: pointer;
+}
+
+.salmon-geo-map-cluster {
+  cursor: pointer;
+}
+
+.salmon-geo-map .salmon-geo-map-cluster-count {
+  fill: var(--salmon-text-on-primary, #fff);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-geo-map .salmon-geo-map-label {
+  fill: var(--salmon-text-primary);
+  paint-order: stroke;
+  stroke: var(--salmon-surface-base);
+  stroke-width: 3px;
+  pointer-events: none;
+}
+
+.salmon-geo-map-tiles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.salmon-geo-map-tile {
+  position: absolute;
+  max-inline-size: none;
+  user-select: none;
+}
+
+.salmon-geo-map-header {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-start: 12px;
+  pointer-events: none;
+}
+
+.salmon-geo-map-title {
+  color: var(--salmon-text-primary);
+  font-size: var(--salmon-font-size-lg);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-geo-map-subtitle {
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-geo-map-annotation {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.salmon-geo-map-annotation[data-align='start'] {
+  transform: translate(0, -50%);
+}
+
+.salmon-geo-map-annotation[data-align='end'] {
+  transform: translate(-100%, -50%);
+}
+
+.salmon-geo-map-toolbar {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-end: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.salmon-geo-map-toolbar-button {
+  inline-size: 28px;
+  block-size: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.salmon-geo-map-toolbar-button[aria-disabled='true'] {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+.salmon-geo-map-toolbar-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--salmon-state-focus-ring-width) var(--salmon-state-focus-ring);
+}
+
+.salmon-geo-map-attribution {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  padding: 1px 6px;
+  background: color-mix(in srgb, var(--salmon-surface-base) 80%, transparent);
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-xs, 11px);
+}
+
+.salmon-geo-map-spoke {
+  stroke: var(--salmon-text-secondary);
+}
+
+.salmon-geo-map-selection {
+  fill: var(--salmon-state-focus-ring);
+  fill-opacity: 0.15;
+  stroke: var(--salmon-state-focus-ring);
+}
+
+.salmon-geo-map-marker[transform] {
+  cursor: grabbing;
+}
+
+.salmon-geo-map-handle {
+  position: absolute;
+  inline-size: 16px;
+  block-size: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 50%;
+  pointer-events: none;
+  outline: none;
+}
+
+.salmon-geo-map-handle:focus-visible {
+  box-shadow: 0 0 0 var(--salmon-state-focus-ring-width) var(--salmon-state-focus-ring);
+}

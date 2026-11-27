@@ -1,0 +1,261 @@
+/*
+ * Slider (@salmonui/react/slider/styles.css): a track,
+ * a range fill and thumbs placed by --salmon-slider-start / --salmon-slider-end
+ * (percentages written by the component). Logical insets mirror horizontal
+ * sliders in RTL; vertical sliders grow upward and never mirror.
+ */
+.salmon-slider {
+  --salmon-slider-thumb-size: 18px;
+  --salmon-slider-track-size: 4px;
+  --salmon-slider-length: 10rem;
+  display: flex;
+  min-inline-size: 8rem;
+}
+
+.salmon-slider[data-size='sm'] {
+  --salmon-slider-thumb-size: 14px;
+  --salmon-slider-track-size: 3px;
+}
+
+.salmon-slider[data-size='lg'] {
+  --salmon-slider-thumb-size: 22px;
+  --salmon-slider-track-size: 6px;
+}
+
+.salmon-slider-control {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* The draggable surface only: page scroll keeps working around it. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  padding-block: calc(var(--salmon-slider-thumb-size) / 2);
+  padding-inline: calc(var(--salmon-slider-thumb-size) / 2);
+  cursor: pointer;
+}
+
+/* An always-visible value label above the thumb gets its own space, so it
+   never covers the field label or the content above (bubble line height,
+   its block padding and the 6px gap). */
+.salmon-slider[data-value-label='always']:not([data-orientation='vertical']) .salmon-slider-control:has(.salmon-slider-value-label[data-placement='before']) {
+  padding-block-start: calc(var(--salmon-slider-thumb-size) / 2 + var(--salmon-font-size-sm) * 1.4 + 10px);
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-control {
+  flex-direction: row;
+  block-size: var(--salmon-slider-length);
+  inline-size: max-content;
+}
+
+.salmon-slider[data-disabled] .salmon-slider-control,
+.salmon-slider[data-readonly] .salmon-slider-control {
+  cursor: default;
+}
+
+.salmon-slider-track {
+  position: relative;
+  block-size: var(--salmon-slider-track-size);
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-border-default);
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-track {
+  block-size: 100%;
+  inline-size: var(--salmon-slider-track-size);
+}
+
+.salmon-slider-range {
+  position: absolute;
+  display: none;
+  border-radius: inherit;
+  background: var(--salmon-color-primary);
+  inset-block: 0;
+  inset-inline-start: var(--salmon-slider-start);
+  inset-inline-end: calc(100% - var(--salmon-slider-end));
+}
+
+.salmon-slider[data-fill] .salmon-slider-range {
+  display: block;
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-range {
+  inset-inline: 0;
+  inset-block-start: calc(100% - var(--salmon-slider-end));
+  inset-block-end: var(--salmon-slider-start);
+}
+
+.salmon-slider-thumb {
+  --salmon-slider-at: var(--salmon-slider-end);
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: var(--salmon-slider-at);
+  inline-size: var(--salmon-slider-thumb-size);
+  block-size: var(--salmon-slider-thumb-size);
+  margin-block-start: calc(var(--salmon-slider-thumb-size) / -2);
+  margin-inline-start: calc(var(--salmon-slider-thumb-size) / -2);
+  border: 2px solid var(--salmon-color-primary);
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-surface-base);
+  box-sizing: border-box;
+}
+
+.salmon-slider-thumb[data-thumb='start'] {
+  --salmon-slider-at: var(--salmon-slider-start);
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-thumb {
+  inset-block-start: auto;
+  inset-block-end: var(--salmon-slider-at);
+  inset-inline-start: 50%;
+  margin-block-start: 0;
+  margin-block-end: calc(var(--salmon-slider-thumb-size) / -2);
+}
+
+.salmon-slider-thumb:has(.salmon-slider-input:focus-visible) {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-slider[data-invalid] .salmon-slider-thumb {
+  border-color: var(--salmon-state-invalid);
+}
+
+.salmon-slider[data-disabled] .salmon-slider-thumb,
+.salmon-slider[data-disabled] .salmon-slider-range {
+  border-color: var(--salmon-border-strong);
+  background-color: var(--salmon-surface-disabled);
+}
+
+.salmon-slider[data-disabled] .salmon-slider-range {
+  background-color: var(--salmon-border-strong);
+}
+
+/* The native input sits on its thumb (focus and screen reader position). */
+.salmon-slider-input {
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  margin: 0;
+}
+
+.salmon-slider-value-label {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: calc(100% + 6px);
+  translate: -50%;
+  visibility: hidden;
+  padding: 2px 6px;
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-text-primary);
+  color: var(--salmon-surface-base);
+  font-size: var(--salmon-font-size-sm);
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.salmon-slider-value-label[data-placement='after'] {
+  inset-block-end: auto;
+  inset-block-start: calc(100% + 6px);
+}
+
+[dir='rtl'] .salmon-slider-value-label,
+.salmon-slider[dir='rtl'] .salmon-slider-value-label {
+  translate: 50%;
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-value-label {
+  inset-block: 50% auto;
+  translate: 0 -50%;
+  inset-inline-start: auto;
+  inset-inline-end: calc(100% + 6px);
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-value-label[data-placement='after'] {
+  inset-inline-end: auto;
+  inset-inline-start: calc(100% + 6px);
+}
+
+.salmon-slider[data-value-label='always'] .salmon-slider-value-label,
+.salmon-slider[data-value-label='hover'] .salmon-slider-thumb:hover .salmon-slider-value-label,
+.salmon-slider[data-value-label='focus'] .salmon-slider-thumb:hover .salmon-slider-value-label,
+.salmon-slider[data-value-label='focus'] .salmon-slider-thumb:has(.salmon-slider-input:focus-visible) .salmon-slider-value-label {
+  visibility: visible;
+}
+
+.salmon-slider-ticks {
+  position: relative;
+  block-size: 1.5em;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-ticks {
+  block-size: auto;
+  inline-size: 2.5em;
+}
+
+.salmon-slider-tick {
+  position: absolute;
+  inset-inline-start: var(--salmon-slider-tick);
+  inset-block-start: 2px;
+  inline-size: 1px;
+  block-size: 4px;
+  background: var(--salmon-border-strong);
+}
+
+.salmon-slider-tick[data-major] {
+  block-size: 7px;
+}
+
+.salmon-slider-ticks[data-side='before'] .salmon-slider-tick {
+  inset-block-start: auto;
+  inset-block-end: 2px;
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-tick {
+  inset-inline-start: 2px;
+  inset-block-start: auto;
+  inset-block-end: var(--salmon-slider-tick);
+  inline-size: 4px;
+  block-size: 1px;
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-tick[data-major] {
+  inline-size: 7px;
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-ticks[data-side='before'] .salmon-slider-tick {
+  inset-inline-start: auto;
+  inset-inline-end: 2px;
+}
+
+.salmon-slider-tick-label {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-start: 0;
+  translate: -50%;
+  white-space: nowrap;
+}
+
+[dir='rtl'] .salmon-slider-tick-label {
+  translate: 50%;
+}
+
+.salmon-slider-ticks[data-side='before'] .salmon-slider-tick-label {
+  inset-block-start: auto;
+  inset-block-end: 8px;
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-tick-label {
+  inset-block-start: 0;
+  inset-inline-start: 10px;
+  translate: 0 -50%;
+}
+
+.salmon-slider[data-orientation='vertical'] .salmon-slider-ticks[data-side='before'] .salmon-slider-tick-label {
+  inset-block-end: auto;
+  inset-inline-start: auto;
+  inset-inline-end: 10px;
+}

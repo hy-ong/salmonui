@@ -1,0 +1,470 @@
+/*
+ * Site chrome added by the site layout: top navigation, docs sidebar, table
+ * of contents, breadcrumbs, previous/next links, demo tabs and the demo
+ * browser. Plain CSS reading --salmon-* variables only.
+ */
+
+/* Top bar */
+
+.site-header {
+  flex-wrap: wrap;
+}
+
+.site-topnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--salmon-space-2) var(--salmon-space-5);
+  margin-inline-end: auto;
+  margin-inline-start: var(--salmon-space-6);
+}
+
+.site .site-topnav a {
+  color: var(--salmon-text-secondary);
+  text-decoration: none;
+  padding-block: var(--salmon-space-1);
+  border-block-end: 2px solid transparent;
+}
+
+.site .site-topnav a:hover,
+.site .site-topnav a[data-active] {
+  color: var(--salmon-text-primary);
+}
+
+.site .site-topnav a[data-active] {
+  border-block-end-color: var(--salmon-color-primary);
+}
+
+.site-header__tools {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-4);
+}
+
+.site-search:empty {
+  display: none;
+}
+
+/* Docs sidebar: every row (family, component, page, heading) shares padding,
+ * line-height and a fixed chevron column, so a level lines up whether or not
+ * it discloses and wrapped labels hang; each level indents one unit. Links
+ * are neutral; only the current page carries the accent. */
+
+.docs-nav {
+  --docs-nav-indent: 12px;
+  --docs-nav-chevron: 16px;
+  --docs-nav-pad: var(--salmon-space-3);
+  position: sticky;
+  inset-block-start: 57px;
+  align-self: start;
+  max-block-size: calc(100vh - 57px);
+  overflow: auto;
+  padding: var(--salmon-space-5) var(--salmon-space-4);
+  border-inline-end: 1px solid var(--salmon-border-subtle);
+  font-size: var(--salmon-font-size-sm);
+  line-height: 1.4;
+}
+
+.docs-nav__toggle-input,
+.docs-nav__toggle {
+  display: none;
+}
+
+.docs-nav h2 {
+  margin-block: var(--salmon-space-6) var(--salmon-space-2);
+  padding-inline: var(--docs-nav-pad);
+  font-size: 0.75rem;
+  font-weight: var(--salmon-font-weight-semibold);
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--salmon-text-secondary);
+}
+
+.docs-nav__body > h2:first-child {
+  margin-block-start: 0;
+}
+
+.docs-nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Each nested list is one indent unit deeper than its parent row. */
+.docs-nav ul ul {
+  padding-inline-start: var(--docs-nav-indent);
+}
+
+.docs-nav li + li {
+  margin-block-start: 1px;
+}
+
+/* Rows: links, summaries and headings share padding and the chevron column (a hanging indent when a label wraps). */
+.docs-nav a,
+.docs-nav__category > summary,
+.docs-nav__group {
+  display: block;
+  padding-block: 5px;
+  padding-inline: calc(var(--docs-nav-pad) + var(--docs-nav-chevron)) var(--docs-nav-pad);
+  border-radius: var(--salmon-radius-md);
+}
+
+.docs-nav a {
+  position: relative;
+  color: var(--salmon-text-secondary);
+  text-decoration: none;
+}
+
+.docs-nav a:hover {
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-hover);
+}
+
+.docs-nav a[aria-current='page'] {
+  color: var(--salmon-color-primary-text);
+  font-weight: var(--salmon-font-weight-semibold);
+  background: color-mix(in srgb, var(--salmon-color-primary) 12%, transparent);
+}
+
+.docs-nav a[aria-current='page']::before {
+  content: '';
+  position: absolute;
+  inset-block: 6px;
+  inset-inline-start: 0;
+  inline-size: 2px;
+  border-radius: 2px;
+  background: var(--salmon-color-primary);
+}
+
+/* Families and multi-page components: one native disclosure each, open on the current one */
+
+.docs-nav__category > summary {
+  position: relative;
+  color: var(--salmon-text-secondary);
+  cursor: pointer;
+  list-style: none;
+}
+
+.docs-nav__category > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* The chevron sits centered in the reserved column, on the first line. */
+.docs-nav__category > summary::before {
+  content: '';
+  position: absolute;
+  inset-block-start: calc(5px + 0.7em - 3px);
+  inset-inline-start: calc(var(--docs-nav-pad) + var(--docs-nav-chevron) / 2 - 3px);
+  inline-size: 5px;
+  block-size: 5px;
+  border-block-end: 1.5px solid currentColor;
+  border-inline-end: 1.5px solid currentColor;
+  color: var(--salmon-text-secondary);
+  opacity: 0.8;
+  transform: rotate(-45deg);
+  transition: transform 120ms ease;
+}
+
+.docs-nav__category[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+/* RTL: the logical borders already flip the corner, so the turns swap. */
+[dir='rtl'] .docs-nav__category > summary::before {
+  transform: rotate(45deg);
+}
+
+[dir='rtl'] .docs-nav__category[open] > summary::before {
+  transform: rotate(-45deg);
+}
+
+.docs-nav__category > summary:hover {
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-hover);
+}
+
+.docs-nav__category > summary:focus-visible,
+.docs-nav a:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: -2px;
+}
+
+/* A family reads slightly stronger than the rows it holds. */
+.docs-nav__category--family > summary {
+  font-weight: var(--salmon-font-weight-medium);
+  color: var(--salmon-text-primary);
+}
+
+.docs-nav__category--family > ul {
+  margin-block-end: var(--salmon-space-2);
+}
+
+.docs-nav__category--component[open] > summary {
+  color: var(--salmon-text-primary);
+}
+
+/* A plain heading over its pages: a group of a whole-section component, or a family's "Guides". */
+.docs-nav__group {
+  margin-block-start: var(--salmon-space-2);
+  font-size: 0.75rem;
+  font-weight: var(--salmon-font-weight-semibold);
+  letter-spacing: 0.02em;
+  color: var(--salmon-text-secondary);
+  opacity: 0.85;
+}
+
+/* Docs page: content column plus table of contents */
+
+.docs-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 220px);
+  gap: var(--salmon-space-7);
+  align-items: start;
+}
+
+.docs-page__aside {
+  position: sticky;
+  inset-block-start: calc(57px + var(--salmon-space-6));
+  max-block-size: calc(100vh - 57px - var(--salmon-space-7));
+  overflow: auto;
+}
+
+.docs-toc {
+  font-size: var(--salmon-font-size-sm);
+}
+
+.docs-toc__title {
+  margin-block: 0 var(--salmon-space-2);
+  font-weight: var(--salmon-font-weight-semibold);
+  color: var(--salmon-text-secondary);
+}
+
+.docs-toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-toc li[data-depth='3'] {
+  padding-inline-start: var(--salmon-space-4);
+}
+
+.docs-toc a {
+  display: block;
+  padding-block: var(--salmon-space-1);
+  text-decoration: none;
+}
+
+.doc__prose :is(h2, h3) {
+  scroll-margin-block-start: calc(57px + var(--salmon-space-4));
+}
+
+.site .heading-anchor {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site .heading-anchor:hover {
+  text-decoration: underline;
+}
+
+/* Breadcrumbs */
+
+.docs-breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--salmon-space-2);
+  margin: 0 0 var(--salmon-space-4);
+  padding: 0;
+  list-style: none;
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-text-secondary);
+}
+
+.docs-breadcrumbs li + li::before {
+  content: '/';
+  margin-inline-end: var(--salmon-space-2);
+}
+
+/* Previous / next */
+
+.docs-prevnext {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--salmon-space-5);
+  margin-block-start: var(--salmon-space-8);
+  padding-block-start: var(--salmon-space-5);
+  border-block-start: 1px solid var(--salmon-border-subtle);
+}
+
+.docs-prevnext a {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.docs-prevnext__next {
+  text-align: end;
+  margin-inline-start: auto;
+}
+
+.docs-prevnext a span {
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-text-secondary);
+}
+
+/* Demo page tabs */
+
+.demo-tabs__list {
+  display: flex;
+  gap: var(--salmon-space-2);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+
+.site .demo-tabs__list button {
+  border: 0;
+  border-block-end: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+}
+
+.site .demo-tabs__list button[aria-selected='true'] {
+  border-block-end-color: var(--salmon-color-primary);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.demo-source__name {
+  margin-block: var(--salmon-space-5) var(--salmon-space-2);
+}
+
+.code-block {
+  overflow: auto;
+  padding: var(--salmon-space-4);
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-sunken);
+  font-family: var(--salmon-font-mono);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.demo-notes {
+  padding-block-start: var(--salmon-space-4);
+}
+
+/* Demo browser */
+
+.demo-browser__filter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-3);
+}
+
+.site .demo-browser__filter input {
+  font: inherit;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  padding-block: var(--salmon-space-2);
+  padding-inline: var(--salmon-space-4);
+}
+
+.demo-browser__count {
+  color: var(--salmon-text-secondary);
+}
+
+/* Landing placeholder */
+
+.landing {
+  max-inline-size: 880px;
+  margin-inline: auto;
+}
+
+.landing__actions {
+  display: flex;
+  gap: var(--salmon-space-5);
+}
+
+.site .landing__primary {
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+@media (max-width: 1100px) {
+  .docs-page {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .docs-page__aside {
+    position: static;
+    grid-row: 1;
+    max-block-size: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .docs-nav {
+    position: static;
+    max-block-size: none;
+    padding-block: var(--salmon-space-3);
+    border-inline-end: 0;
+    border-block-end: 1px solid var(--salmon-border-subtle);
+  }
+
+  /* The sidebar folds behind "Browse docs" (a CSS-only checkbox toggle, closed by default). */
+  .docs-nav__toggle-input {
+    display: block;
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: 0;
+    opacity: 0;
+  }
+
+  .docs-nav__toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--salmon-space-2);
+    padding-block: var(--salmon-space-2);
+    padding-inline: var(--salmon-space-3);
+    border: 1px solid var(--salmon-border-default);
+    border-radius: var(--salmon-radius-md);
+    font-weight: var(--salmon-font-weight-semibold);
+    color: var(--salmon-text-primary);
+    cursor: pointer;
+  }
+
+  .docs-nav__toggle::before {
+    content: '';
+    flex: none;
+    inline-size: 0.4em;
+    block-size: 0.4em;
+    border-block-end: 2px solid currentColor;
+    border-inline-end: 2px solid currentColor;
+    color: var(--salmon-text-secondary);
+    transform: rotate(-45deg);
+  }
+
+  .docs-nav__toggle-input:checked + .docs-nav__toggle::before {
+    transform: rotate(45deg);
+  }
+
+  .docs-nav__toggle-input:focus-visible + .docs-nav__toggle {
+    outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .docs-nav__body {
+    display: none;
+    margin-block-start: var(--salmon-space-3);
+  }
+
+  .docs-nav__toggle-input:checked ~ .docs-nav__body {
+    display: block;
+  }
+
+  .site-topnav {
+    margin-inline-start: 0;
+    order: 3;
+    flex-basis: 100%;
+  }
+}

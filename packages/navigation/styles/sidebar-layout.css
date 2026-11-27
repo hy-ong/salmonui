@@ -1,0 +1,132 @@
+/* @salmonui/react/sidebar-layout.
+   Colors-only: --salmon-* variables, logical properties only. Self-contained. */
+
+.salmon-sidebar-layout {
+  --salmon-sidebar-size: 16rem;
+  --salmon-sidebar-rail-size: 56px;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  container: salmon-sidebar-layout / inline-size;
+  overflow: hidden;
+  box-sizing: border-box;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-base);
+  font-family: var(--salmon-font-sans);
+}
+
+.salmon-sidebar-layout[data-side='end'] {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.salmon-sidebar-main {
+  grid-row: 1;
+  grid-column: 2;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: auto;
+}
+
+.salmon-sidebar-main[data-side='end'] {
+  grid-column: 1;
+}
+
+.salmon-sidebar-panel {
+  grid-row: 1;
+  grid-column: 1;
+  box-sizing: border-box;
+  inline-size: var(--salmon-sidebar-size);
+  min-block-size: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--salmon-surface-raised);
+  border-inline-end: 1px solid var(--salmon-border-subtle);
+  transition:
+    inline-size var(--salmon-motion-duration-normal) var(--salmon-motion-easing),
+    visibility 0s;
+}
+
+.salmon-sidebar-panel[data-side='end'] {
+  grid-column: 2;
+  border-inline-end: 0;
+  border-inline-start: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-sidebar-panel[data-collapsed] {
+  inline-size: var(--salmon-sidebar-rail-size);
+  overflow-x: hidden;
+}
+
+.salmon-sidebar-panel[data-state='closed'] {
+  inline-size: 0;
+  border-inline-width: 0;
+  visibility: hidden;
+  transition:
+    inline-size var(--salmon-motion-duration-normal) var(--salmon-motion-easing),
+    visibility 0s linear var(--salmon-motion-duration-normal);
+}
+
+/* Overlay presentation (mode="overlay", or below collapseBelow). */
+.salmon-sidebar-panel[data-presentation='overlay'] {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: 2;
+  inline-size: var(--salmon-sidebar-size);
+  max-inline-size: 100%;
+  box-shadow: var(--salmon-shadow-lg);
+  transition: visibility 0s;
+}
+
+.salmon-sidebar-panel[data-presentation='overlay'][data-side='end'] {
+  inset-inline: auto 0;
+}
+
+.salmon-sidebar-panel[data-presentation='overlay'][data-state='closed'] {
+  visibility: hidden;
+}
+
+.salmon-sidebar-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--salmon-space-2);
+  box-sizing: border-box;
+  min-block-size: var(--salmon-control-height-md, 32px);
+  min-inline-size: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-space-2);
+  font: inherit;
+  color: var(--salmon-text-primary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--salmon-radius-md);
+  cursor: pointer;
+}
+
+.salmon-sidebar-trigger:hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-sidebar-trigger:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-sidebar-trigger__icon {
+  display: inline-flex;
+}
+
+/* The built-in rail icon draws the panel at the inline start. */
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+.salmon-sidebar-trigger[data-action='collapse'] .salmon-sidebar-trigger__icon {
+  scale: var(--salmon-dir, 1) 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-sidebar-panel,
+  .salmon-sidebar-panel[data-state='closed'] {
+    transition: none;
+  }
+}

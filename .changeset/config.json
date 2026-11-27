@@ -1,0 +1,47 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "format": false,
+  "fixed": [
+    [
+      "@salmonui/core",
+      "@salmonui/data",
+      "@salmonui/export",
+      "@salmonui/buttons",
+      "@salmonui/notifications",
+      "@salmonui/calendars",
+      "@salmonui/dropdowns",
+      "@salmonui/kanban",
+      "@salmonui/data-grid",
+      "@salmonui/overlays",
+      "@salmonui/layout",
+      "@salmonui/navigation",
+      "@salmonui/inputs",
+      "@salmonui/query-builder",
+      "@salmonui/charts",
+      "@salmonui/chat",
+      "@salmonui/editors",
+      "@salmonui/pivot-table",
+      "@salmonui/scheduler",
+      "@salmonui/gantt",
+      "@salmonui/rich-text",
+      "@salmonui/pdf-viewer",
+      "@salmonui/mcp"
+    ]
+  ],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "@salmonui/example-next-app",
+    "@salmonui/example-vite-spa",
+    "@salmonui/example-vite-ssr",
+    "@salmonui/docs-site"
+  ],
+  "privatePackages": {
+    "version": false,
+    "tag": false
+  }
+}

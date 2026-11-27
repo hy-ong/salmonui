@@ -1,0 +1,15 @@
+- figure "Tree":
+  - text: ""
+  - group "Tree"
+  - region "Tree":
+    - list:
+      - listitem:
+        - text: "/H: \\d+/"
+        - list:
+          - listitem: "/Jan: \\d+/"
+          - listitem: "/Feb: \\d+/"
+          - listitem: "Mar: 9"
+          - listitem: "/Apr: \\d+/"
+          - listitem: "/May: \\d+/"
+          - listitem: "/Jun: \\d+/"
+  - paragraph: "/Tree map, 1 item, total \\d+\\. H: \\d+\\./"

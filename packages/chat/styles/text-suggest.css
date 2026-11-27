@@ -1,0 +1,74 @@
+/* @salmonui/react/text-suggest: the overlay, hint and live region useTextSuggest adds next
+   to the textarea. The controller writes the suggestion into `.salmon-text-suggest` at
+   the caret (top/left, `--salmon-text-suggest-line` = one line,
+   `--salmon-text-suggest-room` = space to the content edge). `auto` is inline
+   ghost text on fine pointers and a popover on coarse pointers, decided here
+   by media query. */
+.salmon-text-suggest {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  max-inline-size: var(--salmon-text-suggest-room);
+  overflow: hidden;
+  color: var(--salmon-text-placeholder);
+  white-space: pre;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  user-select: none;
+}
+
+.salmon-text-suggest[hidden] {
+  display: none;
+}
+
+/* Right-to-left: anchored at the caret's right edge, the text runs leftwards. */
+.salmon-text-suggest[data-rtl] {
+  translate: -100% 0;
+}
+
+.salmon-text-suggest[data-suggestion-display='popover'] {
+  max-inline-size: min(360px, calc(100vw - 16px));
+  margin-block-start: var(--salmon-text-suggest-line);
+  padding: 4px 8px;
+  color: var(--salmon-text-secondary);
+  white-space: pre-wrap;
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  box-shadow: var(--salmon-shadow-md);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+@media (pointer: coarse) {
+  .salmon-text-suggest[data-suggestion-display='auto'] {
+    max-inline-size: min(360px, calc(100vw - 16px));
+    margin-block-start: var(--salmon-text-suggest-line);
+    padding: 4px 8px;
+    color: var(--salmon-text-secondary);
+    white-space: pre-wrap;
+    background: var(--salmon-surface-overlay);
+    border: 1px solid var(--salmon-border-default);
+    border-radius: var(--salmon-radius-md);
+    box-shadow: var(--salmon-shadow-md);
+    pointer-events: auto;
+    cursor: pointer;
+  }
+}
+
+/* The hint and the live region are in the accessibility tree only. */
+.salmon-text-suggest-hint,
+.salmon-text-suggest-live {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  .salmon-text-suggest {
+    color: GrayText;
+  }
+}

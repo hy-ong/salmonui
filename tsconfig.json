@@ -1,0 +1,155 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/core"
+    },
+    {
+      "path": "./packages/data"
+    },
+    {
+      "path": "./packages/export"
+    },
+    {
+      "path": "./packages/buttons"
+    },
+    {
+      "path": "./packages/notifications"
+    },
+    {
+      "path": "./packages/calendars"
+    },
+    {
+      "path": "./packages/dropdowns"
+    },
+    {
+      "path": "./packages/kanban"
+    },
+    {
+      "path": "./packages/data-grid"
+    },
+    {
+      "path": "./packages/data-grid/tsconfig.engine.json"
+    },
+    {
+      "path": "./packages/overlays"
+    },
+    {
+      "path": "./packages/layout"
+    },
+    {
+      "path": "./packages/navigation"
+    },
+    {
+      "path": "./packages/inputs"
+    },
+    {
+      "path": "./packages/query-builder"
+    },
+    {
+      "path": "./packages/charts"
+    },
+    {
+      "path": "./packages/chat"
+    },
+    {
+      "path": "./packages/editors"
+    },
+    {
+      "path": "./packages/pivot-table"
+    },
+    {
+      "path": "./packages/pivot-table/tsconfig.engine.json"
+    },
+    {
+      "path": "./packages/scheduler"
+    },
+    {
+      "path": "./packages/gantt"
+    },
+    {
+      "path": "./packages/rich-text"
+    },
+    {
+      "path": "./packages/pdf-viewer"
+    },
+    {
+      "path": "./packages/mcp"
+    },
+    {
+      "path": "./packages/core/tests"
+    },
+    {
+      "path": "./packages/data/tests"
+    },
+    {
+      "path": "./packages/export/tests"
+    },
+    {
+      "path": "./packages/buttons/tests"
+    },
+    {
+      "path": "./packages/notifications/tests"
+    },
+    {
+      "path": "./packages/calendars/tests"
+    },
+    {
+      "path": "./packages/dropdowns/tests"
+    },
+    {
+      "path": "./packages/kanban/tests"
+    },
+    {
+      "path": "./packages/data-grid/tests"
+    },
+    {
+      "path": "./packages/data-grid/tests/engine"
+    },
+    {
+      "path": "./packages/overlays/tests"
+    },
+    {
+      "path": "./packages/layout/tests"
+    },
+    {
+      "path": "./packages/navigation/tests"
+    },
+    {
+      "path": "./packages/inputs/tests"
+    },
+    {
+      "path": "./packages/query-builder/tests"
+    },
+    {
+      "path": "./packages/charts/tests"
+    },
+    {
+      "path": "./packages/chat/tests"
+    },
+    {
+      "path": "./packages/editors/tests"
+    },
+    {
+      "path": "./packages/pivot-table/tests"
+    },
+    {
+      "path": "./packages/pivot-table/tests/engine"
+    },
+    {
+      "path": "./packages/scheduler/tests"
+    },
+    {
+      "path": "./packages/gantt/tests"
+    },
+    {
+      "path": "./packages/rich-text/tests"
+    },
+    {
+      "path": "./packages/pdf-viewer/tests"
+    },
+    {
+      "path": "./packages/mcp/tests"
+    }
+  ]
+}

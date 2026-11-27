@@ -1,0 +1,16 @@
+- figure "Flow":
+  - text: ""
+  - group "Flow"
+  - paragraph: "Sankey chart, 2 nodes, 1 flows, 2 columns. a to b: 3."
+  - table "Flow":
+    - caption: Flow
+    - rowgroup:
+      - row "Source Target Value":
+        - columnheader "Source"
+        - columnheader "Target"
+        - columnheader "Value"
+    - rowgroup:
+      - row "a b 3":
+        - rowheader "a"
+        - cell "b"
+        - cell "3"

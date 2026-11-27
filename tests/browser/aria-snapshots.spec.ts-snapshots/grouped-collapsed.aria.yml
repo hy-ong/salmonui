@@ -1,0 +1,142 @@
+- grid /Salmon UI Data Grid · \d+ × 6/:
+  - rowgroup:
+    - row "ID Text 0 Text 1 Text 2 Text 3 Number 4":
+      - columnheader "ID":
+        - text: ""
+        - button "Group by ID"
+        - button "Resize ID"
+      - columnheader "Text 0":
+        - text: ""
+        - button "Ungroup by Text 0" [pressed]
+        - button "Resize Text 0"
+      - columnheader "Text 1":
+        - text: ""
+        - button "Group by Text 1"
+        - button "Resize Text 1"
+      - columnheader "Text 2":
+        - text: ""
+        - button "Group by Text 2"
+        - button "Resize Text 2"
+      - columnheader "Text 3":
+        - text: ""
+        - button "Group by Text 3"
+        - button "Resize Text 3"
+      - columnheader "Number 4":
+        - text: ""
+        - button "Group by Number 4"
+        - button "Resize Number 4"
+  - rowgroup:
+    - 'row /Expand Text 0 word-1g-\d+ Text 0: word-1g-\d+ - 1 item/':
+      - 'gridcell /Expand Text 0 word-1g-\d+ Text 0: word-1g-\d+ - 1 item/':
+        - button /Expand Text 0 word-1g-\d+/
+        - text: ""
+    - 'row /Collapse Text 0 word-1r-\d+ Text 0: word-1r-\d+ - 1 item/':
+      - 'gridcell /Collapse Text 0 word-1r-\d+ Text 0: word-1r-\d+ - 1 item/ [expanded]':
+        - button /Collapse Text 0 word-1r-\d+/ [expanded]
+        - text: ""
+    - row /r1 word-1r-\d+ word-\d+-\d+ word-5l-\d+ word-\d+-\d+ \d+,\d+/:
+      - gridcell "r1"
+      - gridcell /word-1r-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-5l-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /\d+,\d+/
+    - 'row /Collapse Text 0 word-\d+-6 Text 0: word-\d+-6 - 1 item/':
+      - 'gridcell /Collapse Text 0 word-\d+-6 Text 0: word-\d+-6 - 1 item/ [expanded]':
+        - button /Collapse Text 0 word-\d+-6/ [expanded]
+        - text: ""
+    - row /r6 word-\d+-6 word-x-\d+ word-c-\d+ word-6z-\d+ \d+,\d+/:
+      - gridcell "r6"
+      - gridcell /word-\d+-6/
+      - gridcell /word-x-\d+/
+      - gridcell /word-c-\d+/
+      - gridcell /word-6z-\d+/
+      - gridcell /\d+,\d+/
+    - 'row /Collapse Text 0 word-\d+-\d+ Text 0: word-\d+-\d+ - 1 item/':
+      - 'gridcell /Collapse Text 0 word-\d+-\d+ Text 0: word-\d+-\d+ - 1 item/ [expanded]':
+        - button /Collapse Text 0 word-\d+-\d+/ [expanded]
+        - text: ""
+    - row /r0 word-\d+-\d+ word-\d+-\d+ word-3i-\d+ word-\d+[hmsp]+-\d+ \d+,\d+/:
+      - gridcell "r0"
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-3i-\d+/
+      - gridcell /word-\d+[hmsp]+-\d+/
+      - gridcell /\d+,\d+/
+    - 'row /Collapse Text 0 word-3d-\d+ Text 0: word-3d-\d+ - 1 item/':
+      - 'gridcell /Collapse Text 0 word-3d-\d+ Text 0: word-3d-\d+ - 1 item/ [expanded]':
+        - button /Collapse Text 0 word-3d-\d+/ [expanded]
+        - text: ""
+    - row /r11 word-3d-\d+ word-3o-\d+ word-j-\d+ word-2e-\d+ \d+,\d+/:
+      - gridcell "r11"
+      - gridcell /word-3d-\d+/
+      - gridcell /word-3o-\d+/
+      - gridcell /word-j-\d+/
+      - gridcell /word-2e-\d+/
+      - gridcell /\d+,\d+/
+    - 'row /Collapse Text 0 word-\d+-\d+ Text 0: word-\d+-\d+ - 1 item/':
+      - 'gridcell /Collapse Text 0 word-\d+-\d+ Text 0: word-\d+-\d+ - 1 item/ [expanded]':
+        - button /Collapse Text 0 word-\d+-\d+/ [expanded]
+        - text: ""
+    - row /r3 word-\d+-\d+ word-\d+-\d+ word-6j-\d+ word-\d+-\d+ \d+,\d+/:
+      - gridcell "r3"
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-6j-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /\d+,\d+/
+    - 'row /Collapse Text 0 word-4w-\d+ Text 0: word-4w-\d+ - 1 item/':
+      - 'gridcell /Collapse Text 0 word-4w-\d+ Text 0: word-4w-\d+ - 1 item/ [expanded]':
+        - button /Collapse Text 0 word-4w-\d+/ [expanded]
+        - text: ""
+    - row /r4 word-4w-\d+ word-\d+-\d+ word-2q-\d+ word-\d+[hmsp]+-\d+ \d+,\d+/:
+      - gridcell "r4"
+      - gridcell /word-4w-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-2q-\d+/
+      - gridcell /word-\d+[hmsp]+-\d+/
+      - gridcell /\d+,\d+/
+    - 'row /Collapse Text 0 word-6d-\d+ Text 0: word-6d-\d+ - 1 item/':
+      - 'gridcell /Collapse Text 0 word-6d-\d+ Text 0: word-6d-\d+ - 1 item/ [expanded]':
+        - button /Collapse Text 0 word-6d-\d+/ [expanded]
+        - text: ""
+    - row /r7 word-6d-\d+ word-0-0 word-2n-\d+ word-1e-\d+ \d+,\d+/:
+      - gridcell "r7"
+      - gridcell /word-6d-\d+/
+      - gridcell "word-0-0"
+      - gridcell /word-2n-\d+/
+      - gridcell /word-1e-\d+/
+      - gridcell /\d+,\d+/
+    - 'row /Collapse Text 0 word-6e-\d+ Text 0: word-6e-\d+ - 1 item/':
+      - 'gridcell /Collapse Text 0 word-6e-\d+ Text 0: word-6e-\d+ - 1 item/ [expanded]':
+        - button /Collapse Text 0 word-6e-\d+/ [expanded]
+        - text: ""
+    - row /r2 word-6e-\d+ word-d-\d+ word-8-\d+ word-5j-\d+ \d+,\d+/:
+      - gridcell "r2"
+      - gridcell /word-6e-\d+/
+      - gridcell /word-d-\d+/
+      - gridcell /word-8-\d+/
+      - gridcell /word-5j-\d+/
+      - gridcell /\d+,\d+/
+    - 'row /Collapse Text 0 word-6f-\d+ Text 0: word-6f-\d+ - 1 item/':
+      - 'gridcell /Collapse Text 0 word-6f-\d+ Text 0: word-6f-\d+ - 1 item/ [expanded]':
+        - button /Collapse Text 0 word-6f-\d+/ [expanded]
+        - text: ""
+    - row /r9 word-6f-\d+ word-q-\d+ word-4x-\d+ word-[\d,.]+[bkmBKM]+-\d+ \d+,\d+/:
+      - gridcell "r9"
+      - gridcell /word-6f-\d+/
+      - gridcell /word-q-\d+/
+      - gridcell /word-4x-\d+/
+      - gridcell /word-[\d,.]+[bkmBKM]+-\d+/
+      - gridcell /\d+,\d+/
+    - 'row /Collapse Text 0 word-[\d,.]+[bkmBKM]+-\d+ Text 0: word-[\d,.]+[bkmBKM]+-\d+ - 1 item/':
+      - 'gridcell /Collapse Text 0 word-[\d,.]+[bkmBKM]+-\d+ Text 0: word-[\d,.]+[bkmBKM]+-\d+ - 1 item/ [expanded]':
+        - button /Collapse Text 0 word-[\d,.]+[bkmBKM]+-\d+/ [expanded]
+        - text: ""
+    - row /r10 word-[\d,.]+[bkmBKM]+-\d+ word-\d+-\d+ word-\d+-\d+ word-\d+-9 \d+,\d+/:
+      - gridcell "r10"
+      - gridcell /word-[\d,.]+[bkmBKM]+-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-\d+-9/
+      - gridcell /\d+,\d+/

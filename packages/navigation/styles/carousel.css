@@ -1,0 +1,258 @@
+/* @salmonui/react/carousel/styles.css: Carousel. Self-contained; colors from --salmon-* theme variables only,
+   logical properties, state in data-* attributes. The track is a native
+   scroll-snap container; `effect: 'fade'` stacks slides in one grid cell. */
+
+.salmon-carousel {
+  --salmon-carousel-peek-size: 0px;
+  --salmon-carousel-gap: 0px;
+  position: relative;
+  display: grid;
+  gap: var(--salmon-space-2);
+  min-inline-size: 0;
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+}
+
+.salmon-carousel[data-peek] {
+  --salmon-carousel-peek-size: var(--salmon-carousel-peek, 10%);
+  --salmon-carousel-gap: var(--salmon-space-2);
+}
+
+.salmon-carousel-viewport {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.salmon-carousel-track {
+  display: flex;
+  gap: var(--salmon-carousel-gap);
+  padding-inline: var(--salmon-carousel-peek-size);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--salmon-carousel-peek-size);
+  scrollbar-width: none;
+  border-radius: var(--salmon-radius-lg);
+  outline: none;
+}
+
+.salmon-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.salmon-carousel-slide {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+
+/* Server render and first paint: the selected slide is placed by CSS (no layout read before mount). */
+.salmon-carousel:not([data-ready]) .salmon-carousel-slide {
+  translate: calc((100% + var(--salmon-carousel-gap)) * var(--salmon-carousel-index, 0) * -1 * var(--salmon-dir, 1)) 0;
+}
+
+.salmon-carousel[data-effect='fade'] .salmon-carousel-track {
+  display: grid;
+  padding: 0;
+  overflow: hidden;
+}
+
+.salmon-carousel[data-effect='fade'] .salmon-carousel-slide {
+  grid-area: 1 / 1;
+  translate: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--salmon-motion-duration-normal) var(--salmon-motion-easing), visibility 0s linear var(--salmon-motion-duration-normal);
+}
+
+.salmon-carousel[data-effect='fade'] .salmon-carousel-slide[data-active] {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.salmon-carousel-previous,
+.salmon-carousel-next,
+.salmon-carousel-play {
+  position: absolute;
+  z-index: 1;
+  display: inline-grid;
+  place-items: center;
+  box-sizing: border-box;
+  inline-size: 36px;
+  block-size: 36px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-surface-raised);
+  color: var(--salmon-text-primary);
+  box-shadow: var(--salmon-shadow-sm);
+  cursor: pointer;
+  transition: opacity var(--salmon-motion-duration-fast) var(--salmon-motion-easing), background-color var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+.salmon-carousel-previous,
+.salmon-carousel-next {
+  inset-block-start: 50%;
+  translate: 0 -50%;
+}
+
+.salmon-carousel-previous {
+  inset-inline-start: var(--salmon-space-2);
+}
+
+.salmon-carousel-next {
+  inset-inline-end: var(--salmon-space-2);
+}
+
+.salmon-carousel-play {
+  inset-block-start: var(--salmon-space-2);
+  inset-inline-end: var(--salmon-space-2);
+}
+
+:is(.salmon-carousel-previous, .salmon-carousel-next, .salmon-carousel-play):hover:not(:disabled) {
+  background: var(--salmon-surface-hover);
+}
+
+:is(.salmon-carousel-previous, .salmon-carousel-next, .salmon-carousel-play, .salmon-carousel-indicator):focus-visible,
+.salmon-carousel-track:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-carousel-track:focus-visible {
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width));
+}
+
+:is(.salmon-carousel-previous, .salmon-carousel-next):disabled {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+.salmon-carousel[data-controls='hover'] :is(.salmon-carousel-previous, .salmon-carousel-next) {
+  opacity: 0;
+}
+
+.salmon-carousel[data-controls='hover']:is(:hover, :focus-within) :is(.salmon-carousel-previous, .salmon-carousel-next) {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .salmon-carousel[data-controls='hover'] :is(.salmon-carousel-previous, .salmon-carousel-next) {
+    opacity: 1;
+  }
+}
+
+/* Chevrons: two logical borders of a square, rotated toward inline-start (mirrored in RTL). */
+:is(.salmon-carousel-previous, .salmon-carousel-next) .salmon-carousel-icon {
+  box-sizing: border-box;
+  inline-size: 9px;
+  block-size: 9px;
+  border-block-start: 2px solid currentColor;
+  border-inline-start: 2px solid currentColor;
+  rotate: calc(-45deg * var(--salmon-dir, 1));
+}
+
+.salmon-carousel-previous .salmon-carousel-icon {
+  margin-inline-start: 3px;
+}
+
+.salmon-carousel-next .salmon-carousel-icon {
+  margin-inline-end: 3px;
+  rotate: calc(135deg * var(--salmon-dir, 1));
+}
+
+.salmon-carousel-play .salmon-carousel-icon {
+  box-sizing: border-box;
+  inline-size: 10px;
+  block-size: 12px;
+  border-block: 6px solid transparent;
+  border-inline-start: 10px solid currentColor;
+  margin-inline-start: 3px;
+}
+
+.salmon-carousel-play[data-playing] .salmon-carousel-icon {
+  border-block: 0;
+  border-inline: 3px solid currentColor;
+  margin-inline-start: 0;
+}
+
+.salmon-carousel-indicators {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 24px;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.salmon-carousel-indicator {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 24px;
+  block-size: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-full);
+  background: none;
+  cursor: pointer;
+}
+
+.salmon-carousel-indicator::before {
+  content: '';
+  box-sizing: border-box;
+  inline-size: 10px;
+  block-size: 10px;
+  border: 1px solid var(--salmon-border-strong);
+  border-radius: var(--salmon-radius-full);
+  transition: background-color var(--salmon-motion-duration-fast) var(--salmon-motion-easing), scale var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+.salmon-carousel-indicator:hover::before {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-carousel-indicator[aria-current]::before {
+  border-color: var(--salmon-color-primary);
+  background: var(--salmon-color-primary);
+}
+
+.salmon-carousel-indicator[data-distance='2']::before {
+  scale: 0.7;
+}
+
+.salmon-carousel-indicator[data-distance='3'] {
+  display: none;
+}
+
+.salmon-carousel-indicators[data-type='progress'] {
+  min-block-size: 0;
+  block-size: 4px;
+  justify-content: flex-start;
+  overflow: hidden;
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-carousel-progress {
+  block-size: 100%;
+  background: var(--salmon-color-primary);
+  transition: inline-size var(--salmon-motion-duration-normal) var(--salmon-motion-easing);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-carousel *,
+  .salmon-carousel *::before {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,339 @@
+/* Combobox (`@salmonui/react/combobox`). The popup and listbox rules are in dropdown.css. */
+
+.salmon-combobox {
+  --salmon-control-h: var(--salmon-control-height-md, 32px);
+  --salmon-control-px: var(--salmon-control-padding-md, 12px);
+  position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
+  min-inline-size: 12rem;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: var(--salmon-text-primary);
+}
+
+/* Control sizes: the field
+   rules read these variables with the `md` metrics as fallbacks; the popup
+   rows keep one size. Chips and their remove buttons take the icon box
+   (20 / 24 / 28px); at `sm` the remove button's hit area stays 24 x 24. */
+.salmon-combobox[data-size='sm'] {
+  --salmon-control-h: var(--salmon-control-height-sm, 24px);
+  --salmon-control-px: var(--salmon-control-padding-sm, 8px);
+  --salmon-control-box: calc(var(--salmon-control-h) - 4px);
+  --salmon-control-glyph: 14px;
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-combobox[data-size='lg'] {
+  --salmon-control-h: var(--salmon-control-height-lg, 40px);
+  --salmon-control-px: var(--salmon-control-padding-lg, 16px);
+  --salmon-control-box: 28px;
+  --salmon-control-glyph: 20px;
+  font-size: var(--salmon-font-size-lg);
+}
+
+:is(.salmon-combobox-clear, .salmon-combobox-trigger) > svg {
+  inline-size: var(--salmon-control-glyph, 16px);
+  block-size: var(--salmon-control-glyph, 16px);
+}
+
+[data-size='sm'] .salmon-combobox-chip-remove::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+}
+
+.salmon-combobox-field {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  box-sizing: border-box;
+  min-inline-size: 0;
+  min-block-size: var(--salmon-control-h, 32px);
+  padding-block: calc((var(--salmon-control-h, 32px) - var(--salmon-control-box, 24px)) / 2 - 2px);
+  /* Text at Button's 12px inset; the 24px trigger box pulls in by 4px so its 16px glyph sits 12px from the end. */
+  padding-inline: var(--salmon-control-px, 12px) calc(var(--salmon-control-px, 12px) - (var(--salmon-control-box, 24px) - var(--salmon-control-glyph, 16px)) / 2);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  cursor: text;
+}
+
+/* Chips sit at the same 3px inset from the border on every side. */
+.salmon-combobox-field:has(.salmon-combobox-chip) {
+  padding-inline-start: var(--salmon-space-1);
+}
+
+.salmon-combobox-field:hover {
+  border-color: var(--salmon-border-strong);
+}
+
+.salmon-combobox-field:focus-within {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-combobox[data-open] .salmon-combobox-field {
+  border-color: var(--salmon-border-selected);
+}
+
+.salmon-combobox[data-disabled] .salmon-combobox-field {
+  background: var(--salmon-surface-disabled);
+  color: var(--salmon-text-disabled);
+  cursor: not-allowed;
+}
+
+.salmon-combobox[data-readonly] .salmon-combobox-field {
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-combobox-input {
+  flex: 1 1 4rem;
+  min-inline-size: 4rem;
+  min-block-size: calc(var(--salmon-control-box, 24px) + 2px);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.salmon-combobox-input::placeholder {
+  color: var(--salmon-text-placeholder);
+}
+
+.salmon-combobox-input[aria-invalid="true"] {
+  color: var(--salmon-state-invalid);
+}
+
+.salmon-combobox-trigger,
+.salmon-combobox-clear {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--salmon-control-box, 24px);
+  block-size: var(--salmon-control-box, 24px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: transparent;
+  color: var(--salmon-text-secondary);
+  cursor: pointer;
+}
+
+.salmon-combobox-trigger:hover,
+.salmon-combobox-clear:hover {
+  background: var(--salmon-surface-hover);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-combobox[data-open] .salmon-combobox-trigger svg {
+  transform: rotate(180deg);
+}
+
+.salmon-combobox-chips {
+  display: contents;
+}
+
+.salmon-combobox-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-1);
+  max-inline-size: 100%;
+  min-block-size: var(--salmon-control-box, 24px);
+  padding-inline: var(--salmon-space-3) var(--salmon-space-1);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-sunken);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-combobox-more {
+  padding-inline-end: var(--salmon-space-3);
+}
+
+.salmon-combobox-chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-combobox-chip-remove {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--salmon-control-box, 24px);
+  block-size: var(--salmon-control-box, 24px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: transparent;
+  color: var(--salmon-text-secondary);
+  cursor: pointer;
+}
+
+.salmon-combobox-chip-remove:hover {
+  background: var(--salmon-surface-hover);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-combobox-chip-remove:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 0;
+}
+
+.salmon-combobox-summary {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* `columns` grid popup */
+.salmon-combobox-grid {
+  min-inline-size: 0;
+  /* Rows keep their columns' declared widths (min-inline-size on the
+     row); a popup narrower than that scrolls instead of clipping. */
+  overflow-x: auto;
+}
+
+.salmon-combobox-grid-row {
+  display: grid;
+  align-items: center;
+  gap: 0;
+  padding-inline: 0;
+}
+
+.salmon-combobox-grid-head .salmon-combobox-grid-row {
+  border-block-end: 1px solid var(--salmon-border-default);
+}
+
+.salmon-combobox-grid-head {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+}
+
+.salmon-combobox-grid-header,
+.salmon-combobox-grid-cell {
+  box-sizing: border-box;
+  min-inline-size: 0;
+  padding-inline: var(--salmon-space-4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-combobox-grid-header {
+  min-block-size: var(--salmon-control-height-md, 32px);
+  display: flex;
+  align-items: center;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+  font-weight: var(--salmon-font-weight-semibold);
+  background: var(--salmon-surface-header);
+}
+
+.salmon-combobox-grid-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-inline-size: 0;
+  inline-size: 100%;
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.salmon-combobox-grid-header-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[data-align="end"].salmon-combobox-grid-cell,
+[data-align="end"].salmon-combobox-grid-header,
+[data-align="end"].salmon-combobox-grid-header > .salmon-combobox-grid-sort {
+  justify-content: flex-end;
+  text-align: end;
+}
+
+[data-align="center"].salmon-combobox-grid-cell,
+[data-align="center"].salmon-combobox-grid-header,
+[data-align="center"].salmon-combobox-grid-header > .salmon-combobox-grid-sort {
+  justify-content: center;
+  text-align: center;
+}
+
+/* A checkbox cell: the box sits on the text's middle whether it is checked (has a mark) or not. */
+.salmon-combobox-grid-cell > .salmon-dropdown-checkbox {
+  vertical-align: middle;
+}
+
+/* Sort direction: a 12px mask arrow (no font glyph); no box while unsorted, so the header text
+   keeps the cell's inline padding. */
+.salmon-combobox-grid-sort-icon:empty {
+  display: none;
+}
+
+.salmon-combobox-grid-sort-icon[data-direction] {
+  flex: none;
+  inline-size: 12px;
+  block-size: 12px;
+  font-size: 0;
+  background: currentColor;
+  mask: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M6 2v8M2.5 6.5 6 10l3.5-3.5' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat;
+  forced-color-adjust: none;
+}
+
+.salmon-combobox-grid-sort-icon[data-direction="asc"] {
+  transform: rotate(180deg);
+}
+
+/* End-aligned headers put the arrow before the text, so the text lines up with the values. */
+[data-align="end"].salmon-combobox-grid-header > .salmon-combobox-grid-sort {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+.salmon-combobox-grid[data-striped] .salmon-combobox-grid-row[data-odd]:not([data-active]):not([data-selected]) {
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-combobox-grid[data-grid-lines="both"] .salmon-combobox-grid-body .salmon-combobox-grid-row,
+.salmon-combobox-grid[data-grid-lines="horizontal"] .salmon-combobox-grid-body .salmon-combobox-grid-row,
+.salmon-combobox-grid[data-grid-lines="default"] .salmon-combobox-grid-body .salmon-combobox-grid-row {
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-combobox-grid[data-grid-lines="both"] .salmon-combobox-grid-cell + .salmon-combobox-grid-cell,
+.salmon-combobox-grid[data-grid-lines="vertical"] .salmon-combobox-grid-cell + .salmon-combobox-grid-cell,
+.salmon-combobox-grid[data-grid-lines="both"] .salmon-combobox-grid-header + .salmon-combobox-grid-header,
+.salmon-combobox-grid[data-grid-lines="vertical"] .salmon-combobox-grid-header + .salmon-combobox-grid-header {
+  border-inline-start: 1px solid var(--salmon-border-subtle);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .salmon-combobox-trigger svg {
+    transition: transform var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+  }
+}
+
+@media (forced-colors: active) {
+  .salmon-combobox-field {
+    border-color: ButtonText;
+  }
+
+  .salmon-combobox-chip {
+    border: 1px solid CanvasText;
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "name": "@salmonui/scheduler",
+  "version": "0.2.0",
+  "description": "Scheduler for Salmon UI: day, week, month, agenda and timeline views with recurrence, resources and iCalendar data.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/scheduler"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/scheduler.d.ts",
+      "import": "./dist/scheduler.js"
+    },
+    "./styles.css": "./dist/scheduler.css",
+    "./package.json": "./package.json"
+  },
+  "imports": {
+    "#scheduler-views": {
+      "types": "./dist/scheduler/registry-static.d.ts",
+      "workerd": "./dist/scheduler/registry-static.js",
+      "worker": "./dist/scheduler/registry-static.js",
+      "edge-light": "./dist/scheduler/registry-static.js",
+      "browser": "./dist/scheduler/registry-lazy.js",
+      "default": "./dist/scheduler/registry-static.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0",
+    "@salmonui/buttons": "0.2.0",
+    "@salmonui/calendars": "0.2.0",
+    "@salmonui/dropdowns": "0.2.0",
+    "@salmonui/overlays": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

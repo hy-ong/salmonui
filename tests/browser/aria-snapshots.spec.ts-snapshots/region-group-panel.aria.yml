@@ -1,0 +1,3 @@
+- region "Grouped columns":
+  - button "Grouped by Text 0, ascending. Press to reverse the order"
+  - button "Ungroup Text 0"

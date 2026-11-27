@@ -1,0 +1,36 @@
+- figure "Heat":
+  - text: ""
+  - group "Heat"
+  - paragraph: /Heat map, 1 rows by 6 columns, values from 9 to \d+\./
+  - table "Heat":
+    - caption: Heat
+    - rowgroup:
+      - row "Row Column Value":
+        - columnheader "Row"
+        - columnheader "Column"
+        - columnheader "Value"
+    - rowgroup:
+      - row /north Jan \d+/:
+        - rowheader "north"
+        - cell "Jan"
+        - cell /\d+/
+      - row /north Feb \d+/:
+        - rowheader "north"
+        - cell "Feb"
+        - cell /\d+/
+      - row "north Mar 9":
+        - rowheader "north"
+        - cell "Mar"
+        - cell "9"
+      - row /north Apr \d+/:
+        - rowheader "north"
+        - cell "Apr"
+        - cell /\d+/
+      - row /north May \d+/:
+        - rowheader "north"
+        - cell "May"
+        - cell /\d+/
+      - row /north Jun \d+/:
+        - rowheader "north"
+        - cell "Jun"
+        - cell /\d+/

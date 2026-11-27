@@ -1,0 +1,57 @@
+- grid "Salmon UI Data Grid · 8 × 6":
+  - rowgroup:
+    - row "ID Text 0 Text 1 Text 2 Text 3 Number 4":
+      - columnheader "ID":
+        - text: ""
+        - button "Resize ID"
+      - columnheader "Text 0":
+        - text: ""
+        - button "Resize Text 0"
+      - columnheader "Text 1":
+        - text: ""
+        - button "Resize Text 1"
+      - columnheader "Text 2":
+        - text: ""
+        - button "Resize Text 2"
+      - columnheader "Text 3":
+        - text: ""
+        - button "Resize Text 3"
+      - columnheader "Number 4":
+        - text: ""
+        - button "Resize Number 4"
+  - rowgroup:
+    - row /r0 word-\d+-\d+ word-\d+-\d+ word-3i-\d+ word-\d+[hmsp]+-\d+ \d+,\d+/:
+      - gridcell "r0"
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-3i-\d+/
+      - gridcell /word-\d+[hmsp]+-\d+/
+      - gridcell /\d+,\d+/
+    - row /r3 word-\d+-\d+ word-\d+-\d+ word-6j-\d+ word-\d+-\d+ \d+,\d+/:
+      - gridcell "r3"
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-6j-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /\d+,\d+/
+    - row /r4 word-4w-\d+ word-\d+-\d+ word-2q-\d+ word-\d+[hmsp]+-\d+ \d+,\d+/:
+      - gridcell "r4"
+      - gridcell /word-4w-\d+/
+      - gridcell /word-\d+-\d+/
+      - gridcell /word-2q-\d+/
+      - gridcell /word-\d+[hmsp]+-\d+/
+      - gridcell /\d+,\d+/
+    - row /r6 word-\d+-6 word-x-\d+ word-c-\d+ word-6z-\d+ \d+,\d+/:
+      - gridcell "r6"
+      - gridcell /word-\d+-6/
+      - gridcell /word-x-\d+/
+      - gridcell /word-c-\d+/
+      - gridcell /word-6z-\d+/
+      - gridcell /\d+,\d+/
+    - row /r7 word-6d-\d+ word-0-0 word-2n-\d+ word-1e-\d+ \d+,\d+/:
+      - gridcell "r7"
+      - gridcell /word-6d-\d+/
+      - gridcell "word-0-0"
+      - gridcell /word-2n-\d+/
+      - gridcell /word-1e-\d+/
+      - gridcell /\d+,\d+/

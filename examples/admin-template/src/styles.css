@@ -1,0 +1,594 @@
+/* Page composition of the admin template. Colors come from the theme
+   variables (src/theme.ts); sizes follow the compact density. */
+
+html,
+body,
+#root {
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+.atlas-root {
+  block-size: 100dvh;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-sunken);
+}
+
+/* Shell: the app bar spans the top row, the sidebar and the page share the second. */
+.atlas-layout.salmon-sidebar-layout {
+  grid-template-rows: 48px minmax(0, 1fr);
+  block-size: 100%;
+  background: var(--salmon-surface-sunken);
+}
+
+.atlas-layout > .salmon-sidebar-panel,
+.atlas-layout > .salmon-sidebar-main {
+  grid-row: 2;
+}
+
+.atlas-sider.salmon-sidebar-panel {
+  border-inline-end: 0;
+}
+
+/* App bar */
+
+.atlas-topbar {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-block-size: 48px;
+  padding-inline: 16px 24px;
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  z-index: 3;
+}
+
+.atlas-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+}
+
+.atlas-brand > svg {
+  color: var(--salmon-color-primary);
+}
+
+.atlas-breadcrumbs__parent {
+  color: var(--salmon-text-secondary);
+}
+
+.atlas-account > .salmon-button__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.atlas-account.salmon-button {
+  gap: 7px;
+  margin-inline-start: auto;
+  padding-inline: 8px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/* Collapse toggle: a round button on the sidebar edge. */
+.atlas-collapse.salmon-sidebar-trigger {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: 66px;
+  inset-inline-start: calc(var(--salmon-sidebar-size) - 12px);
+  min-block-size: 24px;
+  min-inline-size: 24px;
+  block-size: 24px;
+  inline-size: 24px;
+  padding: 0;
+  border-radius: 50%;
+  color: color-mix(in srgb, var(--salmon-surface-sidebar-fg) 65%, transparent);
+  background: var(--salmon-surface-sidebar-bg);
+  transition: inset-inline-start var(--salmon-motion-duration-normal) var(--salmon-motion-easing);
+}
+
+.atlas-collapse.salmon-sidebar-trigger:hover {
+  color: var(--salmon-surface-sidebar-fg);
+  background: var(--salmon-surface-sidebar-bg);
+}
+
+.atlas-layout[data-collapsed] > .atlas-collapse {
+  inset-inline-start: calc(var(--salmon-sidebar-rail-size) - 12px);
+}
+
+/* Page */
+
+.atlas-main.salmon-sidebar-main {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+  overflow: hidden;
+  background: var(--salmon-surface-sunken);
+}
+
+.atlas-page {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  min-block-size: 0;
+  box-sizing: border-box;
+  padding: 16px 40px;
+  overflow: hidden;
+}
+
+.atlas-page--center {
+  overflow: auto;
+}
+
+.atlas-card.salmon-card {
+  border-color: var(--salmon-border-subtle);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.atlas-filter.salmon-card {
+  flex: none;
+  padding: 8px;
+}
+
+.atlas-filter__form {
+  display: grid;
+  gap: 8px;
+}
+
+.atlas-filter__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  align-items: end;
+  gap: 8px;
+}
+
+.atlas-filter__grid > * {
+  min-inline-size: 0;
+}
+
+.atlas-filter__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.atlas-filter__group {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.atlas-table {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  min-block-size: 0;
+}
+
+.atlas-table__card.salmon-card {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.atlas-table__card .salmon-data-grid {
+  border: 0;
+}
+
+.atlas-pager.salmon-card {
+  display: flex;
+  flex: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 8px;
+}
+
+.atlas-pager__end {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* The pager is an inline-size container: give it a width of its own. */
+.atlas-pager > span,
+.atlas-pager__end > span {
+  white-space: nowrap;
+}
+
+.atlas-pager__end .salmon-pager {
+  flex: 0 1 176px;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+.atlas-muted {
+  color: var(--salmon-text-secondary);
+}
+
+/* Cells */
+
+.atlas-link {
+  color: var(--salmon-color-primary-text, var(--salmon-color-primary));
+  text-decoration: none;
+}
+
+.atlas-link:hover {
+  text-decoration: underline;
+}
+
+.atlas-customer,
+.atlas-owner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-inline-size: 0;
+}
+
+.atlas-owner {
+  gap: 6px;
+}
+
+.atlas-customer__text {
+  display: grid;
+  min-inline-size: 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.atlas-tag.salmon-badge {
+  --salmon-badge-font-weight: 400;
+}
+
+/* Drawer */
+
+.atlas-drawer__heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-inline-size: 0;
+}
+
+.atlas-drawer__account {
+  overflow: hidden;
+  color: var(--salmon-text-secondary);
+  font-size: 12px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.atlas-drawer__form {
+  display: contents;
+}
+
+.atlas-drawer__body.salmon-dialog-body {
+  padding: 0 16px 16px;
+}
+
+.atlas-drawer--details .atlas-drawer__body.salmon-dialog-body {
+  padding-block-start: 12px;
+}
+
+.atlas-drawer__footer.salmon-dialog-footer {
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-block-start: 1px solid var(--salmon-border-subtle);
+}
+
+.atlas-drawer__actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.atlas-section-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.atlas-section {
+  display: grid;
+  gap: 6px;
+  min-inline-size: 0;
+}
+
+.atlas-section__title {
+  margin: 0;
+  padding-inline-start: 8px;
+  border-inline-start: 3px solid var(--salmon-color-primary);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.atlas-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+}
+
+@media (max-width: 767px) {
+  .atlas-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.atlas-descriptions {
+  display: grid;
+  grid-template-columns: repeat(var(--atlas-columns, 2), minmax(0, 1fr));
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: 8px;
+}
+
+.atlas-descriptions[data-columns='3'] {
+  --atlas-columns: 3;
+}
+
+.atlas-descriptions__item {
+  display: grid;
+  grid-template-rows: auto auto;
+  min-inline-size: 0;
+}
+
+.atlas-descriptions__item + .atlas-descriptions__item {
+  border-inline-start: 1px solid var(--salmon-border-subtle);
+}
+
+.atlas-descriptions dt,
+.atlas-descriptions dd {
+  margin: 0;
+  padding: 8px 12px;
+}
+
+.atlas-descriptions dt {
+  color: var(--salmon-text-secondary);
+  background: var(--salmon-surface-sunken);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+
+@media (max-width: 767px) {
+  .atlas-descriptions,
+  .atlas-descriptions[data-columns='3'] {
+    --atlas-columns: 1;
+  }
+
+  .atlas-descriptions__item + .atlas-descriptions__item {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--salmon-border-subtle);
+  }
+}
+
+.atlas-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.atlas-history-grid.salmon-data-grid {
+  border-radius: 6px;
+}
+
+.atlas-clickable-row {
+  cursor: pointer;
+}
+
+.atlas-row-button {
+  all: unset;
+  display: block;
+  max-inline-size: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.atlas-row-button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 2px;
+}
+
+.atlas-history-loading {
+  margin: 16px;
+}
+
+.atlas-empty {
+  margin: 0;
+  padding: 24px;
+  text-align: center;
+  color: var(--salmon-text-secondary);
+}
+
+/* Result (404) */
+
+.atlas-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px;
+  text-align: center;
+}
+
+.atlas-result__image {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+.atlas-result__title {
+  margin: 24px 0 0;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--salmon-text-primary);
+}
+
+.atlas-result__subtitle {
+  margin: 4px 0 0;
+  color: var(--salmon-text-secondary);
+}
+
+.atlas-result__extra {
+  margin-block-start: 16px;
+}
+
+.atlas-result__extra > a {
+  color: var(--salmon-color-primary-text, var(--salmon-color-primary));
+  text-decoration: none;
+}
+
+/* Phones */
+
+@media (max-width: 767px) {
+  .atlas-topbar {
+    gap: 8px;
+    padding-inline: 8px 16px;
+  }
+
+  .atlas-page {
+    padding: 12px;
+    overflow: auto;
+  }
+
+  .atlas-table {
+    min-block-size: 360px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atlas-collapse.salmon-sidebar-trigger {
+    transition: none;
+  }
+}
+
+/* ---- Template metrics on top of the compact theme --------------------- */
+
+/* Form labels: 13px regular, like the template's form layout. */
+.atlas-root :is(.salmon-field-label, .salmon-dropdown-field-label, .salmon-picker__label) {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/* Initials in regular weight. */
+.atlas-root .salmon-avatar {
+  font-weight: 400;
+}
+
+/* Sidebar rows: a 16px inset and padding, 14px group headings, a regular-weight selection. */
+.atlas-sider .salmon-sidebar-menu {
+  --salmon-sidebar-menu-item-inset: 16px;
+  --salmon-sidebar-menu-item-padding: 16px;
+  --salmon-sidebar-menu-group-inset: 20px;
+  --salmon-sidebar-menu-group-font-size: 14px;
+}
+
+.atlas-sider .salmon-sidebar-menu-link[aria-current] {
+  font-weight: 400;
+}
+
+.atlas-sider .salmon-sidebar-menu-group-label {
+  font-weight: 400;
+}
+
+/* Orders grid: regular header text, rows sized by their content, cells centered. */
+.atlas-orders-grid .salmon-data-grid-header-cell {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.atlas-orders-grid .salmon-data-grid-cell {
+  display: flex;
+  align-items: center;
+  padding-block: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.atlas-orders-grid .salmon-data-grid-cell[data-align='end'] {
+  justify-content: flex-end;
+}
+
+.atlas-history-grid .salmon-data-grid-header-cell {
+  font-weight: 400;
+}
+
+.atlas-history-grid .salmon-data-grid-cell {
+  font-size: 13px;
+}
+
+/* Pager: previous / next only, every page number visible. */
+.atlas-pager .salmon-pager-button:is([data-part='first'], [data-part='last']) {
+  display: none;
+}
+
+.atlas-pager .salmon-pager .salmon-pager-button[data-part='number'] {
+  display: inline-flex;
+}
+
+/* Drawer: the close button before the title. */
+.atlas-drawer .salmon-dialog-close-button {
+  inset-block-start: 9px;
+  inset-inline: 8px auto;
+  inline-size: 28px;
+  block-size: 28px;
+}
+
+.atlas-drawer .salmon-dialog-title {
+  padding: 12px 16px 4px 44px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.atlas-tabs .salmon-tab {
+  margin-inline-end: 32px;
+  padding-inline: 0;
+  font-weight: 400;
+}
+
+.atlas-tabs .salmon-tab:hover {
+  background: none;
+}
+
+.atlas-tabs .salmon-tab-panel {
+  padding: 16px 0 0;
+}
+
+.atlas-breadcrumbs .salmon-breadcrumbs-separator {
+  margin-inline: 4px;
+}
+
+.atlas-sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

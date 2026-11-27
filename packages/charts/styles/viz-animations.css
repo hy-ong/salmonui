@@ -1,0 +1,37 @@
+/* @salmonui/react/viz-animations.css: the opt-in entrance and update
+   transitions of PieChart, FunnelChart, HeatMap, TreeMap, SankeyChart,
+   GeoMap, RangeSelector and Sparkline. Kept out of the family stylesheets,
+   whose budgets have no room for it; Chart and Gauge carry their own. Every
+   rule keys on `data-animate`, which the components set after hydration
+   only (`update` once the entrance is over), so server markup is the final
+   state; reduced motion turns everything off. */
+
+@media (prefers-reduced-motion: no-preference) {
+  :is(.salmon-pie-chart, .salmon-funnel-chart, .salmon-heat-map, .salmon-tree-map, .salmon-sankey-chart)[data-animate] .salmon-viz-marks,
+  .salmon-heat-map[data-animate] .salmon-heat-map-canvas,
+  .salmon-geo-map[data-animate] :is(.salmon-geo-map-layer, .salmon-geo-map-markers),
+  .salmon-range-selector[data-animate] .salmon-range-selector-series,
+  .salmon-sparkline-marks[data-animate] {
+    animation: salmon-viz-enter 0.6s ease-out;
+  }
+
+  .salmon-viz[data-animate='update'] :is(.salmon-accumulation-point, .salmon-sankey-chart-link) {
+    transition: d 0.3s ease-out, opacity 0.15s;
+  }
+
+  .salmon-viz[data-animate='update'] :is(.salmon-heat-map-cell, .salmon-tree-map-leaf > rect, .salmon-tree-map-group > rect, .salmon-sankey-chart-node) {
+    transition: x 0.3s ease-out, y 0.3s ease-out, width 0.3s ease-out, height 0.3s ease-out, opacity 0.15s;
+  }
+
+  .salmon-range-selector[data-animate='update'] .salmon-range-selector-series path {
+    transition: d 0.3s ease-out;
+  }
+}
+
+/* A fade: the marks keep their geometry, so pointer hit-testing and the
+   keyboard model work during the entrance. */
+@keyframes salmon-viz-enter {
+  from {
+    opacity: 0;
+  }
+}

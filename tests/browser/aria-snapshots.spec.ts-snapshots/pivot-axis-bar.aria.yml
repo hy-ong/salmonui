@@ -1,0 +1,17 @@
+- toolbar "Fields":
+  - button "Product"
+  - button "Quarter"
+  - button "Date"
+  - button "Customer"
+- toolbar "Filters":
+  - button "Category"
+- toolbar "Columns":
+  - button "Year"
+  - button "Values"
+- toolbar "Rows":
+  - button "Region"
+  - button "Country"
+  - button "City"
+- toolbar "Values":
+  - button "Sum of Amount"
+  - button "Sum of Units"

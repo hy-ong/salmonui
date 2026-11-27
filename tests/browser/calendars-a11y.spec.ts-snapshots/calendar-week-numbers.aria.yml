@@ -1,0 +1,70 @@
+- heading "locale-de" [level=2]
+- button "Previous month"
+- button /November \d+/
+- button "Next month"
+- grid /November \d+/:
+  - rowgroup:
+    - row "Wk Mo Di Mi Do Fr Sa So":
+      - columnheader "Wk"
+      - columnheader "Mo"
+      - columnheader "Di"
+      - columnheader "Mi"
+      - columnheader "Do"
+      - columnheader "Fr"
+      - columnheader "Sa"
+      - columnheader "So"
+  - rowgroup:
+    - row /Week \d+ Sonntag, 1\. November \d+/:
+      - rowheader /Week \d+/
+      - gridcell
+      - gridcell
+      - gridcell
+      - gridcell
+      - gridcell
+      - gridcell
+      - gridcell /Sonntag, 1\. November \d+/
+    - row /Week \d+ Montag, 2\. November \d+ Dienstag, 3\. November \d+ Mittwoch, 4\. November \d+ Donnerstag, 5\. November \d+ Freitag, 6\. November \d+ Samstag, 7\. November \d+ Sonntag, 8\. November \d+/:
+      - rowheader /Week \d+/
+      - gridcell /Montag, 2\. November \d+/
+      - gridcell /Dienstag, 3\. November \d+/
+      - gridcell /Mittwoch, 4\. November \d+/
+      - gridcell /Donnerstag, 5\. November \d+/
+      - gridcell /Freitag, 6\. November \d+/
+      - gridcell /Samstag, 7\. November \d+/
+      - gridcell /Sonntag, 8\. November \d+/
+    - row /Week \d+ Montag, 9\. November \d+ Dienstag, \d+\. November \d+ Mittwoch, \d+\. November \d+ Donnerstag, \d+\. November \d+ Freitag, \d+\. November \d+ Samstag, \d+\. November \d+ Sonntag, \d+\. November \d+/:
+      - rowheader /Week \d+/
+      - gridcell /Montag, 9\. November \d+/
+      - gridcell /Dienstag, \d+\. November \d+/
+      - gridcell /Mittwoch, \d+\. November \d+/
+      - gridcell /Donnerstag, \d+\. November \d+/
+      - gridcell /Freitag, \d+\. November \d+/
+      - gridcell /Samstag, \d+\. November \d+/
+      - gridcell /Sonntag, \d+\. November \d+/
+    - row /Week \d+ Montag, \d+\. November \d+ Dienstag, \d+\. November \d+ Mittwoch, \d+\. November \d+ Donnerstag, \d+\. November \d+ Freitag, \d+\. November \d+ Samstag, \d+\. November \d+ Sonntag, \d+\. November \d+/:
+      - rowheader /Week \d+/
+      - gridcell /Montag, \d+\. November \d+/
+      - gridcell /Dienstag, \d+\. November \d+/
+      - gridcell /Mittwoch, \d+\. November \d+/
+      - gridcell /Donnerstag, \d+\. November \d+/
+      - gridcell /Freitag, \d+\. November \d+/
+      - gridcell /Samstag, \d+\. November \d+/
+      - gridcell /Sonntag, \d+\. November \d+/
+    - row /Week \d+ Montag, \d+\. November \d+ Dienstag, \d+\. November \d+ Mittwoch, \d+\. November \d+ Donnerstag, \d+\. November \d+ Freitag, \d+\. November \d+ Samstag, \d+\. November \d+ Sonntag, \d+\. November \d+/:
+      - rowheader /Week \d+/
+      - gridcell /Montag, \d+\. November \d+/ [selected]
+      - gridcell /Dienstag, \d+\. November \d+/
+      - gridcell /Mittwoch, \d+\. November \d+/
+      - gridcell /Donnerstag, \d+\. November \d+/
+      - gridcell /Freitag, \d+\. November \d+/
+      - gridcell /Samstag, \d+\. November \d+/
+      - gridcell /Sonntag, \d+\. November \d+/
+    - row /Week \d+ Montag, \d+\. November \d+/:
+      - rowheader /Week \d+/
+      - gridcell /Montag, \d+\. November \d+/
+      - gridcell
+      - gridcell
+      - gridcell
+      - gridcell
+      - gridcell
+      - gridcell

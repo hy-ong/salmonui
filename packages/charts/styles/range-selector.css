@@ -1,0 +1,83 @@
+/* @salmonui/react/range-selector/styles.css: RangeSelector, PeriodSelector.
+   The dist file is styles/viz.css
+   followed by this file. Colors from --salmon-* only (derived from
+   the primary seed); logical properties only. */
+
+.salmon-range-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.salmon-range-selector-surface {
+  flex: 1 1 80px;
+  min-block-size: 0;
+  user-select: none;
+}
+
+.salmon-range-selector-unselected {
+  fill: var(--salmon-surface-base);
+  opacity: 0.6;
+}
+
+.salmon-range-selector-band {
+  fill: color-mix(in srgb, var(--salmon-color-primary) 12%, transparent);
+  stroke: var(--salmon-color-primary);
+  stroke-width: 1;
+}
+
+.salmon-range-selector-track,
+.salmon-range-selector-band-control,
+.salmon-range-selector-thumb {
+  position: absolute;
+  box-sizing: border-box;
+  touch-action: none;
+}
+
+.salmon-range-selector-band-control {
+  cursor: grab;
+  border-radius: var(--salmon-radius-sm);
+}
+
+.salmon-range-selector-band-control[data-active] {
+  cursor: grabbing;
+}
+
+.salmon-range-selector-thumb {
+  inline-size: 12px;
+  /* Centered on its physical offset (the data axis never mirrors). */
+  transform: translateX(-50%);
+  border: 1px solid var(--salmon-color-primary);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-raised);
+  cursor: ew-resize;
+}
+
+.salmon-range-selector-thumb::after {
+  content: '';
+  position: absolute;
+  inset-block: 30%;
+  inset-inline-start: 4px;
+  inline-size: 2px;
+  border-inline: 1px solid var(--salmon-color-primary);
+}
+
+.salmon-range-selector-thumb:focus-visible,
+.salmon-range-selector-band-control:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 1px;
+}
+
+.salmon-range-selector[data-disabled] {
+  opacity: 0.6;
+}
+
+.salmon-range-selector-tooltip {
+  inset-block-end: calc(100% + 4px);
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+}
+
+.salmon-range-selector .salmon-range-selector-group-label {
+  fill: var(--salmon-text-primary);
+}

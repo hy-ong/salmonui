@@ -1,0 +1,66 @@
+/* Sparkline: standalone, not
+   prefixed by viz.css, so a grid cell pays only for these rules. Colors from
+   --salmon-* variables; inline styles carry data colors. */
+.salmon-sparkline {
+  display: inline-block;
+  vertical-align: middle;
+  overflow: visible;
+}
+
+.salmon-sparkline:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--salmon-radius-sm);
+}
+
+.salmon-sparkline-line {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.salmon-sparkline-area {
+  opacity: 0.25;
+}
+
+.salmon-sparkline-axis,
+.salmon-sparkline-track {
+  stroke: var(--salmon-border-default);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.salmon-sparkline-band {
+  fill: var(--salmon-surface-sunken);
+}
+
+.salmon-sparkline-label {
+  fill: var(--salmon-text-secondary);
+  font-family: var(--salmon-font-sans);
+  font-size: 9px;
+}
+
+.salmon-sparkline-focus {
+  fill: none;
+  stroke: var(--salmon-state-focus-ring);
+  stroke-width: 1.5;
+}
+
+.salmon-sparkline-tooltip {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: 1000;
+  padding: 2px 6px;
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-overlay);
+  box-shadow: var(--salmon-shadow-md);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  white-space: nowrap;
+}

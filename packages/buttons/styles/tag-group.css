@@ -1,0 +1,202 @@
+/* @salmonui/react/tag-group/styles.css: TagGroup and Tag.
+   Colors from --salmon-* theme variables only; tones
+   are the Button tones, sizes the three Button metric sets. Logical
+   properties only. */
+
+.salmon-tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+}
+.salmon-tag-group:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-tag {
+  --salmon-tag-bg: var(--salmon-surface-sunken);
+  --salmon-tag-fg: var(--salmon-text-primary);
+  --salmon-tag-bd: var(--salmon-border-default);
+  --salmon-tag-h: calc(var(--salmon-control-height-md, 32px) - 4px);
+  --salmon-tag-glyph: 16px;
+  position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
+  min-block-size: var(--salmon-tag-h);
+  border: 1px solid var(--salmon-tag-bd);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-tag-bg);
+  color: var(--salmon-tag-fg);
+  cursor: default;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--salmon-motion-duration-fast) var(--salmon-motion-easing), border-color var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+.salmon-tag-group[data-size='sm'] .salmon-tag {
+  --salmon-tag-h: calc(var(--salmon-control-height-sm, 24px) - 2px);
+  --salmon-tag-glyph: 14px;
+  font-size: var(--salmon-font-size-sm);
+}
+.salmon-tag-group[data-size='lg'] .salmon-tag {
+  --salmon-tag-h: calc(var(--salmon-control-height-lg, 40px) - 6px);
+  --salmon-tag-glyph: 20px;
+}
+.salmon-tag-group:not([data-selection-mode='none']) .salmon-tag {
+  cursor: pointer;
+}
+.salmon-tag[data-draggable] {
+  cursor: grab;
+  touch-action: none;
+}
+.salmon-tag[data-tone='primary'] {
+  --salmon-tag-bg: var(--salmon-color-primary-subtle);
+  --salmon-tag-fg: var(--salmon-color-primary-text);
+  --salmon-tag-bd: var(--salmon-color-primary-border);
+}
+.salmon-tag[data-tone='success'] {
+  --salmon-tag-bg: var(--salmon-color-success-subtle);
+  --salmon-tag-fg: var(--salmon-color-success-text);
+  --salmon-tag-bd: var(--salmon-color-success-border);
+}
+.salmon-tag[data-tone='warning'] {
+  --salmon-tag-bg: var(--salmon-color-warning-subtle);
+  --salmon-tag-fg: var(--salmon-color-warning-text);
+  --salmon-tag-bd: var(--salmon-color-warning-border);
+}
+.salmon-tag[data-tone='danger'] {
+  --salmon-tag-bg: var(--salmon-color-danger-subtle);
+  --salmon-tag-fg: var(--salmon-color-danger-text);
+  --salmon-tag-bd: var(--salmon-color-danger-border);
+}
+.salmon-tag[data-tone='info'] {
+  --salmon-tag-bg: var(--salmon-color-info-subtle);
+  --salmon-tag-fg: var(--salmon-color-info-text);
+  --salmon-tag-bd: var(--salmon-color-info-border);
+}
+.salmon-tag:not([data-tone]):hover {
+  --salmon-tag-bd: var(--salmon-border-strong);
+}
+.salmon-tag[data-selected] {
+  --salmon-tag-bg: var(--salmon-surface-selected);
+  --salmon-tag-bd: var(--salmon-border-selected);
+}
+/* A toned tag already sits on its subtle surface (the selected surface of that tone): selected,
+   it swaps its text and surface colors, a solid fill with the same contrast. */
+.salmon-tag[data-tone][data-selected]:not([aria-disabled='true']) {
+  border-color: var(--salmon-tag-fg);
+  background: var(--salmon-tag-fg);
+  color: var(--salmon-tag-bg);
+}
+.salmon-tag:focus-visible {
+  z-index: 1;
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+.salmon-tag[aria-disabled='true'] {
+  --salmon-tag-bg: var(--salmon-surface-disabled);
+  --salmon-tag-fg: var(--salmon-text-disabled);
+  --salmon-tag-bd: var(--salmon-border-subtle);
+  cursor: not-allowed;
+}
+.salmon-tag[data-dragging] {
+  opacity: 0.5;
+}
+/* Drop indicator: a bar at the inline start of the tag before the insertion point, or the end of the last tag. */
+.salmon-tag[data-drop]::before {
+  content: '';
+  position: absolute;
+  inset-block: 2px;
+  inset-inline-start: -5px;
+  inline-size: 2px;
+  background: var(--salmon-state-focus-ring);
+}
+.salmon-tag[data-drop='after']::before {
+  inset-inline: auto -5px;
+}
+
+.salmon-tag-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-inline-size: 0;
+  padding-inline: 10px;
+}
+.salmon-tag:has(.salmon-tag-remove) .salmon-tag-cell {
+  padding-inline-end: 3px;
+}
+.salmon-tag-label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.salmon-tag-icon {
+  display: inline-flex;
+  flex: none;
+}
+.salmon-tag-remove {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: calc(var(--salmon-tag-h) - 8px);
+  block-size: calc(var(--salmon-tag-h) - 8px);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.salmon-tag-remove > svg {
+  inline-size: var(--salmon-tag-glyph);
+  block-size: var(--salmon-tag-glyph);
+}
+.salmon-tag-remove:hover {
+  background: var(--salmon-surface-hover);
+}
+.salmon-tag-remove:disabled {
+  cursor: not-allowed;
+}
+.salmon-tag-group-empty {
+  color: var(--salmon-text-secondary);
+}
+.salmon-tag-group-ghost {
+  position: fixed;
+  z-index: 2147483647;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  padding: 2px 10px;
+  border: 1px solid var(--salmon-border-selected);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-overlay);
+  box-shadow: var(--salmon-shadow-md);
+  color: var(--salmon-text-primary);
+  font: inherit;
+  pointer-events: none;
+}
+
+@media (forced-colors: active) {
+  .salmon-tag {
+    border-color: ButtonText;
+  }
+  .salmon-tag[data-selected] {
+    border-color: Highlight;
+    outline: 1px solid Highlight;
+  }
+  .salmon-tag[aria-disabled='true'] {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-tag {
+    transition: none;
+  }
+}

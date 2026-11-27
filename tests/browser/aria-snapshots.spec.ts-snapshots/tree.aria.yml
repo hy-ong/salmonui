@@ -1,0 +1,46 @@
+- treegrid "Tasks":
+  - rowgroup:
+    - row "Task ID Hours":
+      - columnheader "Task"
+      - columnheader "ID"
+      - columnheader "Hours"
+  - rowgroup:
+    - row "Collapse Planning Select row Planning p1 0" [expanded] [level=1]:
+      - gridcell "Collapse Planning Select row Planning":
+        - button "Collapse Planning"
+        - checkbox "Select row" [checked=mixed]
+        - text: ""
+      - gridcell "p1"
+      - gridcell "0"
+    - row "Collapse Scope Select row Scope p1a 4" [expanded] [level=2]:
+      - gridcell "Collapse Scope Select row Scope":
+        - button "Collapse Scope"
+        - checkbox "Select row"
+        - text: ""
+      - gridcell "p1a"
+      - gridcell "4"
+    - row "Select row Interviews p1a1 6" [level=3]:
+      - gridcell "Select row Interviews":
+        - checkbox "Select row"
+        - text: ""
+      - gridcell "p1a1"
+      - gridcell "6"
+    - row "Select row Budget p1b 3" [level=2] [selected]:
+      - gridcell "Select row Budget":
+        - checkbox "Select row" [checked]
+        - text: ""
+      - gridcell "p1b"
+      - gridcell "3"
+    - row "Expand Build Select row Build p2 0" [level=1]:
+      - gridcell "Expand Build Select row Build":
+        - button "Expand Build"
+        - checkbox "Select row"
+        - text: ""
+      - gridcell "p2"
+      - gridcell "0"
+    - row "Select row Launch p3 2" [level=1]:
+      - gridcell "Select row Launch":
+        - checkbox "Select row"
+        - text: ""
+      - gridcell "p3"
+      - gridcell "2"

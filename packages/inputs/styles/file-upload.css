@@ -1,0 +1,147 @@
+/* FileUpload; field.css is prepended. */
+.salmon-file-upload {
+  display: flex;
+  min-inline-size: 240px;
+}
+
+.salmon-file-upload-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 72px;
+  padding: var(--salmon-space-3);
+  border: 1px dashed var(--salmon-border-strong);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.salmon-file-upload-trigger:hover,
+.salmon-file-upload-action:hover,
+.salmon-file-upload[data-dragging] .salmon-file-upload-trigger {
+  border-color: var(--salmon-border-selected);
+  background: var(--salmon-surface-hover);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-file-upload button:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-file-upload[data-invalid] .salmon-file-upload-trigger {
+  border-color: var(--salmon-state-invalid);
+}
+
+.salmon-file-upload :disabled {
+  background: var(--salmon-surface-disabled);
+  color: var(--salmon-text-disabled);
+  cursor: not-allowed;
+}
+
+.salmon-file-upload-toolbar {
+  display: flex;
+  /* Spaced from the drop zone above and the list below (the field gap is 2px). */
+  margin-block: var(--salmon-space-2);
+  gap: var(--salmon-space-2);
+  justify-content: flex-end;
+}
+
+.salmon-file-upload-button {
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding-inline: var(--salmon-control-padding-md, 12px);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-sunken);
+  color: var(--salmon-text-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.salmon-file-upload-button[data-action='uploadAll'] {
+  border-color: var(--salmon-color-primary);
+  background: var(--salmon-color-primary);
+  color: var(--salmon-color-primary-on);
+}
+
+.salmon-file-upload-list {
+  display: grid;
+  gap: var(--salmon-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.salmon-file-upload-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--salmon-space-2);
+  /* Text 12px from the start; the 24px action boxes pull in by 4px so the
+     last 16px glyph sits 12px from the end. */
+  padding-block: var(--salmon-space-2);
+  padding-inline: var(--salmon-space-4) var(--salmon-space-3);
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-file-upload-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-file-upload-meta {
+  grid-column: 1;
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-file-upload-item[data-error] .salmon-file-upload-meta {
+  color: var(--salmon-color-danger-text);
+}
+
+.salmon-file-upload-progress {
+  grid-column: 1;
+  inline-size: 100%;
+  block-size: 4px;
+  accent-color: var(--salmon-color-primary);
+}
+
+.salmon-file-upload-actions {
+  display: flex;
+  grid-row: 1 / span 3;
+  grid-column: 2;
+}
+
+.salmon-file-upload-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: transparent;
+  color: var(--salmon-text-secondary);
+  cursor: pointer;
+}
+
+.salmon-file-upload-icon {
+  inline-size: 16px;
+  block-size: 16px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='black' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.salmon-file-upload-action[data-action='retryFile'] .salmon-file-upload-icon {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M13 8a5 5 0 1 1-1.5-3.5M13 2v3h-3'/%3E%3C/svg%3E");
+}
+
+/* Cancel is a stop glyph, so a queued row's Cancel and Remove differ. */
+.salmon-file-upload-action[data-action='cancelFile'] .salmon-file-upload-icon {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Ccircle cx='8' cy='8' r='5.5'/%3E%3Cpath d='M4.2 11.8l7.6-7.6'/%3E%3C/svg%3E");
+}

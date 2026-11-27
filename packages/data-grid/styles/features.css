@@ -1,0 +1,191 @@
+/*
+ * Features added after the code rename: the boxWithBorder range outline,
+ * the row number column, the header group toggle, and the data error row.
+ * Colors come from the theme variables only.
+ */
+
+/* selection.cellRange: 'boxWithBorder': one outline around each selected range instead of one per cell. */
+.salmon-data-grid-cell[data-range-edge] {
+  --salmon-data-grid-edge-top: 0px;
+  --salmon-data-grid-edge-bottom: 0px;
+  --salmon-data-grid-edge-left: 0px;
+  --salmon-data-grid-edge-right: 0px;
+  box-shadow:
+    inset 0 var(--salmon-data-grid-edge-top) 0 0 var(--salmon-data-grid-edge-color, var(--salmon-border-selected)),
+    inset 0 calc(-1 * var(--salmon-data-grid-edge-bottom)) 0 0 var(--salmon-data-grid-edge-color, var(--salmon-border-selected)),
+    inset var(--salmon-data-grid-edge-left) 0 0 0 var(--salmon-data-grid-edge-color, var(--salmon-border-selected)),
+    inset calc(-1 * var(--salmon-data-grid-edge-right)) 0 0 0 var(--salmon-data-grid-edge-color, var(--salmon-border-selected));
+}
+
+.salmon-data-grid-cell[data-range-edge~='top'] { --salmon-data-grid-edge-top: 2px; }
+.salmon-data-grid-cell[data-range-edge~='bottom'] { --salmon-data-grid-edge-bottom: 2px; }
+.salmon-data-grid-cell[data-range-edge~='start'] { --salmon-data-grid-edge-left: 2px; }
+.salmon-data-grid-cell[data-range-edge~='end'] { --salmon-data-grid-edge-right: 2px; }
+
+[dir='rtl'] .salmon-data-grid-cell[data-range-edge~='start'],
+.salmon-data-grid[dir='rtl'] .salmon-data-grid-cell[data-range-edge~='start'] {
+  --salmon-data-grid-edge-left: 0px;
+  --salmon-data-grid-edge-right: 2px;
+}
+
+[dir='rtl'] .salmon-data-grid-cell[data-range-edge~='end'],
+.salmon-data-grid[dir='rtl'] .salmon-data-grid-cell[data-range-edge~='end'] {
+  --salmon-data-grid-edge-right: 0px;
+  --salmon-data-grid-edge-left: 2px;
+}
+
+[dir='rtl'] .salmon-data-grid-cell[data-range-edge~='start'][data-range-edge~='end'],
+.salmon-data-grid[dir='rtl'] .salmon-data-grid-cell[data-range-edge~='start'][data-range-edge~='end'] {
+  --salmon-data-grid-edge-left: 2px;
+  --salmon-data-grid-edge-right: 2px;
+}
+
+/* Row number column (type: 'rowNumber'). */
+.salmon-data-grid-cell[data-row-number] {
+  color: var(--salmon-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Header group toggle (grouping.showHeaderToggle). */
+.salmon-data-grid-group-toggle-button[data-active] {
+  color: var(--salmon-color-primary-text);
+}
+
+/* Data error row (renderError). */
+.salmon-data-grid-error__cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-data-grid-error__message {
+  color: var(--salmon-text-secondary);
+}
+
+@media (forced-colors: active) {
+  .salmon-data-grid-cell[data-range-edge] {
+    --salmon-data-grid-edge-color: CanvasText;
+  }
+}
+
+/* Loading indicator (loadingIndicator, renderLoading, setLoading).
+   A presentational overlay over the grid (aria-hidden; the root carries
+   aria-busy). Static by design: the grid stylesheet carries no motion
+   (boundary test), so reduced motion needs no override. Pointer input
+   passes through: an action during a load re-issues the read. */
+.salmon-data-grid-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--salmon-surface-raised) 65%, transparent);
+}
+
+.salmon-data-grid-loading[data-indicator='skeleton'] {
+  align-items: stretch;
+  justify-content: stretch;
+  padding-block-start: var(--salmon-data-grid-header-total-height, var(--salmon-data-grid-header-height));
+}
+
+.salmon-data-grid-loading__spinner {
+  inline-size: 32px;
+  block-size: 32px;
+  border: 3px solid var(--salmon-border-subtle);
+  border-block-start-color: var(--salmon-color-primary);
+  border-radius: 50%;
+}
+
+.salmon-data-grid-loading__skeleton {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.salmon-data-grid-loading__bar {
+  flex: none;
+  block-size: var(--salmon-data-grid-row-height);
+  padding: var(--salmon-space-2) var(--salmon-data-grid-cell-padding-inline);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-data-grid-loading__bar::before {
+  content: '';
+  display: block;
+  block-size: 100%;
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-sunken);
+}
+
+/* Checklist values loading (filtering.loadingIndicator): skeleton
+   value rows (default) or the spinner, inside the filter dialog. Static too. */
+.salmon-data-grid-filter-menu__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--salmon-space-2);
+  padding: var(--salmon-space-4);
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-data-grid-filter-menu__loading[data-indicator='skeleton'] {
+  align-items: stretch;
+  padding: 0;
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-sm);
+}
+
+.salmon-data-grid-filter-menu__skeleton {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.salmon-data-grid-filter-menu__skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  height: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-space-2);
+}
+
+.salmon-data-grid-filter-menu__skeleton-row::before,
+.salmon-data-grid-filter-menu__skeleton-row::after {
+  content: '';
+  display: block;
+  block-size: 12px;
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-data-grid-filter-menu__skeleton-row::before {
+  inline-size: 14px;
+}
+
+.salmon-data-grid-filter-menu__skeleton-row::after {
+  flex: 1;
+  max-inline-size: 70%;
+}
+
+@media (forced-colors: active) {
+  .salmon-data-grid-loading {
+    background: transparent;
+  }
+
+  .salmon-data-grid-filter-menu__skeleton-row::before,
+  .salmon-data-grid-filter-menu__skeleton-row::after {
+    background: GrayText;
+  }
+
+  .salmon-data-grid-loading__spinner {
+    forced-color-adjust: none;
+    border-color: GrayText;
+    border-block-start-color: Highlight;
+  }
+}

@@ -1,0 +1,121 @@
+/* @salmonui/react/card: Card and its parts. Self-contained; logical properties only. */
+
+.salmon-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  overflow: hidden;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  text-decoration: none;
+}
+
+.salmon-card *,
+.salmon-card ::before,
+.salmon-card ::after {
+  box-sizing: border-box;
+}
+
+.salmon-card[data-orientation='horizontal'] {
+  flex-direction: row;
+}
+
+.salmon-card[data-orientation='horizontal'] > .salmon-card-media {
+  flex: 0 0 auto;
+  max-inline-size: 40%;
+}
+
+a.salmon-card:hover {
+  background: var(--salmon-surface-hover);
+}
+
+a.salmon-card:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-3);
+  padding: var(--salmon-space-3) var(--salmon-space-4);
+}
+
+.salmon-card-header-media {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.salmon-card-header-caption {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.salmon-card-title {
+  margin: 0;
+  font-size: var(--salmon-font-size-lg, 1.125rem);
+  font-weight: 600;
+  line-height: var(--salmon-line-height-tight);
+}
+
+.salmon-card-description {
+  margin: 0;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-card-media {
+  position: relative;
+}
+
+.salmon-card-media > img,
+.salmon-card-media > video {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.salmon-card-media-title {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  padding: var(--salmon-space-2) var(--salmon-space-4);
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(transparent, rgb(0 0 0 / 0.65));
+}
+
+.salmon-card-body {
+  flex: 1 1 auto;
+  padding: var(--salmon-space-3) var(--salmon-space-4);
+}
+
+.salmon-card-header + .salmon-card-body {
+  padding-block-start: 0;
+}
+
+.salmon-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--salmon-space-2);
+  padding: var(--salmon-space-3) var(--salmon-space-4);
+}
+
+.salmon-card-actions[data-orientation='vertical'] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.salmon-card-separator {
+  margin: 0;
+  border: 0;
+  border-block-start: 1px solid var(--salmon-border-subtle);
+}

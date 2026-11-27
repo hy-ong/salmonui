@@ -1,0 +1,159 @@
+/* @salmonui/react/image-editor: ImageEditor.
+   The published styles.css prepends the Button, Menu, Toolbar and
+   visually-hidden rules it composes, so the subpath stylesheet is
+   self-contained. Logical properties only; size through width / height. */
+
+.salmon-image-editor {
+  --salmon-image-editor-accent: var(--salmon-accent, #2f6fed);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  block-size: 480px;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  overflow: hidden;
+}
+
+.salmon-image-editor-toolbar {
+  flex: none;
+  padding: var(--salmon-space-1);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  background: var(--salmon-surface-header);
+}
+
+.salmon-image-editor-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-block-size: 0;
+  background:
+    repeating-conic-gradient(var(--salmon-surface-sunken, #eef0f3) 0 25%, var(--salmon-surface-base) 0 50%) 0 0 / 16px 16px;
+}
+
+.salmon-image-editor-canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  touch-action: none;
+  user-select: none;
+  outline: none;
+}
+
+.salmon-image-editor-canvas:focus-visible {
+  outline: 2px solid var(--salmon-focus-ring, var(--salmon-image-editor-accent));
+  outline-offset: -2px;
+}
+
+.salmon-image-editor-message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--salmon-space-4);
+  color: var(--salmon-text-secondary);
+  text-align: center;
+  pointer-events: none;
+}
+
+.salmon-image-editor-message[data-status='error'] {
+  color: var(--salmon-danger-text, var(--salmon-text-primary));
+}
+
+.salmon-image-editor-panel {
+  position: absolute;
+  inset-inline: var(--salmon-space-2);
+  inset-block-end: var(--salmon-space-2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  padding: var(--salmon-space-2);
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-raised, var(--salmon-surface-base));
+  box-shadow: var(--salmon-shadow-md, 0 2px 8px rgb(0 0 0 / 0.15));
+}
+
+.salmon-image-editor-field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-1);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-image-editor-field input[type='range'] {
+  inline-size: 110px;
+  accent-color: var(--salmon-image-editor-accent);
+}
+
+.salmon-image-editor-field input[type='number'] {
+  inline-size: 72px;
+  padding-block: 2px;
+  padding-inline: 4px;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: inherit;
+  font: inherit;
+}
+
+.salmon-image-editor-field input[type='color'] {
+  inline-size: 28px;
+  block-size: 24px;
+  padding: 0;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  background: none;
+}
+
+.salmon-image-editor-field-value {
+  min-inline-size: 3ch;
+  color: var(--salmon-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.salmon-image-editor-choices {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.salmon-image-editor-quick {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  padding: 2px;
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-raised, var(--salmon-surface-base));
+  box-shadow: var(--salmon-shadow-md, 0 2px 8px rgb(0 0 0 / 0.15));
+  visibility: hidden;
+}
+
+.salmon-image-editor-text-input {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  transform-origin: 0 0;
+  min-inline-size: 4ch;
+  margin: 0;
+  padding: 0;
+  border: 1px dashed var(--salmon-image-editor-accent);
+  background: rgb(255 255 255 / 0.6);
+  line-height: 1.2;
+  resize: none;
+  overflow: hidden;
+  field-sizing: content;
+}
+
+@media (pointer: coarse) {
+  .salmon-image-editor-quick .salmon-button,
+  .salmon-image-editor-toolbar .salmon-button {
+    min-inline-size: 44px;
+    min-block-size: 44px;
+  }
+}

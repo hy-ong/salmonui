@@ -1,0 +1,8 @@
+/* Shared keyframes (`motion`):
+   the opacity pulse (Skeleton `animation="pulse"`). */
+
+@keyframes salmon-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}

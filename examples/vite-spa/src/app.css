@@ -1,0 +1,33 @@
+html,
+body {
+  margin: 0;
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+}
+
+.app {
+  min-height: 100vh;
+  padding: var(--salmon-space-5);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+}
+
+.app__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--salmon-space-5);
+  margin-block-end: var(--salmon-space-4);
+}
+
+.app__bar h1 {
+  margin: 0;
+  font-size: var(--salmon-font-size-lg);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+/* ?rowTemplate: flagged rows get an inset start bar (paint only, no layout). */
+.app-template-row[data-flag] {
+  box-shadow: inset 3px 0 0 var(--salmon-border-strong, currentColor);
+}

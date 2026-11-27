@@ -1,0 +1,78 @@
+/* @salmonui/react/avatar: Avatar and AvatarGroup. Self-contained; logical properties only. */
+
+.salmon-avatar {
+  --salmon-avatar-size: 40px;
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--salmon-avatar-size);
+  block-size: var(--salmon-avatar-size);
+  overflow: hidden;
+  font-family: var(--salmon-font-sans);
+  /* Initials stay legible on small avatars (a 22px one gets 11px). */
+  font-size: max(11px, calc(var(--salmon-avatar-size) * 0.4));
+  font-weight: 600;
+  line-height: 1;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-sunken);
+  border-radius: var(--salmon-radius-md);
+  vertical-align: middle;
+  user-select: none;
+}
+
+.salmon-avatar[data-size='xs'] { --salmon-avatar-size: 24px; }
+.salmon-avatar[data-size='sm'] { --salmon-avatar-size: 32px; }
+.salmon-avatar[data-size='lg'] { --salmon-avatar-size: 56px; }
+.salmon-avatar[data-size='xl'] { --salmon-avatar-size: 72px; }
+.salmon-avatar[data-shape='circle'] { border-radius: 50%; }
+
+.salmon-avatar[data-tone='primary'] { color: var(--salmon-color-primary-text); background: var(--salmon-color-primary-subtle); }
+.salmon-avatar[data-tone='info'] { color: var(--salmon-color-info-text); background: var(--salmon-color-info-subtle); }
+.salmon-avatar[data-tone='success'] { color: var(--salmon-color-success-text); background: var(--salmon-color-success-subtle); }
+.salmon-avatar[data-tone='warning'] { color: var(--salmon-color-warning-text); background: var(--salmon-color-warning-subtle); }
+.salmon-avatar[data-tone='danger'] { color: var(--salmon-color-danger-text); background: var(--salmon-color-danger-subtle); }
+
+/* Solid: the tone fill with on-color text; neutral is a gray that keeps white text legible. */
+.salmon-avatar[data-variant='solid'] { color: var(--salmon-text-inverse); background: var(--salmon-text-secondary); }
+.salmon-avatar[data-variant='solid'][data-tone='primary'] { color: var(--salmon-color-primary-on); background: var(--salmon-color-primary); }
+.salmon-avatar[data-variant='solid'][data-tone='info'] { color: var(--salmon-color-info-on); background: var(--salmon-color-info); }
+.salmon-avatar[data-variant='solid'][data-tone='success'] { color: var(--salmon-color-success-on); background: var(--salmon-color-success); }
+.salmon-avatar[data-variant='solid'][data-tone='warning'] { color: var(--salmon-color-warning-on); background: var(--salmon-color-warning); }
+.salmon-avatar[data-variant='solid'][data-tone='danger'] { color: var(--salmon-color-danger-on); background: var(--salmon-color-danger); }
+
+.salmon-avatar-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.salmon-avatar-fallback > svg {
+  inline-size: 60%;
+  block-size: 60%;
+}
+
+.salmon-avatar-image {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.salmon-avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.salmon-avatar-group > .salmon-avatar {
+  box-shadow: 0 0 0 2px var(--salmon-surface-base);
+}
+
+.salmon-avatar-group > .salmon-avatar + .salmon-avatar {
+  /* An eighth of the size: the 2px ring plus the overlap stays inside the
+     side bearing of two initials, so no letter is cut off. */
+  margin-inline-start: calc(var(--salmon-avatar-size) * -0.125);
+}

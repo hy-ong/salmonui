@@ -1,0 +1,70 @@
+{
+  "name": "@salmonui/chat",
+  "version": "0.2.0",
+  "description": "Conversation, InlineAssist, TextSuggest and SmartPaste for Salmon UI with provider-agnostic AI adapters.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/chat"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./conversation": {
+      "types": "./dist/conversation.d.ts",
+      "import": "./dist/conversation.js"
+    },
+    "./inline-assist": {
+      "types": "./dist/inline-assist.d.ts",
+      "import": "./dist/inline-assist.js"
+    },
+    "./text-suggest": {
+      "types": "./dist/text-suggest.d.ts",
+      "import": "./dist/text-suggest.js"
+    },
+    "./smart-paste": {
+      "types": "./dist/smart-paste.d.ts",
+      "import": "./dist/smart-paste.js"
+    },
+    "./conversation/styles.css": "./dist/conversation.css",
+    "./inline-assist/styles.css": "./dist/inline-assist.css",
+    "./text-suggest/styles.css": "./dist/text-suggest.css",
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "imports": {
+    "#conversation-assistant": {
+      "types": "./dist/conversation/assistant-static.d.ts",
+      "workerd": "./dist/conversation/assistant-static.js",
+      "worker": "./dist/conversation/assistant-static.js",
+      "edge-light": "./dist/conversation/assistant-static.js",
+      "browser": "./dist/conversation/assistant-lazy.js",
+      "default": "./dist/conversation/assistant-static.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0",
+    "@salmonui/buttons": "0.2.0",
+    "@salmonui/dropdowns": "0.2.0",
+    "@salmonui/inputs": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

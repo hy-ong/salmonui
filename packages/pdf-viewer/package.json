@@ -1,0 +1,46 @@
+{
+  "name": "@salmonui/pdf-viewer",
+  "version": "0.2.0",
+  "description": "PdfViewer for Salmon UI: view, search, thumbnails, bookmarks, print, text markup and form filling on pdf.js, loaded lazily on the client.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/pdf-viewer"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/pdf-viewer.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0",
+    "@salmonui/buttons": "0.2.0",
+    "@salmonui/navigation": "0.2.0",
+    "@salmonui/overlays": "0.2.0",
+    "pdfjs-dist": "6.5.438"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

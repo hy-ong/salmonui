@@ -1,0 +1,54 @@
+{
+  "name": "@salmonui/docs-site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "browserslist": [
+    "chrome >= 120",
+    "edge >= 120",
+    "firefox >= 129",
+    "safari >= 17.5",
+    "ios_saf >= 17.5"
+  ],
+  "scripts": {
+    "predev": "node ../../tooling/site/api-reference.mjs",
+    "dev": "next dev --port 41760",
+    "prebuild": "node ../../tooling/site/api-reference.mjs",
+    "build": "next build",
+    "prebuild:export": "node ../../tooling/site/api-reference.mjs",
+    "build:export": "node ../../tooling/site/build-export.mjs",
+    "start": "next start --port 41760",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@salmonui/buttons": "0.2.0",
+    "@salmonui/calendars": "0.2.0",
+    "@salmonui/charts": "0.2.0",
+    "@salmonui/chat": "0.2.0",
+    "@salmonui/core": "0.2.0",
+    "@salmonui/data": "0.2.0",
+    "@salmonui/data-grid": "0.2.0",
+    "@salmonui/dropdowns": "0.2.0",
+    "@salmonui/editors": "0.2.0",
+    "@salmonui/export": "0.2.0",
+    "@salmonui/gantt": "0.2.0",
+    "@salmonui/inputs": "0.2.0",
+    "@salmonui/kanban": "0.2.0",
+    "@salmonui/layout": "0.2.0",
+    "@salmonui/navigation": "0.2.0",
+    "@salmonui/notifications": "0.2.0",
+    "@salmonui/overlays": "0.2.0",
+    "@salmonui/pdf-viewer": "0.2.0",
+    "@salmonui/pivot-table": "0.2.0",
+    "@salmonui/query-builder": "0.2.0",
+    "@salmonui/rich-text": "0.2.0",
+    "@salmonui/scheduler": "0.2.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "marked": "18.1.2",
+    "next": "16.4.5",
+    "sugar-high": "2.6.4"
+  }
+}

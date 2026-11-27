@@ -1,0 +1,54 @@
+{
+  "name": "@salmonui/query-builder",
+  "version": "0.2.0",
+  "description": "QueryBuilder for Salmon UI with SQL and MongoDB import and export.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/query-builder"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/query-builder.d.ts",
+      "import": "./dist/query-builder.js"
+    },
+    "./sql": {
+      "types": "./dist/query-builder/sql.d.ts",
+      "import": "./dist/query-builder/sql.js"
+    },
+    "./mongo": {
+      "types": "./dist/query-builder/mongo.d.ts",
+      "import": "./dist/query-builder/mongo.js"
+    },
+    "./styles.css": "./dist/query-builder.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@salmonui/core": "0.2.0",
+    "@salmonui/buttons": "0.2.0",
+    "@salmonui/dropdowns": "0.2.0",
+    "@salmonui/calendars": "0.2.0",
+    "@salmonui/inputs": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,189 @@
+/* QueryBuilder (@salmonui/react/query-builder). Groups indent with logical
+   padding (RTL mirrors); colors come from the theme variables only. */
+.salmon-query-builder {
+  position: relative;
+  display: grid;
+  /* One track no wider than the builder (narrow containers stack the editors);
+     the builder fills its box, since inline-size containment gives it no
+     intrinsic width in a shrink-to-fit parent. */
+  grid-template-columns: minmax(0, 1fr);
+  inline-size: 100%;
+  gap: var(--salmon-space-2);
+  color: var(--salmon-text-primary);
+  container-type: inline-size;
+}
+
+/* A group is a container: radius lg with 8px padding, so the md-radius
+   controls inside sit one level lower. */
+.salmon-query-builder__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--salmon-space-3);
+  padding: var(--salmon-space-3);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-raised);
+}
+
+.salmon-query-builder__group .salmon-query-builder__group {
+  margin-inline-start: var(--salmon-space-4);
+  border-inline-start-width: 3px;
+}
+
+.salmon-query-builder__group[data-not] {
+  border-inline-start-color: var(--salmon-state-invalid);
+}
+
+.salmon-query-builder__bar,
+.salmon-query-builder__rule {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-query-builder__logic {
+  display: inline-flex;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  overflow: hidden;
+}
+
+.salmon-query-builder__logic label,
+.salmon-query-builder__not,
+.salmon-query-builder__bool {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-block-size: var(--salmon-control-height-sm, 24px);
+  padding-inline: var(--salmon-control-padding-sm, 8px);
+  cursor: pointer;
+}
+
+.salmon-query-builder__logic label:has(:checked) {
+  background: var(--salmon-color-primary);
+  color: var(--salmon-color-primary-on);
+}
+
+/* Read-only, disabled or locked groups: the connector reads as disabled like the rule editors. */
+.salmon-query-builder__logic:has(:disabled) {
+  border-color: var(--salmon-border-subtle);
+  background: var(--salmon-surface-disabled);
+}
+
+.salmon-query-builder__logic label:has(:disabled),
+.salmon-query-builder__not:has(:disabled) {
+  color: var(--salmon-text-disabled);
+  cursor: not-allowed;
+}
+
+.salmon-query-builder__logic label:has(:checked:disabled) {
+  background: var(--salmon-surface-selected);
+  color: var(--salmon-text-disabled);
+}
+
+.salmon-query-builder__logic input {
+  position: absolute;
+  opacity: 0;
+  inline-size: 1px;
+  block-size: 1px;
+}
+
+.salmon-query-builder__logic label:has(:focus-visible) {
+  outline: 2px solid var(--salmon-state-focus-ring);
+  outline-offset: -2px;
+}
+
+.salmon-query-builder__rule > .salmon-select,
+.salmon-query-builder__rule > .salmon-field,
+.salmon-query-builder__rule > .salmon-combobox {
+  flex: 1 1 10em;
+  min-inline-size: 8em;
+}
+
+.salmon-query-builder__range {
+  display: inline-flex;
+  flex: 2 1 16em;
+  gap: var(--salmon-space-2);
+  min-inline-size: 0;
+}
+
+.salmon-query-builder__range > * {
+  flex: 1 1 0;
+  min-inline-size: 0;
+}
+
+.salmon-query-builder__rule[data-invalid] {
+  outline: 1px solid var(--salmon-state-invalid);
+  outline-offset: 2px;
+  border-radius: var(--salmon-radius-sm);
+}
+
+.salmon-query-builder__error {
+  flex-basis: 100%;
+  color: var(--salmon-color-danger-text);
+  font-size: 0.875em;
+}
+
+.salmon-query-builder__handle {
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: 24px;
+  min-block-size: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: grab;
+  touch-action: none;
+}
+
+.salmon-query-builder__handle:hover:not(:disabled) { background: var(--salmon-surface-hover); }
+.salmon-query-builder__handle:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-query-builder [data-dragging] {
+  opacity: 0.5;
+}
+
+.salmon-query-builder__drop-indicator {
+  position: absolute;
+  inset-inline: 0;
+  block-size: 2px;
+  margin-block-start: -1px;
+  background: var(--salmon-state-drag-indicator);
+  pointer-events: none;
+}
+
+.salmon-query-builder__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-query-builder__sentence {
+  margin: 0;
+}
+
+.salmon-query-builder__live {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Narrow containers stack the rule editors. */
+@container (max-width: 480px) {
+  .salmon-query-builder__rule > .salmon-select,
+  .salmon-query-builder__rule > .salmon-field,
+  .salmon-query-builder__rule > .salmon-combobox,
+  .salmon-query-builder__range {
+    flex-basis: 100%;
+  }
+}

@@ -1,0 +1,193 @@
+/* @salmonui/react/dashboard-layout: DashboardLayout and its panels. Self-contained (a11y.css comes first);
+   logical properties only. Panels are grid items placed from custom properties written by the component
+   (1-based `--salmon-dashboard-x` / `-y`, spans `-w` / `-h`), so the server HTML has the final layout.
+   `.salmon-dashboard-scale` is the query container: it is `--salmon-dashboard-k` (100 / stackBelow) times
+   the layout width, so the fixed `(width < 100px)` query below matches exactly when the layout is narrower
+   than `stackBelow`, while the grid inside divides the scale back out. */
+
+.salmon-dashboard {
+  --salmon-dashboard-k: 1;
+  box-sizing: border-box;
+  position: relative;
+  min-inline-size: 0;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-dashboard-scale {
+  container: salmon-dashboard / inline-size;
+  inline-size: calc(100% * var(--salmon-dashboard-k));
+}
+
+.salmon-dashboard-grid {
+  position: relative;
+  display: grid;
+  inline-size: calc(100% / var(--salmon-dashboard-k));
+  grid-template-columns: repeat(var(--salmon-dashboard-columns), minmax(0, 1fr));
+  --salmon-dashboard-row-size: var(--salmon-dashboard-row, calc((100cqi / var(--salmon-dashboard-k) - (var(--salmon-dashboard-columns) - 1) * var(--salmon-dashboard-gap-x)) / var(--salmon-dashboard-columns) / var(--salmon-dashboard-ratio)));
+  grid-auto-rows: var(--salmon-dashboard-row-size);
+  gap: var(--salmon-dashboard-gap-y) var(--salmon-dashboard-gap-x);
+}
+
+.salmon-dashboard[data-grid-lines] .salmon-dashboard-grid {
+  background-image:
+    linear-gradient(to right, var(--salmon-border-subtle) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--salmon-border-subtle) 1px, transparent 1px);
+  background-size:
+    calc((100% + var(--salmon-dashboard-gap-x)) / var(--salmon-dashboard-columns)) 100%,
+    100% calc(var(--salmon-dashboard-row-size) + var(--salmon-dashboard-gap-y));
+}
+
+.salmon-dashboard-panel,
+.salmon-dashboard-placeholder {
+  box-sizing: border-box;
+  grid-column: var(--salmon-dashboard-x) / span var(--salmon-dashboard-w);
+  grid-row: var(--salmon-dashboard-y) / span var(--salmon-dashboard-h);
+  min-inline-size: 0;
+  min-block-size: 0;
+  border-radius: var(--salmon-radius-lg);
+}
+
+.salmon-dashboard-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-default);
+  outline: none;
+}
+
+.salmon-dashboard-panel[data-draggable] {
+  cursor: grab;
+  touch-action: none;
+}
+
+.salmon-dashboard-panel:focus-visible,
+.salmon-dashboard-panel[data-grabbed] {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-dashboard-panel[data-grabbed] {
+  box-shadow: var(--salmon-shadow-md);
+}
+
+.salmon-dashboard-panel-header {
+  flex: 0 0 auto;
+  padding: var(--salmon-space-2) var(--salmon-space-3);
+  font-weight: var(--salmon-font-weight-semibold);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-dashboard-panel-content {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  padding: var(--salmon-space-3);
+  overflow: auto;
+}
+
+.salmon-dashboard-placeholder {
+  display: none;
+  background: var(--salmon-color-primary-subtle);
+  border: 1px dashed var(--salmon-color-primary-border);
+}
+
+.salmon-dashboard[data-active] .salmon-dashboard-placeholder {
+  display: block;
+}
+
+.salmon-dashboard[data-active] {
+  user-select: none;
+}
+
+.salmon-dashboard[data-active] .salmon-dashboard-panel {
+  transition: transform var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+.salmon-dashboard .salmon-dashboard-panel[data-dragging] {
+  z-index: 1;
+  cursor: grabbing;
+  box-shadow: var(--salmon-shadow-lg);
+  transition: none;
+}
+
+.salmon-dashboard-resize {
+  position: absolute;
+  z-index: 1;
+  touch-action: none;
+}
+
+.salmon-dashboard-resize[data-edge='top'],
+.salmon-dashboard-resize[data-edge='bottom'] {
+  inset-inline: 8px;
+  block-size: 8px;
+  cursor: ns-resize;
+}
+
+.salmon-dashboard-resize[data-edge='start'],
+.salmon-dashboard-resize[data-edge='end'] {
+  inset-block: 8px;
+  inline-size: 8px;
+  cursor: ew-resize;
+}
+
+.salmon-dashboard-resize[data-edge^='top'] { inset-block-start: 0; }
+.salmon-dashboard-resize[data-edge^='bottom'] { inset-block-end: 0; }
+.salmon-dashboard-resize[data-edge$='start'] { inset-inline-start: 0; }
+.salmon-dashboard-resize[data-edge$='end'] { inset-inline-end: 0; }
+
+.salmon-dashboard-resize[data-edge*='-'] {
+  inline-size: 12px;
+  block-size: 12px;
+}
+
+.salmon-dashboard-resize[data-edge='top-start'],
+.salmon-dashboard-resize[data-edge='bottom-end'] {
+  cursor: nwse-resize;
+}
+
+.salmon-dashboard-resize[data-edge='top-end'],
+.salmon-dashboard-resize[data-edge='bottom-start'] {
+  cursor: nesw-resize;
+}
+
+.salmon-dashboard-resize[data-edge='bottom-end']::after {
+  content: '';
+  position: absolute;
+  inset-block-end: 2px;
+  inset-inline-end: 2px;
+  inline-size: 6px;
+  block-size: 6px;
+  border-block-end: 2px solid var(--salmon-border-strong);
+  border-inline-end: 2px solid var(--salmon-border-strong);
+}
+
+@container salmon-dashboard (width < 100px) {
+  .salmon-dashboard[data-stack-below] .salmon-dashboard-grid {
+    --salmon-dashboard-stacked: 1;
+    grid-template-columns: minmax(0, 1fr);
+    /* The column grid lines do not apply to the single stacked column. */
+    background-image: none;
+  }
+
+  .salmon-dashboard[data-stack-below] .salmon-dashboard-panel {
+    grid-column: 1 / -1;
+    grid-row: auto / span var(--salmon-dashboard-h);
+    order: var(--salmon-dashboard-order);
+    cursor: auto;
+    touch-action: auto;
+  }
+
+  .salmon-dashboard[data-stack-below] .salmon-dashboard-resize {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-dashboard[data-active] .salmon-dashboard-panel {
+    transition: none;
+  }
+}

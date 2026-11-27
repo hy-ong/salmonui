@@ -1,0 +1,108 @@
+/* @salmonui/buttons/button/styles.css, second part: the filter chip variant,
+   the progress fill and the floating action button. tooling/checks/copy-css.mjs
+   writes dist/button.css as styles/button-core.css followed by this file;
+   families of other packages that render plain buttons only carry
+   button-core.css (`@salmonui/buttons:button-core` in the manifest).
+   Chip hover and pressed apply
+   to enabled chips only, so the disabled state of button-core.css, which
+   comes first, keeps winning. */
+
+.salmon-button[data-variant='chip'] {
+  --salmon-button-h: calc(var(--salmon-control-height-md, 32px) - 4px);
+  --salmon-button-bg: transparent;
+  --salmon-button-fg: var(--salmon-button-c-text);
+  --salmon-button-bd: var(--salmon-button-c-border);
+  border-radius: var(--salmon-radius-sm);
+  font-weight: var(--salmon-font-weight-regular);
+}
+.salmon-button[data-variant='chip'][data-size='sm'] {
+  --salmon-button-h: calc(var(--salmon-control-height-sm, 24px) - 2px);
+}
+.salmon-button[data-variant='chip'][data-size='lg'] {
+  --salmon-button-h: calc(var(--salmon-control-height-lg, 40px) - 6px);
+}
+.salmon-button[data-variant='chip']:hover:where(:enabled) {
+  --salmon-button-bg: var(--salmon-button-c-subtle);
+}
+.salmon-button[data-variant='chip'][data-pressed]:where(:enabled) {
+  --salmon-button-bg: var(--salmon-button-c-selected);
+  --salmon-button-bd: var(--salmon-button-c-selected-edge);
+}
+/* Filter chips show a check when pressed. */
+.salmon-button[data-variant='chip'][data-pressed]::after {
+  content: '';
+  order: -1;
+  inline-size: 0.3em;
+  block-size: 0.6em;
+  margin-block-start: -0.2em;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  rotate: 45deg;
+}
+
+/* Progress fill from inline-start. */
+.salmon-button[data-progress]::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: var(--salmon-button-progress, 0%);
+  background: currentColor;
+  opacity: 0.22;
+  transition: inline-size var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+/* Floating action button: circular, elevated, CSS positioned. */
+.salmon-button[data-floating] {
+  --salmon-button-h: 56px;
+  --salmon-button-pad: 20px;
+  --salmon-button-inset: 16px;
+  position: fixed;
+  z-index: 10;
+  border-radius: var(--salmon-radius-full);
+  box-shadow: var(--salmon-shadow-lg);
+}
+.salmon-button[data-floating][data-size='sm'] {
+  --salmon-button-h: 40px;
+  --salmon-button-pad: 14px;
+}
+.salmon-button[data-floating][data-size='lg'] {
+  --salmon-button-h: 64px;
+  --salmon-button-pad: 24px;
+}
+.salmon-button[data-floating-scope='parent'] {
+  position: absolute;
+}
+.salmon-button[data-floating^='top'] {
+  inset-block-start: var(--salmon-button-inset);
+}
+.salmon-button[data-floating^='bottom'] {
+  inset-block-end: var(--salmon-button-inset);
+}
+.salmon-button[data-floating$='Start'] {
+  inset-inline-start: var(--salmon-button-inset);
+}
+.salmon-button[data-floating$='End'] {
+  inset-inline-end: var(--salmon-button-inset);
+}
+.salmon-button[data-floating^='middle'] {
+  inset-block-start: 50%;
+  translate: 0 -50%;
+}
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+.salmon-button[data-floating$='Center'] {
+  inset-inline-start: 50%;
+  translate: calc(-50% * var(--salmon-dir, 1)) 0;
+}
+.salmon-button[data-floating='middleCenter'] {
+  translate: calc(-50% * var(--salmon-dir, 1)) -50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-button[data-progress]::before {
+    transition: none;
+  }
+}

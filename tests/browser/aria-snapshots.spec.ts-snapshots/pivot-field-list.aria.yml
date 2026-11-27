@@ -1,0 +1,29 @@
+- group "Field list":
+  - searchbox "Search fields"
+  - listbox "Fields":
+    - option "Customer"
+    - option "Amount" [selected]
+    - option "Units" [selected]
+    - group "Geography":
+      - option "Region" [selected]
+      - option "Country" [selected]
+      - option "City" [selected]
+    - group "Product":
+      - option "Product"
+      - option "Category" [selected]
+    - group "Time":
+      - option "Year" [selected]
+      - option "Quarter"
+      - option "Date"
+  - listbox "Filters":
+    - option "Category"
+  - listbox "Columns":
+    - option "Year"
+    - option "Values"
+  - listbox "Rows":
+    - option "Region"
+    - option "Country"
+    - option "City"
+  - listbox "Values":
+    - option "Sum of Amount"
+    - option "Sum of Units"

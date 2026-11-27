@@ -1,0 +1,192 @@
+/* Progress and Meter. Values are
+   inline custom properties: --salmon-progress-value and -buffer (0..1),
+   -segments (count), -size and -thickness (lengths). Linear bars scale
+   from the inline start; circular and semicircle shapes are one SVG whose
+   circles use pathLength 100 (semicircle: 200, half of it visible) and
+   stroke-dasharray. Indeterminate motion uses the shared keyframes
+   (styles/motion-*.css, prepended at build) and stops under reduced motion. */
+
+.salmon-progress {
+  --salmon-progress-c: var(--salmon-color-primary);
+  --salmon-progress-h: 8px;
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.salmon-progress[data-tone='neutral'] {
+  --salmon-progress-c: var(--salmon-text-secondary);
+}
+
+.salmon-progress[data-tone='info'] {
+  --salmon-progress-c: var(--salmon-color-info);
+}
+
+.salmon-progress[data-tone='success'] {
+  --salmon-progress-c: var(--salmon-color-success);
+}
+
+.salmon-progress[data-tone='warning'] {
+  --salmon-progress-c: var(--salmon-color-warning);
+}
+
+.salmon-progress[data-tone='danger'] {
+  --salmon-progress-c: var(--salmon-color-danger);
+}
+
+.salmon-progress[data-size='sm'] {
+  --salmon-progress-h: 4px;
+}
+
+.salmon-progress[data-size='lg'] {
+  --salmon-progress-h: 12px;
+}
+
+/* Direction sign: -1 under the nearest dir="rtl", 1 under dir="ltr". */
+:where([dir='rtl']) { --salmon-dir: -1; }
+:where([dir='ltr']) { --salmon-dir: 1; }
+
+/* Linear. The track mirrors in RTL, so the fill and the indeterminate motion start at the inline start. */
+.salmon-progress-track {
+  position: relative;
+  flex: 1;
+  block-size: var(--salmon-progress-thickness, var(--salmon-progress-h));
+  overflow: hidden;
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-border-subtle);
+  scale: var(--salmon-dir, 1) 1;
+}
+
+.salmon-progress-bar,
+.salmon-progress-buffer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--salmon-progress-c);
+  transform: scaleX(var(--salmon-progress-value, 0));
+  transform-origin: left;
+  transition: transform var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+
+.salmon-progress-buffer {
+  opacity: 0.35;
+  transform: scaleX(var(--salmon-progress-buffer));
+}
+
+.salmon-progress[data-striped] .salmon-progress-bar {
+  background-image: linear-gradient(45deg, rgb(255 255 255 / 0.25) 25%, transparent 25% 50%, rgb(255 255 255 / 0.25) 50% 75%, transparent 75%);
+  background-size: 16px 16px;
+}
+
+.salmon-progress[data-segments][data-shape='linear'] .salmon-progress-track {
+  mask: repeating-linear-gradient(90deg, #000 0 calc(100% / var(--salmon-progress-segments) - 3px), transparent 0 calc(100% / var(--salmon-progress-segments)));
+}
+
+/* Linear only: the circular and semicircle bars are SVG circles with their
+   own rotate transform and dash motion below. */
+.salmon-progress[data-indeterminate][data-shape='linear'] .salmon-progress-bar {
+  transform: scaleX(0.4);
+  animation: salmon-indeterminate 1.6s ease-in-out infinite;
+}
+
+/* Circular and semicircle. */
+.salmon-progress:not([data-shape='linear']) {
+  --salmon-progress-size: 48px;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--salmon-progress-size);
+}
+
+.salmon-progress[data-size='sm']:not([data-shape='linear']) {
+  --salmon-progress-size: 32px;
+}
+
+.salmon-progress[data-size='lg']:not([data-shape='linear']) {
+  --salmon-progress-size: 64px;
+}
+
+.salmon-progress-svg {
+  grid-area: 1 / 1;
+  inline-size: 100%;
+  overflow: visible;
+}
+
+.salmon-progress-svg circle {
+  fill: none;
+  stroke: var(--salmon-progress-c);
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50px 50px;
+  transition: stroke-dasharray var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+  stroke-dasharray: calc(var(--salmon-progress-value, 0) * 100) 200;
+}
+
+.salmon-progress-svg .salmon-progress-track {
+  stroke: var(--salmon-border-subtle);
+  stroke-dasharray: none;
+}
+
+.salmon-progress-svg .salmon-progress-buffer {
+  opacity: 0.35;
+  stroke-dasharray: calc(var(--salmon-progress-buffer) * 100) 200;
+}
+
+.salmon-progress[data-shape='semicircle'] circle {
+  transform: rotate(180deg);
+}
+
+.salmon-progress[data-shape='semicircle'] .salmon-progress-track {
+  stroke-dasharray: 100 200;
+}
+
+.salmon-progress[data-segments]:not([data-shape='linear']) .salmon-progress-svg {
+  mask: repeating-conic-gradient(#000 0 calc(360deg / var(--salmon-progress-segments) - 4deg), transparent 0 calc(360deg / var(--salmon-progress-segments)));
+}
+
+.salmon-progress[data-segments][data-shape='semicircle'] .salmon-progress-svg {
+  mask: repeating-conic-gradient(from -90deg at 50% 100%, #000 0 calc(180deg / var(--salmon-progress-segments) - 3deg), transparent 0 calc(180deg / var(--salmon-progress-segments)));
+}
+
+.salmon-progress[data-indeterminate]:not([data-shape='linear']) .salmon-progress-bar {
+  stroke-dasharray: 25 200;
+}
+
+.salmon-progress[data-indeterminate][data-shape='circular'] .salmon-progress-svg {
+  animation: salmon-spin 1s linear infinite;
+}
+
+.salmon-progress[data-indeterminate][data-shape='semicircle'] .salmon-progress-bar {
+  stroke-dasharray: 100 200;
+  animation: salmon-pulse 1.4s ease-in-out infinite;
+}
+
+.salmon-progress:not([data-shape='linear']) .salmon-progress-label {
+  grid-area: 1 / 1;
+}
+
+.salmon-progress[data-shape='semicircle'] .salmon-progress-label {
+  align-self: end;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-progress * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .salmon-progress-track {
+    outline: 1px solid CanvasText;
+  }
+
+  .salmon-progress-bar {
+    background: Highlight;
+    stroke: Highlight;
+  }
+}

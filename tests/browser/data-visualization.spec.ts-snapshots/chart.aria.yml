@@ -1,0 +1,39 @@
+- figure /Sales\. \d+/:
+  - text: ""
+  - group "Sales"
+  - toolbar "Legend":
+    - button "North" [pressed]
+    - button "South" [pressed]
+  - paragraph: "/Column chart: Sales, 2 series, x from Jan to Jun\\. North: 6 points, minimum 9, maximum \\d+, trending up\\. South: 6 points, minimum 6, maximum \\d+, trending up\\./"
+  - table "Sales":
+    - caption: Sales
+    - rowgroup:
+      - row "x North South":
+        - columnheader "x"
+        - columnheader "North"
+        - columnheader "South"
+    - rowgroup:
+      - row /Jan \d+ 8/:
+        - rowheader "Jan"
+        - cell /\d+/
+        - cell "8"
+      - row /Feb \d+ 6/:
+        - rowheader "Feb"
+        - cell /\d+/
+        - cell "6"
+      - row /Mar 9 \d+/:
+        - rowheader "Mar"
+        - cell "9"
+        - cell /\d+/
+      - row /Apr \d+ 9/:
+        - rowheader "Apr"
+        - cell /\d+/
+        - cell "9"
+      - row /May \d+ \d+/:
+        - rowheader "May"
+        - cell /\d+/
+        - cell /\d+/
+      - row /Jun \d+ \d+/:
+        - rowheader "Jun"
+        - cell /\d+/
+        - cell /\d+/

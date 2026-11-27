@@ -1,0 +1,8 @@
+/* Shared keyframes (`motion`):
+   the spinner rotation (Spinner, indeterminate circular Progress). */
+
+@keyframes salmon-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}

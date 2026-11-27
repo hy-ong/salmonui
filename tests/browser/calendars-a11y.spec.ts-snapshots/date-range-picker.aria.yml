@@ -1,0 +1,13 @@
+- heading "DateRangePicker" [level=2]
+- text: Stay
+- group "Stay":
+  - group "Start date":
+    - spinbutton "month": /\d+/
+    - spinbutton "day": /\d+/
+    - spinbutton "year": /\d+/
+  - group "End date":
+    - spinbutton "month": /\d+/
+    - spinbutton "day": /\d+/
+    - spinbutton "year": /\d+/
+  - button "Clear"
+  - button "Choose date range"

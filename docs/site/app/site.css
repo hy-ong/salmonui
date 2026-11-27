@@ -1,0 +1,631 @@
+/*
+ * Docs site chrome. Plain CSS that only reads --salmon-* variables written by
+ * ThemeStyle / the default theme stylesheet; no Tailwind, no CSS-in-JS.
+ */
+
+html,
+body {
+  margin: 0;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: 1.55;
+}
+
+.site {
+  min-height: 100vh;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-base);
+}
+
+/* Zero-specificity element defaults: a Salmon component's own class always
+   wins, so the site never restyles the library it documents. */
+:where(.site) a:where(:not([class*='salmon-'])) {
+  color: var(--salmon-text-link);
+}
+
+.site code {
+  font-family: var(--salmon-font-mono);
+  font-size: 0.92em;
+}
+
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--salmon-space-5);
+  padding-block: var(--salmon-space-4);
+  padding-inline: var(--salmon-space-6);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  background: var(--salmon-surface-raised);
+}
+
+.site-brand {
+  font-size: var(--salmon-font-size-lg);
+  font-weight: var(--salmon-font-weight-semibold);
+  text-decoration: none;
+}
+
+.site .site-brand {
+  color: var(--salmon-text-primary);
+}
+
+.site-brand span {
+  color: var(--salmon-color-primary-text);
+}
+
+.site-scheme {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-3);
+  color: var(--salmon-text-secondary);
+}
+
+/* Native controls in the chrome and the demo toolbars: the md control
+   metrics shared by every component (32px, 12px inline padding,
+   --salmon-radius-md). Zero specificity and never on Salmon elements. */
+:where(.site) :where(select, button, input[type='text'], input[type='number'], input[type='search']):where(:not([class*='salmon-'])) {
+  box-sizing: border-box;
+  min-block-size: 32px;
+  margin: 0;
+  font: inherit;
+  color: var(--salmon-text-primary);
+  background-color: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  padding-block: 0;
+  padding-inline: var(--salmon-space-4);
+  vertical-align: middle;
+}
+
+:where(.site) button:where(:not([class*='salmon-'])) {
+  cursor: pointer;
+}
+
+:where(.site) button:where(:not([class*='salmon-'])):hover {
+  background-color: var(--salmon-surface-hover);
+}
+
+/* Native select: the chevron (two 5px strokes, 10px wide) sits at the same
+   12px inline-end inset as the text's inline-start inset; the end padding is
+   that inset plus the chevron plus an 8px gap. */
+:where(.site) select:where(:not([class*='salmon-'])) {
+  appearance: none;
+  padding-inline-end: 30px;
+  background-image:
+    linear-gradient(45deg, transparent calc(50% - 0.75px), var(--salmon-text-secondary) calc(50% - 0.75px), var(--salmon-text-secondary) calc(50% + 0.75px), transparent calc(50% + 0.75px)),
+    linear-gradient(-45deg, transparent calc(50% - 0.75px), var(--salmon-text-secondary) calc(50% - 0.75px), var(--salmon-text-secondary) calc(50% + 0.75px), transparent calc(50% + 0.75px));
+  background-repeat: no-repeat;
+  background-size: 6px 6px;
+  background-position:
+    calc(100% - 17px) calc(50% - 1px),
+    calc(100% - 12px) calc(50% - 1px);
+  cursor: pointer;
+}
+
+:where([dir='rtl']) select:where(:not([class*='salmon-'])) {
+  background-position:
+    12px calc(50% - 1px),
+    17px calc(50% - 1px);
+}
+
+:where(.site) :where(button, select, input, a, summary, [contenteditable]):where(:not([class*='salmon-'])):focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.site-body {
+  display: grid;
+  grid-template-columns: minmax(200px, 240px) minmax(0, 1fr);
+}
+
+.site-main {
+  min-inline-size: 0;
+  padding-block: var(--salmon-space-6) var(--salmon-space-8);
+  padding-inline: var(--salmon-space-7);
+}
+
+.doc {
+  max-inline-size: 1180px;
+}
+
+.doc h1 {
+  margin-block: 0 var(--salmon-space-3);
+  font-size: 28px;
+  line-height: var(--salmon-line-height-tight);
+}
+
+.doc__category {
+  margin: 0;
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.doc__markdown {
+  margin: 0 0 var(--salmon-space-2);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.doc__markdown a {
+  color: var(--salmon-text-secondary);
+}
+
+.doc__lede {
+  margin-block: 0 var(--salmon-space-5);
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-lg);
+}
+
+.doc__prose {
+  max-inline-size: 76ch;
+}
+
+.doc__prose h2 {
+  margin-block: var(--salmon-space-7) var(--salmon-space-3);
+  font-size: 20px;
+}
+
+.doc__prose h3 {
+  margin-block: var(--salmon-space-6) var(--salmon-space-2);
+  font-size: var(--salmon-font-size-lg);
+}
+
+.doc__prose pre {
+  overflow: auto;
+  padding: var(--salmon-space-4);
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-sunken);
+}
+
+.doc__prose table {
+  border-collapse: collapse;
+  margin-block: var(--salmon-space-4);
+}
+
+.doc__prose th,
+.doc__prose td {
+  padding-block: var(--salmon-space-2);
+  padding-inline: var(--salmon-space-4);
+  border: 1px solid var(--salmon-border-subtle);
+  text-align: start;
+  vertical-align: top;
+}
+
+.doc__prose th {
+  background: var(--salmon-surface-header);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.callout {
+  margin-block: var(--salmon-space-5);
+  padding: var(--salmon-space-4);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-raised);
+}
+
+.callout--danger {
+  border-color: var(--salmon-color-danger-border);
+  background: var(--salmon-color-danger-subtle);
+  color: var(--salmon-color-danger-text);
+}
+
+/* Demo frame */
+
+.demo {
+  margin-block: var(--salmon-space-6);
+  padding: var(--salmon-space-5);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-raised);
+}
+
+.demo__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--salmon-space-4);
+}
+
+.demo__header h2 {
+  margin: 0;
+  font-size: var(--salmon-font-size-lg);
+}
+
+.demo__description {
+  margin-block: var(--salmon-space-2) 0;
+  color: var(--salmon-text-secondary);
+}
+
+.demo__stage {
+  min-inline-size: 0;
+  /* One fixed gap between the header (or description) and the demo, so
+     every demo starts at the same distance whatever its first element. */
+  margin-block-start: var(--salmon-space-5);
+}
+
+/* Demo controls (shared by every demo) */
+
+.demo-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-3) var(--salmon-space-5);
+  margin-block-end: var(--salmon-space-4);
+}
+
+.demo-toolbar label {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  /* A long label and its control wrap inside a narrow stage instead of overflowing it. */
+  max-inline-size: 100%;
+}
+
+.demo-log {
+  margin-block-start: var(--salmon-space-4);
+  max-block-size: 140px;
+  overflow: auto;
+  padding: var(--salmon-space-3);
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-sunken);
+  font-family: var(--salmon-font-mono);
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-text-secondary);
+}
+
+.demo-log ol {
+  margin: 0;
+  padding-inline-start: var(--salmon-space-6);
+}
+
+.demo-status {
+  margin-block-start: var(--salmon-space-3);
+  color: var(--salmon-text-secondary);
+}
+
+.demo-badge {
+  display: inline-block;
+  padding: var(--salmon-space-1) var(--salmon-space-3);
+  border-radius: var(--salmon-radius-sm);
+  font-size: var(--salmon-font-size-sm);
+  /* Its own line height: inside a grid cell it would inherit the row height. */
+  line-height: var(--salmon-line-height-tight);
+  vertical-align: middle;
+  color: var(--salmon-color-warning-text);
+  background: var(--salmon-color-warning-subtle);
+}
+
+.demo-badge[data-tone='success'] {
+  color: var(--salmon-color-success-text);
+  background: var(--salmon-color-success-subtle);
+}
+
+.demo-badge[data-tone='info'] {
+  color: var(--salmon-color-info-text);
+  background: var(--salmon-color-info-subtle);
+}
+
+.demo-row--flagged {
+  box-shadow: inset 3px 0 0 var(--salmon-color-danger);
+}
+
+.demo-cell--negative {
+  color: var(--salmon-color-danger-text);
+}
+
+.demo-card-row {
+  display: flex;
+  align-items: center;
+}
+
+.demo-fill {
+  block-size: 360px;
+  padding: var(--salmon-space-3);
+  border: 1px dashed var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+}
+
+/* Home */
+
+.home-section h2 {
+  margin-block: var(--salmon-space-7) var(--salmon-space-4);
+  font-size: 20px;
+}
+
+.home-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--salmon-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-cards li {
+  padding: var(--salmon-space-5);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-raised);
+}
+
+.home-cards a {
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.home-cards p {
+  margin-block: var(--salmon-space-2) 0;
+  color: var(--salmon-text-secondary);
+}
+
+.home-meta {
+  font-size: var(--salmon-font-size-sm);
+}
+
+.home-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--salmon-space-4);
+}
+
+.home-demos {
+  columns: 2 260px;
+  padding-inline-start: var(--salmon-space-6);
+}
+
+@media (max-width: 820px) {
+  .site-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .site-main {
+    padding-inline: var(--salmon-space-5);
+  }
+}
+
+/* Demos: side-by-side grids (row drag) and detail row content. */
+.demo-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.demo-columns > * {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+.demo-drop-zone {
+  margin-block-start: 12px;
+  padding: 24px 16px;
+  border: 2px dashed var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  text-align: center;
+}
+.demo-detail p {
+  margin: 4px 0 8px;
+}
+
+.demo-cell--highlight {
+  background: var(--salmon-color-info-subtle);
+}
+
+.demo-toolbar-frame {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-3);
+  padding-block-end: var(--salmon-space-2);
+}
+
+/* Theme colors demo: contrast read-out */
+
+.demo-contrast {
+  margin-block-start: var(--salmon-space-4);
+  border-collapse: collapse;
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-text-primary);
+}
+
+.demo-contrast th,
+.demo-contrast td {
+  padding: var(--salmon-space-2) var(--salmon-space-3);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  text-align: start;
+}
+
+.demo-contrast [data-result='pass'] {
+  color: var(--salmon-color-success-text);
+}
+
+.demo-contrast [data-result='fail'] {
+  color: var(--salmon-color-danger-text);
+}
+
+/* Layout and notifications demos: visible hooks for item and pane class names */
+
+.demo-timeline-current .salmon-timeline-content {
+  font-style: italic;
+  color: var(--salmon-color-warning-text);
+}
+
+.salmon-tooltip[data-variant='warning'] {
+  color: var(--salmon-color-warning-text);
+  background: var(--salmon-color-warning-subtle);
+}
+
+.demo-listbox-unread {
+  font-weight: 600;
+}
+
+.demo-listbox-unread::after {
+  content: attr(data-unread);
+  margin-inline-start: auto;
+  padding-inline: var(--salmon-space-2);
+  border-radius: var(--salmon-radius-full);
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-color-primary-text);
+  background: var(--salmon-color-primary-subtle);
+}
+
+/* Splitter demos: pane labels, hidden while the pane is collapsed (no half-cut text) */
+
+.demo-pane {
+  padding: var(--salmon-space-3);
+  white-space: nowrap;
+}
+
+.salmon-splitter-pane[data-collapsed] > .demo-pane {
+  visibility: hidden;
+}
+
+/* Tree View demos: a standalone tree draws its surface; give it the
+   container frame (border and lg radius) instead of a square block. The
+   file browser recipe keeps its tree flush inside a splitter pane. */
+
+.demo[data-demo-id^='tree-view-'] .salmon-tree-view {
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-lg);
+}
+
+/* Locale demo (locale-zh-tw): an admin page frame, a sunken page behind
+   raised cards, like a typical back-office layout. */
+
+.demo-admin {
+  display: grid;
+  gap: var(--salmon-space-4);
+  padding: var(--salmon-space-5);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-sunken);
+}
+
+.demo-admin__header {
+  display: grid;
+  gap: var(--salmon-space-3);
+}
+
+.demo-admin__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--salmon-space-3);
+}
+
+.demo-admin__title {
+  margin: 0;
+  font-size: var(--salmon-font-size-lg);
+  font-weight: var(--salmon-font-weight-semibold);
+  line-height: var(--salmon-line-height-tight);
+}
+
+.demo-admin__muted {
+  margin: var(--salmon-space-1) 0 0;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.demo-admin__stack {
+  display: grid;
+  gap: var(--salmon-space-4);
+}
+
+.demo-admin .salmon-tabs > [role='tabpanel'] {
+  padding-block-start: var(--salmon-space-4);
+}
+
+.demo-admin__card {
+  padding: var(--salmon-space-5);
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-raised);
+}
+
+.demo-admin__card--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.demo-admin__card--flush .salmon-data-grid {
+  border-inline: 0;
+  border-block-end: 0;
+  border-radius: 0;
+}
+
+.demo-admin__filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  align-items: end;
+  gap: var(--salmon-space-4);
+}
+
+.demo-admin__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  align-items: start;
+  gap: var(--salmon-space-4) var(--salmon-space-5);
+}
+
+.demo-admin__form > *,
+.demo-admin__filters > * {
+  min-inline-size: 0;
+}
+
+.demo-admin__span {
+  grid-column: 1 / -1;
+}
+
+.demo-admin__field {
+  display: grid;
+  gap: var(--salmon-space-1);
+}
+
+.demo-admin__label {
+  font-weight: var(--salmon-font-weight-medium);
+}
+
+.demo-admin__filters > .demo-admin__actions {
+  grid-column: -2 / -1;
+  justify-self: end;
+}
+
+.demo-admin__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.demo-admin__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--salmon-space-3);
+  padding: var(--salmon-space-3) var(--salmon-space-4);
+}
+
+.demo-admin__heading {
+  margin: 0 0 var(--salmon-space-3);
+  font-size: var(--salmon-font-size-md);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.demo-admin__list {
+  margin: 0 0 var(--salmon-space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.demo-admin__list li {
+  padding: var(--salmon-space-2) 0;
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}

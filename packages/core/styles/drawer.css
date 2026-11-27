@@ -1,0 +1,40 @@
+/* The Drawer edge panel on the dialog core. @salmonui/overlays/drawer/styles.css
+   is dialog-core.css followed by this file. Logical properties only. */
+
+/* --salmon-dir: the direction sign set by dialog-core.css. */
+/* Drawer: docked to a logical edge, full block (or inline) size, slides in. */
+/* Doubled class: dialog.css may load after this file on a page with both. */
+.salmon-dialog.salmon-drawer {
+  --salmon-drawer-size: 320px;
+  margin: 0;
+  inline-size: min(var(--salmon-drawer-size), 100vw);
+  max-inline-size: 100vw;
+  block-size: 100dvh;
+  max-block-size: none;
+  border-radius: 0;
+  translate: none;
+  transition: translate 200ms ease-out, display 200ms allow-discrete, overlay 200ms allow-discrete;
+}
+
+.salmon-drawer[data-side='start'] { margin-inline-end: auto; border-block: 0; border-inline-start: 0; border-start-end-radius: var(--salmon-radius-lg); border-end-end-radius: var(--salmon-radius-lg); }
+.salmon-drawer[data-side='end'] { margin-inline-start: auto; border-block: 0; border-inline-end: 0; border-start-start-radius: var(--salmon-radius-lg); border-end-start-radius: var(--salmon-radius-lg); }
+.salmon-dialog.salmon-drawer:is([data-side='top'], [data-side='bottom']) {
+  inline-size: 100vw;
+  block-size: min(var(--salmon-drawer-size), 100dvh);
+  border-inline: 0;
+}
+.salmon-drawer[data-side='top'] { margin-block-end: auto; border-block-start: 0; border-end-start-radius: var(--salmon-radius-lg); border-end-end-radius: var(--salmon-radius-lg); }
+.salmon-drawer[data-side='bottom'] { margin-block-start: auto; border-block-end: 0; border-start-start-radius: var(--salmon-radius-lg); border-start-end-radius: var(--salmon-radius-lg); }
+
+@starting-style {
+  .salmon-drawer[open][data-side='start'] { translate: calc(-100% * var(--salmon-dir, 1)) 0; }
+  .salmon-drawer[open][data-side='end'] { translate: calc(100% * var(--salmon-dir, 1)) 0; }
+  .salmon-drawer[open][data-side='top'] { translate: 0 -100%; }
+  .salmon-drawer[open][data-side='bottom'] { translate: 0 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-drawer {
+    transition: none;
+  }
+}

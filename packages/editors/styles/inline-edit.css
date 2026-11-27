@@ -1,0 +1,186 @@
+/* @salmonui/react/inline-edit/styles.css: InlineEdit.
+   Colors from --salmon-* theme variables only; logical properties only.
+   The Save / Cancel buttons are Button: pages also load button/styles.css. */
+
+.salmon-inline-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--salmon-space-1);
+  max-inline-size: 100%;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: var(--salmon-text-primary);
+  /* The preview text shares the baseline of an inline label next to it. */
+  vertical-align: baseline;
+}
+
+.salmon-inline-edit[data-mode='inline'][data-editing] {
+  display: flex;
+}
+
+.salmon-inline-edit-preview {
+  display: inline-block;
+  min-inline-size: 2ch;
+  margin: 0;
+  padding-block: 2px;
+  padding-inline: var(--salmon-space-1);
+  border: 1px dashed transparent;
+  border-radius: var(--salmon-radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+
+button.salmon-inline-edit-preview {
+  cursor: text;
+}
+
+button.salmon-inline-edit-preview:hover:not([aria-disabled]) {
+  border-color: var(--salmon-border-default);
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-inline-edit-preview:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-inline-edit-preview[data-empty] {
+  color: var(--salmon-text-placeholder);
+}
+
+.salmon-inline-edit[data-disabled] .salmon-inline-edit-preview {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+/* Double-click mode: the edit button is the touch fallback. */
+.salmon-inline-edit[data-trigger='doubleClick'] .salmon-inline-edit-edit-button {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .salmon-inline-edit[data-trigger='doubleClick'] .salmon-inline-edit-edit-button {
+    display: inline-flex;
+  }
+}
+
+.salmon-inline-edit-editor {
+  display: flex;
+  flex-wrap: wrap;
+  /* Save / Cancel line up with the top of a multi-line editor (32px rows match). */
+  align-items: flex-start;
+  gap: var(--salmon-space-2);
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.salmon-inline-edit-field {
+  display: flex;
+  flex: 1 1 12rem;
+  min-inline-size: 0;
+}
+
+.salmon-inline-edit-field > * {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+/* The default input, and a plain native control a custom editor renders
+   (`children` spreading `inputProps`), share the md control metrics. */
+.salmon-inline-edit-input,
+.salmon-inline-edit-field > :is(input:not([type='checkbox'], [type='radio'], [type='range'], [type='color']), textarea):not([class]) {
+  box-sizing: border-box;
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding-block: 4px;
+  padding-inline: var(--salmon-space-2);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font: inherit;
+}
+
+.salmon-inline-edit-field > textarea:not([class]) {
+  resize: vertical;
+}
+
+.salmon-inline-edit-field > :is(input, textarea):not([class]):focus-visible,
+.salmon-inline-edit-input:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 0;
+}
+
+.salmon-inline-edit-field > :is(input, textarea):not([class])[aria-invalid='true'],
+.salmon-inline-edit-input[aria-invalid='true'] {
+  border-color: var(--salmon-state-invalid);
+}
+
+.salmon-inline-edit-actions {
+  display: inline-flex;
+  gap: var(--salmon-space-2);
+  margin-inline-start: auto;
+}
+
+.salmon-inline-edit-error {
+  flex: 1 0 100%;
+  color: var(--salmon-color-danger-text);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-inline-edit-popover {
+  z-index: 1000;
+  box-sizing: border-box;
+  inline-size: max(16rem, var(--salmon-overlay-anchor-width, 0px));
+  max-inline-size: calc(100vw - 16px);
+  padding: var(--salmon-space-3);
+  overflow: visible;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-overlay);
+  color: var(--salmon-text-primary);
+  box-shadow: var(--salmon-shadow-md);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+}
+
+.salmon-inline-edit-popover:not([data-placed]) {
+  visibility: hidden;
+}
+
+/* Narrow viewports: the popover sits at the bottom edge (CSS only, so SSR is unaffected). */
+@media (max-width: 480px) {
+  .salmon-inline-edit-popover[data-placed] {
+    inset: auto 0 0 0 !important;
+    inline-size: auto;
+    max-inline-size: none;
+    transform: none !important;
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+}
+
+.salmon-inline-edit-label,
+.salmon-inline-edit-status {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .salmon-inline-edit-popover[data-placed] {
+    animation: salmon-inline-edit-in var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+  }
+}
+
+@keyframes salmon-inline-edit-in {
+  from {
+    opacity: 0;
+  }
+}

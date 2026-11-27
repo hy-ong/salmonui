@@ -1,0 +1,37 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "lib": [
+      "ES2023",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [],
+    "stripInternal": false
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "src/engine"
+  ],
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../data-grid"
+    },
+    {
+      "path": "../buttons"
+    },
+    {
+      "path": "../charts"
+    },
+    {
+      "path": "./tsconfig.engine.json"
+    }
+  ]
+}

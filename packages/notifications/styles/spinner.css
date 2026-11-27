@@ -1,0 +1,63 @@
+/* Spinner: one CSS-only ring animated with the
+   shared `salmon-spin` keyframes (styles/motion-spin.css, prepended at build).
+   Colors come from --salmon-* theme variables; stopped under reduced
+   motion (a static ring with a gap still reads as busy). */
+
+.salmon-spinner {
+  --salmon-spinner-size: 24px;
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--salmon-spinner-size);
+  block-size: var(--salmon-spinner-size);
+  color: var(--salmon-color-primary);
+  vertical-align: middle;
+}
+
+.salmon-spinner[data-size='sm'] {
+  --salmon-spinner-size: 16px;
+}
+
+.salmon-spinner[data-size='lg'] {
+  --salmon-spinner-size: 32px;
+}
+
+.salmon-spinner__ring {
+  box-sizing: border-box;
+  inline-size: var(--salmon-spinner-size);
+  block-size: var(--salmon-spinner-size);
+  border: max(2px, calc(var(--salmon-spinner-size) / 10)) solid var(--salmon-border-subtle);
+  border-block-start-color: currentColor;
+  border-radius: 50%;
+  animation: salmon-spin 0.8s linear infinite;
+}
+
+/* Overlay: covers the nearest positioned ancestor. */
+.salmon-spinner[data-overlay] {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  inline-size: auto;
+  block-size: auto;
+  background: color-mix(in srgb, var(--salmon-surface-base) 60%, transparent);
+}
+
+/* `loading` with children: the children keep their size, hidden and inert. */
+.salmon-spinner-container {
+  position: relative;
+}
+
+.salmon-spinner-container[data-loading] > .salmon-spinner-content {
+  visibility: hidden;
+}
+
+/* The covered children are hidden, so there is nothing to veil: an overlay
+   fill would only paint a square box over the container's own frame. */
+.salmon-spinner-container > .salmon-spinner[data-overlay] {
+  background: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-spinner__ring {
+    animation: none;
+  }
+}

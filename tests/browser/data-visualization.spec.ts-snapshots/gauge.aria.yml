@@ -1,0 +1,14 @@
+- figure "Gauge":
+  - text: ""
+  - meter "Gauge"
+  - paragraph: "/Gauge, 0 to \\d+\\. Value: \\d+\\./"
+  - table "Gauge":
+    - caption: Gauge
+    - rowgroup:
+      - row "Item Value":
+        - columnheader "Item"
+        - columnheader "Value"
+    - rowgroup:
+      - row /Pointer 1 \d+/:
+        - rowheader "Pointer 1"
+        - cell /\d+/

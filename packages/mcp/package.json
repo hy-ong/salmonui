@@ -1,0 +1,38 @@
+{
+  "name": "@salmonui/mcp",
+  "version": "0.2.0",
+  "description": "Model Context Protocol server for Salmon UI: lets coding agents list components, search the docs, read component APIs and demos, and check @salmonui imports, from an offline index of the same version.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hy-ong/salmonui.git",
+    "directory": "packages/mcp"
+  },
+  "homepage": "https://salmonui.dev",
+  "bugs": {
+    "url": "https://github.com/hy-ong/salmonui/issues"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "bin": {
+    "salmonui-mcp": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepack": "node scripts/build-index.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

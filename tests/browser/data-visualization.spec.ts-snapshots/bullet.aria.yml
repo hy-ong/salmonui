@@ -1,0 +1,14 @@
+- figure "Bullet":
+  - text: ""
+  - group "Bullet"
+  - paragraph: "Bullet chart: Bullet, 1 series, x from A to A. v: 1 point, minimum 3, maximum 3, flat."
+  - table "Bullet":
+    - caption: Bullet
+    - rowgroup:
+      - row "x v":
+        - columnheader "x"
+        - columnheader "v"
+    - rowgroup:
+      - row "A 3, Target 4":
+        - rowheader "A"
+        - cell "3, Target 4"

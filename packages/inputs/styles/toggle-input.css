@@ -1,0 +1,75 @@
+/*
+ * Toggle input: the drawn native checkbox / radio. Prepended to the checkbox,
+ * radio-group and switch stylesheets after field.css
+ * (tooling/checks/copy-css.mjs), once in the aggregate. Hit areas reach 24px through ::after (WCAG 2.2 target size).
+ */
+.salmon-toggle {
+  display: inline-flex;
+  align-items: center;
+  /* 8px: the focus ring (2px offset + 2px, 3px in high contrast) stays
+     clear of the label text. */
+  gap: var(--salmon-space-3);
+  min-block-size: 24px;
+  cursor: pointer;
+}
+
+.salmon-toggle[data-disabled] {
+  color: var(--salmon-text-disabled);
+  cursor: not-allowed;
+}
+
+.salmon-toggle-input {
+  appearance: none;
+  position: relative;
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+  inline-size: 16px;
+  block-size: 16px;
+  margin: 0;
+  border: 1px solid var(--salmon-border-strong);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-color-primary-on);
+  cursor: inherit;
+}
+
+.salmon-toggle-input::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+}
+
+.salmon-toggle-input::before {
+  content: '';
+  inline-size: 12px;
+  block-size: 12px;
+  background: currentColor;
+  visibility: hidden;
+}
+
+.salmon-toggle-input:checked,
+.salmon-toggle-input[data-indeterminate] {
+  border-color: var(--salmon-color-primary);
+  background: var(--salmon-color-primary);
+}
+
+.salmon-toggle-input:checked::before,
+.salmon-toggle-input[data-indeterminate]::before {
+  visibility: visible;
+}
+
+.salmon-toggle-input:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-toggle-input[aria-invalid] {
+  border-color: var(--salmon-state-invalid);
+}
+
+.salmon-toggle-input:disabled {
+  border-color: var(--salmon-border-default);
+  background: var(--salmon-surface-disabled);
+  color: var(--salmon-text-disabled);
+}

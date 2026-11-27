@@ -1,0 +1,50 @@
+/* @salmonui/react/stock-chart/styles.css: StockChart layout only; the chart,
+   range selector, menu and button stylesheets style the parts. */
+
+.salmon-stock-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-inline-size: 0;
+}
+
+.salmon-stock-chart-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.salmon-stock-chart-event {
+  display: inline-block;
+  padding-inline: 4px;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-raised);
+  color: var(--salmon-text-primary);
+  font-size: var(--salmon-font-size-sm);
+}
+
+/* a drawn glyph per event shape before the label (data colors stay with the theme). */
+.salmon-stock-chart-event::before {
+  content: '';
+  display: inline-block;
+  inline-size: 8px;
+  block-size: 8px;
+  margin-inline-end: 4px;
+  background: var(--salmon-color-primary);
+  clip-path: polygon(0 0, 100% 25%, 0 50%);
+}
+
+.salmon-stock-chart-event[data-shape='circle']::before { clip-path: circle(50%); }
+.salmon-stock-chart-event[data-shape='square']::before { clip-path: none; }
+.salmon-stock-chart-event[data-shape='pin']::before { clip-path: none; border-radius: 50% 50% 50% 0; }
+.salmon-stock-chart-event[data-shape='triangle']::before { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.salmon-stock-chart-event[data-shape='invertedTriangle']::before { clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.salmon-stock-chart-event[data-shape='triangleRight']::before { clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.salmon-stock-chart-event[data-shape='triangleLeft']::before { clip-path: polygon(100% 0, 0 50%, 100% 100%); }
+.salmon-stock-chart-event[data-shape='arrowUp']::before { clip-path: polygon(50% 0, 100% 50%, 70% 50%, 70% 100%, 30% 100%, 30% 50%, 0 50%); }
+.salmon-stock-chart-event[data-shape='arrowDown']::before { clip-path: polygon(30% 0, 70% 0, 70% 50%, 100% 50%, 50% 100%, 0 50%, 30% 50%); }
+.salmon-stock-chart-event[data-shape='arrowRight']::before { clip-path: polygon(0 30%, 50% 30%, 50% 0, 100% 50%, 50% 100%, 50% 70%, 0 70%); }
+.salmon-stock-chart-event[data-shape='arrowLeft']::before { clip-path: polygon(50% 0, 50% 30%, 100% 30%, 100% 70%, 50% 70%, 50% 100%, 0 50%); }
+.salmon-stock-chart-event[data-shape='text']::before { display: none; }

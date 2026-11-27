@@ -1,0 +1,229 @@
+/*
+ * Calendar and RangeCalendar (@salmonui/react/calendar/styles.css).
+ * Colors come from the
+ * theme variables only; state is data-* attributes on .salmon-calendar__day
+ * and .salmon-calendar__cell. Logical properties only (RTL).
+ */
+.salmon-calendar {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--salmon-space-2);
+  padding: var(--salmon-space-3);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-raised);
+  border: 1px solid var(--salmon-border-subtle);
+  border-radius: var(--salmon-radius-lg);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-tight);
+  box-sizing: border-box;
+}
+
+.salmon-calendar__header,
+.salmon-calendar__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-calendar__footer { justify-content: center; }
+
+.salmon-calendar__body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--salmon-space-4);
+}
+
+.salmon-calendar__month-heading {
+  padding-block-end: var(--salmon-space-1);
+  font-weight: var(--salmon-font-weight-semibold);
+  text-align: center;
+}
+
+.salmon-calendar__nav,
+.salmon-calendar__heading,
+.salmon-calendar__today {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+}
+
+.salmon-calendar__nav {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: var(--salmon-text-secondary);
+}
+
+/* Chevrons point to the inline start / end (mirrored in RTL). */
+.salmon-calendar__nav::before {
+  content: '';
+  display: block;
+  width: 7px;
+  height: 7px;
+  margin: auto;
+  border-block-start: 2px solid currentColor;
+  border-inline-start: 2px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+.salmon-calendar__nav[data-dir='next']::before { transform: rotate(135deg); }
+[dir='rtl'] .salmon-calendar__nav::before { transform: rotate(45deg); }
+[dir='rtl'] .salmon-calendar__nav[data-dir='next']::before { transform: rotate(-135deg); }
+
+.salmon-calendar__heading {
+  flex: 1 1 auto;
+  min-height: 30px;
+  padding-inline: var(--salmon-space-2);
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-calendar__heading[aria-disabled='true'] { cursor: default; }
+
+.salmon-calendar__today {
+  padding: var(--salmon-space-1) var(--salmon-space-3);
+  color: var(--salmon-text-link);
+}
+
+.salmon-calendar__nav:disabled,
+.salmon-calendar__today:disabled {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+.salmon-calendar__grid {
+  border-collapse: separate;
+  border-spacing: 0 2px;
+  text-align: center;
+}
+
+.salmon-calendar__weekday,
+.salmon-calendar__week-header,
+.salmon-calendar__week-number {
+  padding-block-end: var(--salmon-space-1);
+  font-size: var(--salmon-font-size-sm);
+  font-weight: var(--salmon-font-weight-medium);
+  color: var(--salmon-text-secondary);
+}
+
+/* Row headers sit on the day numbers' line. */
+.salmon-calendar__week-number { padding-block-end: 0; padding-inline-end: var(--salmon-space-2); }
+
+/* The grid is always six rows: a trailing row of hidden outside days keeps
+   its height but shows no week number. */
+.salmon-calendar__week-number:not(:has(~ :not([data-empty]))) { visibility: hidden; }
+
+.salmon-calendar__day,
+.salmon-calendar__cell {
+  width: 36px;
+  height: 34px;
+  padding: 0;
+  border-radius: var(--salmon-radius-sm);
+  cursor: pointer;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.salmon-calendar__cell {
+  width: 64px;
+  height: 48px;
+}
+
+.salmon-calendar__day[data-empty] { cursor: default; }
+
+.salmon-calendar__day:not([data-empty], [aria-disabled='true']):hover,
+.salmon-calendar__cell:not([aria-disabled='true']):hover,
+.salmon-calendar__nav:not(:disabled):hover,
+.salmon-calendar__heading:not([aria-disabled='true']):hover,
+.salmon-calendar__today:not(:disabled):hover {
+  background: var(--salmon-surface-hover);
+}
+
+.salmon-calendar__day[data-outside],
+.salmon-calendar__cell[data-outside] { color: var(--salmon-text-secondary); }
+
+.salmon-calendar__day[data-today],
+.salmon-calendar__cell[data-today] { box-shadow: inset 0 0 0 1px var(--salmon-color-primary-border); }
+
+.salmon-calendar__day[data-in-range] {
+  color: var(--salmon-color-primary-text);
+  background: var(--salmon-color-primary-subtle);
+  border-radius: 0;
+}
+
+.salmon-calendar__day[data-range-start] {
+  border-start-start-radius: var(--salmon-radius-sm);
+  border-end-start-radius: var(--salmon-radius-sm);
+}
+
+.salmon-calendar__day[data-range-end] {
+  border-start-end-radius: var(--salmon-radius-sm);
+  border-end-end-radius: var(--salmon-radius-sm);
+}
+
+.salmon-calendar__day[data-selected]:not([data-in-range]),
+.salmon-calendar__day[data-range-start],
+.salmon-calendar__day[data-range-end],
+.salmon-calendar__cell[data-selected] {
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+}
+
+.salmon-calendar__day[data-disabled],
+.salmon-calendar__cell[data-disabled] {
+  color: var(--salmon-text-disabled);
+  text-decoration: line-through;
+  cursor: default;
+}
+
+.salmon-calendar[data-disabled] { opacity: 0.6; }
+
+.salmon-calendar__day:focus-visible,
+.salmon-calendar__cell:focus-visible,
+.salmon-calendar__nav:focus-visible,
+.salmon-calendar__heading:focus-visible,
+.salmon-calendar__today:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: -2px;
+}
+
+.salmon-calendar__live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (pointer: coarse) {
+  .salmon-calendar__day { width: 44px; height: 44px; }
+  .salmon-calendar__nav { width: 44px; height: 44px; }
+}
+
+@media (forced-colors: active) {
+  /* The same selectors as the colored rules above, so system colors win. */
+  .salmon-calendar__day[data-selected]:not([data-in-range]),
+  .salmon-calendar__day[data-range-start],
+  .salmon-calendar__day[data-range-end],
+  .salmon-calendar__cell[data-selected] {
+    forced-color-adjust: none;
+    color: HighlightText;
+    background: Highlight;
+  }
+  .salmon-calendar__day[data-in-range]:not([data-range-start], [data-range-end]) { outline: 1px solid Highlight; outline-offset: -1px; }
+  .salmon-calendar__day[data-today] { outline: 1px dashed CanvasText; }
+  .salmon-calendar__day[data-disabled] { color: GrayText; }
+  .salmon-calendar__day:focus-visible,
+  .salmon-calendar__cell:focus-visible { outline: 2px solid CanvasText; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .salmon-calendar__day,
+  .salmon-calendar__cell { transition: background-color var(--salmon-motion-duration-fast) var(--salmon-motion-easing); }
+}

@@ -1,0 +1,8 @@
+- heading "DatePicker" [level=2]
+- text: Arrival
+- group "Arrival":
+  - spinbutton "month": /\d+/
+  - spinbutton "day": /\d+/
+  - spinbutton "year": /\d+/
+- button "Choose date"
+- text: Check-in day

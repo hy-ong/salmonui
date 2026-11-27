@@ -1,0 +1,55 @@
+/* Gauge. Appended to styles/viz.css by
+   copy-css.mjs. Colors from --salmon-* variables only; logical properties;
+   data axes never mirror. */
+.salmon-gauge .salmon-viz-surface {
+  margin-inline: auto;
+}
+
+.salmon-gauge-line {
+  fill: var(--salmon-border-default);
+}
+
+.salmon-gauge-container {
+  fill: var(--salmon-surface-sunken);
+  stroke: var(--salmon-border-default);
+  stroke-width: 1;
+}
+
+.salmon-gauge .salmon-gauge-ticks {
+  stroke-width: 1.5;
+}
+
+.salmon-gauge-marker-text {
+  font-weight: var(--salmon-font-weight-semibold);
+}
+
+.salmon-gauge-thumb {
+  position: absolute;
+  box-sizing: border-box;
+  inline-size: 24px;
+  block-size: 24px;
+  margin: -12px 0 0 -12px;
+  border-radius: 50%;
+  cursor: grab;
+  touch-action: none;
+  outline: none;
+}
+
+.salmon-gauge-thumb[data-dragging] {
+  cursor: grabbing;
+}
+
+.salmon-gauge-thumb:focus-visible {
+  box-shadow: 0 0 0 var(--salmon-state-focus-ring-width) var(--salmon-state-focus-ring);
+}
+
+.salmon-gauge-annotation {
+  position: absolute;
+  color: var(--salmon-text-primary);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.salmon-gauge-annotation[data-tip] {
+  pointer-events: auto;
+}

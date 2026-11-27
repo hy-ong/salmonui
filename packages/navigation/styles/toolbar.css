@@ -1,0 +1,307 @@
+/* @salmonui/react/toolbar: Toolbar parts and the .salmon-app-bar recipe.
+   Colors-only: --salmon-* variables, logical properties. Buttons inside are
+   styled by /button/styles.css; the overflow menu by /menu/styles.css. */
+
+.salmon-toolbar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-inline-size: 0;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-toolbar *,
+.salmon-toolbar ::before,
+.salmon-toolbar ::after {
+  box-sizing: border-box;
+}
+
+.salmon-toolbar[data-orientation="vertical"] {
+  flex-direction: column;
+  align-items: stretch;
+  min-block-size: 0;
+}
+
+/* A disabled <fieldset> carries `disabled`; it is only a flex box. */
+.salmon-toolbar-content {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  min-inline-size: 0;
+  min-block-size: 0;
+  margin: 0;
+  padding: var(--salmon-space-2);
+  border: 0;
+}
+
+.salmon-toolbar[data-orientation="vertical"] > .salmon-toolbar-content {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.salmon-toolbar[data-overflow="menu"] > .salmon-toolbar-content {
+  overflow: hidden;
+}
+
+.salmon-toolbar[data-overflow="wrap"] > .salmon-toolbar-content {
+  flex-wrap: wrap;
+}
+
+.salmon-toolbar[data-overflow="scroll"] > .salmon-toolbar-content {
+  overflow: auto;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+}
+
+.salmon-toolbar[data-overflow="scroll"] > .salmon-toolbar-content::-webkit-scrollbar {
+  display: none;
+}
+
+.salmon-toolbar-item,
+.salmon-toolbar-group {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-toolbar[data-orientation="vertical"] .salmon-toolbar-group {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.salmon-toolbar[data-overflow="wrap"] .salmon-toolbar-group {
+  flex-wrap: wrap;
+}
+
+.salmon-toolbar-item[hidden],
+.salmon-toolbar-separator[hidden],
+.salmon-toolbar-more[hidden] {
+  display: none !important;
+}
+
+/* Labelled group (Ribbon recipe): items over a label row; the label never widens the group. */
+.salmon-toolbar-group[data-labelled] {
+  flex-direction: column;
+  align-items: stretch;
+  align-self: stretch;
+  gap: var(--salmon-space-1);
+  padding-inline: var(--salmon-space-2);
+  border-inline-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-toolbar-group[data-labelled]:not(:has(.salmon-toolbar-item:not([hidden]))) {
+  display: none;
+}
+
+.salmon-toolbar-group-items {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--salmon-space-2);
+}
+
+.salmon-toolbar-group-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--salmon-space-1);
+  inline-size: 0;
+  min-inline-size: 100%;
+  color: var(--salmon-text-secondary);
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-toolbar-group-label > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A large multi-size item stacks a button's icon over its label. */
+.salmon-toolbar-item[data-size="lg"] > .salmon-button {
+  flex-direction: column;
+  padding-block: var(--salmon-space-1);
+}
+
+.salmon-toolbar-group[data-align="center"] {
+  margin-inline: auto;
+}
+
+.salmon-toolbar-group[data-align="end"] {
+  margin-inline-start: auto;
+}
+
+.salmon-toolbar-spacer {
+  flex: 1 1 0;
+  min-inline-size: 0;
+}
+
+.salmon-toolbar-separator {
+  flex: none;
+  align-self: stretch;
+  inline-size: 1px;
+  margin-block: var(--salmon-space-1);
+  background: var(--salmon-border-subtle);
+}
+
+.salmon-toolbar[data-orientation="vertical"] .salmon-toolbar-separator {
+  inline-size: auto;
+  block-size: 1px;
+  margin-block: 0;
+  margin-inline: var(--salmon-space-1);
+}
+
+.salmon-toolbar-more,
+.salmon-toolbar-scroll-button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--salmon-control-height-md, 32px);
+  block-size: var(--salmon-control-height-md, 32px);
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--salmon-radius-md);
+  background: transparent;
+  color: var(--salmon-text-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.salmon-toolbar-more {
+  margin-inline-start: auto;
+}
+
+.salmon-toolbar-more:hover,
+.salmon-toolbar-more[data-open],
+.salmon-toolbar-scroll-button:hover {
+  background: var(--salmon-surface-hover);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-toolbar-more:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-toolbar-more:disabled {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+/* Scroll buttons show only while the content scrolls; the end at the edge fades. */
+.salmon-toolbar-scroll-button {
+  display: none;
+}
+
+.salmon-toolbar[data-scrollable] > .salmon-toolbar-scroll-button {
+  display: inline-flex;
+}
+
+.salmon-toolbar[data-at-start] > [data-scroll="back"],
+.salmon-toolbar[data-at-end] > [data-scroll="forward"] {
+  visibility: hidden;
+}
+
+.salmon-toolbar-scroll-button[data-scroll="forward"] svg,
+[dir="rtl"] .salmon-toolbar-scroll-button[data-scroll="back"] svg {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .salmon-toolbar-scroll-button[data-scroll="forward"] svg {
+  transform: none;
+}
+
+.salmon-toolbar[data-orientation="vertical"] > [data-scroll="back"] svg {
+  transform: rotate(90deg);
+}
+
+.salmon-toolbar[data-orientation="vertical"] > [data-scroll="forward"] svg {
+  transform: rotate(-90deg);
+}
+
+/* Overflow menu overlay (the menu itself is .salmon-menu). */
+.salmon-toolbar-menu {
+  z-index: 1000;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+.salmon-toolbar-menu:not([data-placed]) {
+  visibility: hidden;
+}
+
+.salmon-toolbar-menu > .salmon-menu {
+  box-shadow: var(--salmon-shadow-md);
+}
+
+/* AppBar recipe: <header className="salmon-app-bar"><Toolbar /></header>. */
+.salmon-app-bar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+  min-block-size: 48px;
+  padding-inline: var(--salmon-space-3);
+  background: var(--salmon-surface-raised);
+  color: var(--salmon-text-primary);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-app-bar > .salmon-toolbar {
+  flex: 1 1 auto;
+}
+
+.salmon-app-bar[data-position="bottom"] {
+  border-block-end: 0;
+  border-block-start: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-app-bar[data-sticky] {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 10;
+}
+
+.salmon-app-bar[data-sticky][data-position="bottom"] {
+  inset-block-start: auto;
+  inset-block-end: 0;
+}
+
+.salmon-app-bar[data-tone="primary"] {
+  background: var(--salmon-color-primary);
+  color: var(--salmon-color-primary-on);
+  border-color: transparent;
+}
+
+.salmon-app-bar[data-tone="primary"] .salmon-toolbar,
+.salmon-app-bar[data-tone="primary"] .salmon-toolbar-more {
+  color: inherit;
+}
+
+/* Text-like buttons on the primary surface take its on-color (contrast). */
+.salmon-app-bar[data-tone="primary"] .salmon-button:is([data-variant="ghost"], [data-variant="link"], [data-variant="outline"]) {
+  --salmon-button-c-text: var(--salmon-color-primary-on);
+  --salmon-button-c-border: var(--salmon-color-primary-on);
+  --salmon-button-c-subtle: color-mix(in srgb, var(--salmon-color-primary-on) 16%, transparent);
+  --salmon-button-c-subtle-hover: color-mix(in srgb, var(--salmon-color-primary-on) 24%, transparent);
+}
+
+.salmon-app-bar[data-tone="primary"] .salmon-toolbar-more:hover {
+  background: color-mix(in srgb, currentColor 16%, transparent);
+}
+
+@media (forced-colors: active) {
+  .salmon-toolbar-separator {
+    background: CanvasText;
+  }
+  .salmon-app-bar {
+    border-color: CanvasText;
+  }
+}

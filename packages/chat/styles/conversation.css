@@ -1,0 +1,669 @@
+/* @salmonui/react/conversation: the chat and assistant variants. Colors come from
+   the theme variables; logical properties only (RTL mirrors). The scroller is
+   `flex-direction: column-reverse`, so server HTML is bottom-anchored. */
+.salmon-conversation {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-block-size: 0;
+  block-size: 100%;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: 1.4;
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-base);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  overflow: hidden;
+}
+
+.salmon-conversation-sr {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* Zero-specificity reset: a Button or other family's control placed in a slot keeps its own styles. */
+:where(.salmon-conversation) button {
+  font: inherit;
+  color: inherit;
+}
+
+.salmon-conversation :is(button, a, article, textarea):focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width));
+}
+
+/* Header and pinned bar */
+.salmon-conversation-header,
+.salmon-conversation-pinned-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-conversation-header__title {
+  flex: 1 1 8em;
+  font-weight: 600;
+  min-inline-size: 0;
+}
+
+.salmon-conversation-header__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-inline-start: auto;
+}
+
+.salmon-conversation-pinned-bar {
+  padding-block: 4px;
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-conversation-pinned-bar__button {
+  display: flex;
+  gap: 6px;
+  min-inline-size: 0;
+  inline-size: 100%;
+  padding: 4px;
+  background: none;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  text-align: start;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.salmon-conversation-pinned-bar__label {
+  font-weight: 600;
+  color: var(--salmon-color-primary-text);
+}
+
+/* Scroller and feed */
+.salmon-conversation-scroller {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column-reverse;
+  min-block-size: 0;
+  overflow-y: auto;
+  overflow-anchor: none;
+  overscroll-behavior: contain;
+}
+
+.salmon-conversation-content {
+  display: flex;
+  flex-direction: column;
+  padding-block: 8px;
+}
+
+.salmon-conversation-spacer {
+  flex: none;
+}
+
+.salmon-conversation-older {
+  min-block-size: 1px;
+}
+
+.salmon-conversation-skeleton {
+  display: block;
+  block-size: 40px;
+  margin: 8px 12px;
+  border-radius: var(--salmon-radius-md);
+  /* The Skeleton color: it also shows inside a sunken bubble (pending response). */
+  background: var(--salmon-border-subtle);
+  opacity: 0.6;
+}
+
+.salmon-conversation-empty {
+  padding: 24px 12px;
+  text-align: center;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-conversation-feed {
+  display: flex;
+  flex-direction: column;
+}
+
+.salmon-conversation-article {
+  padding: 4px 12px;
+}
+
+.salmon-conversation-date-separator {
+  display: flex;
+  justify-content: center;
+  margin-block: 8px;
+  font-size: 12px;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-conversation-date-separator > span {
+  padding: 2px 8px;
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-surface-sunken);
+}
+
+/* Items */
+.salmon-conversation-item {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.salmon-conversation[data-layout='bubbles'] .salmon-conversation-item[data-own] {
+  flex-direction: row-reverse;
+}
+
+.salmon-conversation[data-layout='bubbles'] .salmon-conversation-item[data-own] .salmon-conversation-item__body {
+  align-items: flex-end;
+}
+
+.salmon-conversation[data-layout='bubbles'] .salmon-conversation-item[data-own] .salmon-conversation-avatar {
+  display: none;
+}
+
+.salmon-conversation-avatar {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+}
+
+.salmon-conversation-avatar img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.salmon-conversation-avatar__status {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+}
+
+.salmon-conversation-item__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+  max-inline-size: min(80%, 640px);
+}
+
+.salmon-conversation[data-layout='compact'] .salmon-conversation-item__body {
+  max-inline-size: none;
+  flex: 1;
+}
+
+.salmon-conversation-item__meta,
+.salmon-conversation-item__forwarded {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-conversation-item__author,
+.salmon-conversation-reply-preview__author {
+  font-weight: 600;
+  color: var(--salmon-text-primary);
+}
+
+.salmon-conversation-item__pinned,
+.salmon-conversation-item__forwarded {
+  font-style: italic;
+}
+
+.salmon-conversation-item__bubble {
+  padding: 6px 10px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-sunken);
+  border: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-conversation[data-layout='bubbles'] .salmon-conversation-item[data-own] .salmon-conversation-item__bubble {
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+  border-color: transparent;
+}
+
+.salmon-conversation[data-layout='compact'] .salmon-conversation-item__bubble {
+  padding: 0;
+  background: none;
+  border: 0;
+}
+
+.salmon-conversation-item[data-status='error'] .salmon-conversation-item__bubble {
+  border-color: var(--salmon-color-danger-border);
+}
+
+.salmon-conversation-mention {
+  font-weight: 600;
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-color-info-subtle);
+  color: var(--salmon-color-info-text);
+}
+
+.salmon-conversation[data-layout='bubbles'] .salmon-conversation-item[data-own] .salmon-conversation-mention {
+  color: inherit;
+  background: none;
+  text-decoration: underline;
+}
+
+.salmon-conversation-reply-preview {
+  display: flex;
+  flex-direction: column;
+  max-inline-size: 100%;
+  padding: 2px 8px;
+  border: 0;
+  border-inline-start: 3px solid var(--salmon-color-primary-border);
+  background: var(--salmon-surface-sunken);
+  text-align: start;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.salmon-conversation-header__title,
+.salmon-conversation-pinned-bar__text,
+.salmon-conversation-attachment__name,
+.salmon-conversation-reply-preview__text,
+.salmon-conversation-composer__reply-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-conversation-item__attachments,
+.salmon-conversation-composer__attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.salmon-conversation-attachment {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-inline-size: 240px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-surface-base);
+  cursor: pointer;
+}
+
+.salmon-conversation-attachment[data-error] {
+  border-color: var(--salmon-color-danger-border);
+}
+
+.salmon-conversation-attachment__open,
+.salmon-conversation-attachment__remove,
+.salmon-conversation-retry {
+  display: inline-flex;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.salmon-conversation-attachment__size {
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-conversation-attachment__progress {
+  inline-size: 48px;
+  accent-color: var(--salmon-color-primary);
+}
+
+.salmon-conversation-item__status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-conversation-item__status[data-status='error'] {
+  color: var(--salmon-color-danger-text);
+}
+
+.salmon-conversation-retry {
+  padding: 0 4px;
+  text-decoration: underline;
+}
+
+/* Item actions: on touch, always shown on their own row under the item. With a hover pointer, a
+   floating toolbar over the item's top inline-end corner (the start corner of own bubbles),
+   shown on hover and focus within (opacity only: it stays in the accessibility tree), taking
+   no inline space from the bubble. */
+.salmon-conversation-item-actions {
+  display: flex;
+  flex-basis: 100%;
+  gap: 2px;
+}
+
+.salmon-conversation[data-layout='bubbles'] .salmon-conversation-item[data-own] .salmon-conversation-item-actions {
+  justify-content: flex-end;
+}
+
+@media (hover: hover) {
+  .salmon-conversation-item-actions {
+    position: absolute;
+    inset-inline-end: 0;
+    background: var(--salmon-surface-overlay);
+    border: 1px solid var(--salmon-border-subtle);
+    border-radius: var(--salmon-radius-md);
+    opacity: 0;
+  }
+
+  .salmon-conversation[data-layout='bubbles'] .salmon-conversation-item[data-own] .salmon-conversation-item-actions {
+    inset-inline: 0 auto;
+  }
+
+  .salmon-conversation-article:is(:hover, :focus-within) .salmon-conversation-item-actions {
+    opacity: 1;
+  }
+}
+
+/* 28px in-item and header buttons; the composer row's are 32px squares, the input's height.
+   The header rule has zero specificity, so a slotted Button keeps its own metrics. */
+.salmon-conversation-item-action,
+:where(.salmon-conversation-header__toolbar > button),
+.salmon-conversation-composer__reply-cancel,
+.salmon-conversation-composer__attach,
+.salmon-conversation-composer__send,
+.salmon-conversation-composer__stop,
+.salmon-conversation-composer__clear,
+.salmon-conversation-composer__dictate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 28px;
+  block-size: 28px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: none;
+  cursor: pointer;
+}
+
+.salmon-conversation-composer__attach,
+.salmon-conversation-composer__send,
+.salmon-conversation-composer__stop,
+.salmon-conversation-composer__clear,
+.salmon-conversation-composer__dictate {
+  inline-size: 32px;
+  block-size: 32px;
+  padding: 0;
+  border-radius: var(--salmon-radius-md);
+}
+
+.salmon-conversation-item-action:hover,
+.salmon-conversation-composer__attach:hover,
+.salmon-conversation-composer__dictate:hover,
+.salmon-conversation-composer__reply-cancel:hover {
+  background: var(--salmon-surface-hover);
+}
+
+/* Typing, suggestions, jump button */
+.salmon-conversation-typing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 12px;
+  font-size: 12px;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-conversation-typing__dots {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.salmon-conversation-typing__dots > span {
+  inline-size: 4px;
+  block-size: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: salmon-conversation-typing 1s infinite ease-in-out;
+}
+
+.salmon-conversation-typing__dots > span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.salmon-conversation-typing__dots > span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes salmon-conversation-typing {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-conversation-typing__dots > span {
+    animation: none;
+  }
+}
+
+.salmon-conversation-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+}
+
+.salmon-conversation-suggestions__heading {
+  inline-size: 100%;
+  font-size: 12px;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-conversation-suggestion {
+  padding: 4px 10px;
+  color: var(--salmon-color-primary-text);
+  border: 1px solid var(--salmon-color-primary-border);
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-surface-base);
+  cursor: pointer;
+}
+
+.salmon-conversation-jump {
+  position: absolute;
+  inset-inline-end: 16px;
+  inset-block-end: 72px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-inline-size: 36px;
+  block-size: 36px;
+  padding: 0 8px;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-surface-overlay);
+  box-shadow: var(--salmon-shadow-md);
+  cursor: pointer;
+}
+
+.salmon-conversation-jump__count {
+  min-inline-size: 18px;
+  padding: 0 4px;
+  border-radius: var(--salmon-radius-full);
+  font-size: 11px;
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+}
+
+/* Composer */
+.salmon-conversation-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px;
+  padding-block-end: max(8px, env(safe-area-inset-bottom));
+  border-block-start: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-conversation-composer[data-dragging],
+.salmon-conversation[data-dragging] {
+  outline: 2px dashed var(--salmon-color-primary-border);
+  outline-offset: -4px;
+}
+
+.salmon-conversation-composer__reply {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-inline-start: 3px solid var(--salmon-color-primary-border);
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-conversation-composer__reply-label {
+  flex: none;
+  font-weight: 600;
+}
+
+.salmon-conversation-composer__reply-text {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.salmon-conversation-composer__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.salmon-conversation-composer__input {
+  flex: 1;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  min-block-size: 32px;
+  max-block-size: 160px;
+  padding: 5px 8px;
+  font: inherit;
+  color: inherit;
+  resize: none;
+  field-sizing: content;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+}
+
+.salmon-conversation-composer__input::placeholder {
+  color: var(--salmon-text-placeholder);
+}
+
+.salmon-conversation-composer__send {
+  color: var(--salmon-color-primary-on);
+  background: var(--salmon-color-primary);
+}
+
+.salmon-conversation-composer[data-empty] .salmon-conversation-composer__send {
+  opacity: 0.6;
+}
+
+.salmon-conversation-composer__stop {
+  color: var(--salmon-color-danger-on);
+  background: var(--salmon-color-danger);
+}
+
+/* Assistant variant: clear and dictation buttons, pending response, parts, alternatives, feedback. */
+.salmon-conversation-composer[data-empty] .salmon-conversation-composer__clear,
+.salmon-conversation-stream:not(:empty) + .salmon-conversation-pending {
+  display: none;
+}
+
+.salmon-conversation-composer__dictate[data-listening],
+.salmon-conversation-item-action[aria-pressed='true'] {
+  color: var(--salmon-color-primary-text);
+}
+
+.salmon-conversation-pending .salmon-conversation-skeleton {
+  inline-size: 12em;
+  block-size: 1em;
+  margin: 0;
+}
+
+.salmon-conversation-reasoning,
+.salmon-conversation-alternatives {
+  font-size: 12px;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-conversation-reasoning pre {
+  margin: 4px 0;
+  white-space: pre-wrap;
+}
+
+.salmon-conversation-alternatives {
+  display: flex;
+  align-items: center;
+}
+
+.salmon-conversation-footer {
+  padding: 6px 12px;
+  border-block-start: 1px solid var(--salmon-border-subtle);
+}
+
+/* Icons: currentColor masks, mirrored in RTL where directional. */
+.salmon-conversation-icon {
+  display: inline-block;
+  inline-size: 16px;
+  block-size: 16px;
+  background: currentColor;
+  mask: var(--salmon-conversation-icon) center / contain no-repeat;
+}
+
+[dir='rtl'] .salmon-conversation-icon:is([data-icon='send'], [data-icon='reply']) {
+  transform: scaleX(-1);
+}
+
+.salmon-conversation-icon[data-icon='send'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M1 14.5 15 8 1 1.5V6.5l9 1.5-9 1.5z'/></svg>"); }
+.salmon-conversation-icon[data-icon='stop'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='3' y='3' width='10' height='10' rx='1'/></svg>"); }
+.salmon-conversation-icon[data-icon='attach'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><path d='M13 7.5 7.8 12.7a3.2 3.2 0 0 1-4.5-4.5l5.6-5.6a2.1 2.1 0 0 1 3 3L6.3 11.2a1 1 0 0 1-1.5-1.5L9.7 4.8'/></svg>"); }
+.salmon-conversation-icon[data-icon='close'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><path d='M4 4l8 8M12 4l-8 8'/></svg>"); }
+.salmon-conversation-icon[data-icon='jump'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><path d='M8 2v11M3.5 8.5 8 13l4.5-4.5'/></svg>"); }
+.salmon-conversation-icon[data-icon='copy'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><rect x='5' y='5' width='9' height='9' rx='1'/><path d='M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2'/></svg>"); }
+.salmon-conversation-icon[data-icon='reply'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><path d='M6 3 2 7l4 4M2 7h7a5 5 0 0 1 5 5v1'/></svg>"); }
+.salmon-conversation-icon[data-icon='pin'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><path d='M10 1.5 14.5 6l-2 .5-3 3 .5 3.5-1.5 1.5-3-3L2 15l3-3.5-3-3L3.5 7l3.5.5 3-3z'/></svg>"); }
+.salmon-conversation-icon[data-icon='delete'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><path d='M2.5 4h11M6 4V2.5h4V4M4 4l.7 9.5h6.6L12 4'/></svg>"); }
+.salmon-conversation-icon:is([data-icon='status-sent'], [data-icon='status-delivered'], [data-icon='status-read']) { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><path d='M2.5 8.5 6 12l7.5-8'/></svg>"); }
+.salmon-conversation-icon[data-icon='mic'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><rect x='5.5' y='1.5' width='5' height='9' rx='2.5'/><path d='M3 8a5 5 0 0 0 10 0M8 13v2'/></svg>"); }
+.salmon-conversation-icon[data-icon='status-read'] { color: var(--salmon-color-primary-text); }
+.salmon-conversation-icon[data-icon='status-sending'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><circle cx='8' cy='8' r='6'/><path d='M8 4.5V8l2.5 1.5'/></svg>"); }
+.salmon-conversation-icon[data-icon='status-error'] { --salmon-conversation-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5'><circle cx='8' cy='8' r='6'/><path d='M8 4.5v4.5M8 11v.5'/></svg>"); }

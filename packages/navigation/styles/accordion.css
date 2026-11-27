@@ -1,0 +1,107 @@
+/* @salmonui/react/accordion/styles.css: Accordion.
+   Self-contained; colors from --salmon-* theme variables only, logical properties,
+   state in data-* attributes. The panel transition animates block-size to and from
+   auto with interpolate-size (no JavaScript measurement); browsers without it
+   switch instantly. */
+
+.salmon-accordion {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-base);
+  color: var(--salmon-text-primary);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  overflow: hidden;
+}
+
+.salmon-accordion-item + .salmon-accordion-item {
+  border-block-start: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-accordion-heading {
+  margin: 0;
+  font: inherit;
+}
+
+.salmon-accordion-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--salmon-space-3);
+  inline-size: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding-block: var(--salmon-space-4);
+  padding-inline: var(--salmon-space-5);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: var(--salmon-font-weight-semibold);
+  text-align: start;
+  cursor: pointer;
+  transition: background-color var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+}
+.salmon-accordion-trigger:hover:not([aria-disabled='true']) {
+  background: var(--salmon-surface-hover);
+}
+.salmon-accordion-trigger:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: calc(-1 * var(--salmon-state-focus-ring-width));
+}
+.salmon-accordion-item[data-disabled] > .salmon-accordion-heading > .salmon-accordion-trigger {
+  color: var(--salmon-text-disabled);
+  cursor: default;
+}
+
+.salmon-accordion-icon,
+.salmon-accordion-indicator {
+  display: inline-flex;
+  flex: none;
+}
+.salmon-accordion-label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+.salmon-accordion-indicator {
+  color: var(--salmon-text-secondary);
+  transition: transform var(--salmon-motion-duration-normal) var(--salmon-motion-easing);
+}
+.salmon-accordion-trigger[data-state='open'] > .salmon-accordion-indicator {
+  transform: rotate(180deg);
+}
+
+.salmon-accordion-panel {
+  overflow: hidden;
+  block-size: auto;
+  interpolate-size: allow-keywords;
+  transition:
+    block-size var(--salmon-motion-duration-normal) var(--salmon-motion-easing),
+    content-visibility var(--salmon-motion-duration-normal) allow-discrete;
+}
+.salmon-accordion-panel[data-state='closed'] {
+  block-size: 0;
+}
+/* Server HTML (before the client sets hidden="until-found"): hide from everyone. */
+.salmon-accordion-panel[data-state='closed']:not([hidden]) {
+  visibility: hidden;
+}
+.salmon-accordion-content {
+  padding-block: 0 var(--salmon-space-5);
+  padding-inline: var(--salmon-space-5);
+  color: var(--salmon-text-secondary);
+}
+/* A nested Accordion sits inside the padded panel: one radius level lower. */
+.salmon-accordion-content .salmon-accordion {
+  border-radius: var(--salmon-radius-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .salmon-accordion-trigger,
+  .salmon-accordion-indicator,
+  .salmon-accordion-panel {
+    transition: none;
+  }
+}

@@ -1,0 +1,169 @@
+/* Select (`@salmonui/react/select`). The popup and listbox rules are in dropdown.css. */
+
+.salmon-select {
+  --salmon-control-h: var(--salmon-control-height-md, 32px);
+  --salmon-control-px: var(--salmon-control-padding-md, 12px);
+  position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
+  min-inline-size: 12rem;
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-md);
+  line-height: var(--salmon-line-height-normal);
+  color: var(--salmon-text-primary);
+}
+
+/* Control sizes: the trigger
+   rules read these variables with the `md` metrics as fallbacks; the popup
+   rows keep one size. */
+.salmon-select[data-size='sm'] {
+  --salmon-control-h: var(--salmon-control-height-sm, 24px);
+  --salmon-control-px: var(--salmon-control-padding-sm, 8px);
+  --salmon-control-box: 20px;
+  --salmon-control-glyph: 14px;
+  font-size: var(--salmon-font-size-sm);
+}
+
+.salmon-select[data-size='lg'] {
+  --salmon-control-h: var(--salmon-control-height-lg, 40px);
+  --salmon-control-px: var(--salmon-control-padding-lg, 16px);
+  --salmon-control-box: 28px;
+  --salmon-control-glyph: 20px;
+  font-size: var(--salmon-font-size-lg);
+}
+
+:is(.salmon-select-chevron, .salmon-select-clear) > svg {
+  inline-size: var(--salmon-control-glyph, 16px);
+  block-size: var(--salmon-control-glyph, 16px);
+}
+
+.salmon-select-trigger {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--salmon-space-3);
+  box-sizing: border-box;
+  min-inline-size: 0;
+  min-block-size: var(--salmon-control-h, 32px);
+  margin: 0;
+  padding-block: 0;
+  padding-inline: var(--salmon-control-px, 12px);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.salmon-select-trigger:hover:not(:disabled) {
+  border-color: var(--salmon-border-strong);
+}
+
+.salmon-select-trigger:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-select[data-open] .salmon-select-trigger {
+  border-color: var(--salmon-border-selected);
+}
+
+.salmon-select-trigger:disabled {
+  background: var(--salmon-surface-disabled);
+  color: var(--salmon-text-disabled);
+  cursor: not-allowed;
+}
+
+.salmon-select[data-readonly] .salmon-select-trigger {
+  cursor: default;
+  background: var(--salmon-surface-sunken);
+}
+
+.salmon-select-trigger[aria-invalid="true"] {
+  border-color: var(--salmon-state-invalid);
+}
+
+.salmon-select-value {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salmon-select-placeholder {
+  color: var(--salmon-text-placeholder);
+}
+
+.salmon-select-chevron {
+  display: inline-flex;
+  flex: none;
+  color: var(--salmon-text-secondary);
+}
+
+.salmon-select[data-open] .salmon-select-chevron {
+  transform: rotate(180deg);
+}
+
+.salmon-select-clear {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: calc(var(--salmon-control-px, 12px) + var(--salmon-control-glyph, 16px) + 2px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--salmon-control-box, 24px);
+  margin: auto 0;
+  block-size: var(--salmon-control-box, 24px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: transparent;
+  color: var(--salmon-text-secondary);
+  cursor: pointer;
+}
+
+.salmon-select-clear:hover {
+  background: var(--salmon-surface-hover);
+  color: var(--salmon-text-primary);
+}
+
+.salmon-select:has(> .salmon-select-clear) .salmon-select-value {
+  padding-inline-end: var(--salmon-control-box, 24px);
+}
+
+.salmon-select-search {
+  padding: var(--salmon-space-2) var(--salmon-space-3) var(--salmon-space-3);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-select-search-input {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding-inline: var(--salmon-space-4);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: inherit;
+  font: inherit;
+}
+
+.salmon-select-search-input:focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .salmon-select-chevron {
+    transition: transform var(--salmon-motion-duration-fast) var(--salmon-motion-easing);
+  }
+}
+
+@media (forced-colors: active) {
+  .salmon-select-trigger {
+    border-color: ButtonText;
+  }
+}

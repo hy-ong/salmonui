@@ -1,0 +1,96 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "lib": [
+      "ES2023",
+      "DOM"
+    ],
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "./*.ts"
+  ],
+  "references": [
+    {
+      "path": "../../../packages/core"
+    },
+    {
+      "path": "../../../packages/data"
+    },
+    {
+      "path": "../../../packages/export"
+    },
+    {
+      "path": "../../../packages/buttons"
+    },
+    {
+      "path": "../../../packages/notifications"
+    },
+    {
+      "path": "../../../packages/calendars"
+    },
+    {
+      "path": "../../../packages/dropdowns"
+    },
+    {
+      "path": "../../../packages/kanban"
+    },
+    {
+      "path": "../../../packages/data-grid"
+    },
+    {
+      "path": "../../../packages/data-grid/tsconfig.engine.json"
+    },
+    {
+      "path": "../../../packages/overlays"
+    },
+    {
+      "path": "../../../packages/layout"
+    },
+    {
+      "path": "../../../packages/navigation"
+    },
+    {
+      "path": "../../../packages/inputs"
+    },
+    {
+      "path": "../../../packages/query-builder"
+    },
+    {
+      "path": "../../../packages/charts"
+    },
+    {
+      "path": "../../../packages/chat"
+    },
+    {
+      "path": "../../../packages/editors"
+    },
+    {
+      "path": "../../../packages/pivot-table"
+    },
+    {
+      "path": "../../../packages/pivot-table/tsconfig.engine.json"
+    },
+    {
+      "path": "../../../packages/scheduler"
+    },
+    {
+      "path": "../../../packages/gantt"
+    },
+    {
+      "path": "../../../packages/rich-text"
+    },
+    {
+      "path": "../../../packages/pdf-viewer"
+    }
+  ]
+}

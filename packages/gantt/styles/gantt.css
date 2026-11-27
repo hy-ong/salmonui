@@ -1,0 +1,405 @@
+/* Gantt parts.
+   The composed families (Data Grid, Splitter, Button, Dialog, DatePicker,
+   Menu, the visually hidden helper) are concatenated before this file by
+   tooling/checks/copy-css.mjs. Colors come from the theme seeds only; state
+   is in data-* attributes; layout uses logical properties (RTL). */
+
+.salmon-gantt {
+  --salmon-gantt-bar: var(--salmon-color-primary);
+  --salmon-gantt-bar-track: color-mix(in srgb, var(--salmon-color-primary) 45%, var(--salmon-surface-base));
+  --salmon-gantt-parent: var(--salmon-border-strong);
+  --salmon-gantt-critical: var(--salmon-color-danger);
+  --salmon-gantt-baseline: var(--salmon-color-warning);
+  --salmon-gantt-connector: var(--salmon-border-strong);
+  --salmon-gantt-weekend: var(--salmon-surface-sunken);
+  --salmon-gantt-holiday: var(--salmon-color-danger-subtle);
+  --salmon-gantt-marker: var(--salmon-color-danger);
+  --salmon-gantt-tier-height: 28px;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-lg);
+  background: var(--salmon-surface-base);
+  font-family: var(--salmon-font-sans);
+  font-size: var(--salmon-font-size-sm);
+  line-height: var(--salmon-line-height-tight);
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+.salmon-gantt__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--salmon-space-2);
+  padding: var(--salmon-space-2) var(--salmon-space-3);
+  border-block-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-gantt__toolbar-item,
+.salmon-gantt-dialog__button,
+.salmon-gantt__toolbar-search,
+.salmon-gantt-dialog__input,
+.salmon-gantt-dialog__textarea,
+.salmon-gantt-dialog__table select {
+  box-sizing: border-box;
+  min-block-size: var(--salmon-control-height-md, 32px);
+  padding: 0 var(--salmon-control-padding-md, 12px);
+  border: 1px solid var(--salmon-border-default);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-base);
+  color: inherit;
+  font: inherit;
+  font-size: var(--salmon-font-size-md);
+}
+
+.salmon-gantt__toolbar-item,
+.salmon-gantt-dialog__button { cursor: pointer; }
+
+.salmon-gantt__toolbar-item:hover:not(:disabled),
+.salmon-gantt-dialog__button:hover:not(:disabled) { background: var(--salmon-surface-hover); }
+.salmon-gantt__toolbar-item:disabled,
+.salmon-gantt-dialog__button:disabled { color: var(--salmon-text-disabled); cursor: default; }
+.salmon-gantt__toolbar-item[aria-pressed='true'] { background: var(--salmon-surface-selected); border-color: var(--salmon-border-selected); }
+.salmon-gantt-dialog__button[data-variant='primary'] { background: var(--salmon-color-primary); border-color: var(--salmon-color-primary); color: var(--salmon-color-primary-on); }
+.salmon-gantt__toolbar-item[data-align='end'] { margin-inline-start: auto; }
+
+.salmon-gantt :is(button, input, [tabindex]):focus-visible {
+  outline: var(--salmon-state-focus-ring-width) solid var(--salmon-state-focus-ring);
+  outline-offset: var(--salmon-state-focus-ring-offset);
+}
+
+.salmon-gantt__panes {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-block-size: 0;
+}
+
+.salmon-gantt__panes > .salmon-gantt__splitter { flex: 1 1 auto; min-inline-size: 0; block-size: 100%; }
+.salmon-gantt__panes[data-panes='grid'] > .salmon-gantt__grid-pane,
+.salmon-gantt__panes[data-panes='chart'] > .salmon-gantt__chart-pane { flex: 1 1 auto; }
+.salmon-gantt__hidden-grid { position: absolute; inset: 0; visibility: hidden; pointer-events: none; }
+
+.salmon-gantt__grid-pane,
+.salmon-gantt__chart-pane {
+  position: relative;
+  block-size: 100%;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+.salmon-gantt__grid-pane > .salmon-data-grid { border: 0; border-radius: 0; }
+
+/* Chart pane: one horizontal scroller; the timeline header is sticky, the rows window is moved by a transform. */
+.salmon-gantt__chart { position: relative; block-size: 100%; }
+
+.salmon-gantt__chart-scroll {
+  position: relative;
+  block-size: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.salmon-gantt__chart-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-inline-size: 100%;
+}
+
+.salmon-gantt__timeline {
+  position: relative;
+  flex: none;
+  background: var(--salmon-surface-header);
+  border-block-end: 1px solid var(--salmon-border-default);
+}
+
+.salmon-gantt__tier { position: relative; border-block-end: 1px solid var(--salmon-border-subtle); }
+.salmon-gantt__tier:last-child { border-block-end: 0; }
+
+.salmon-gantt__tier-cell {
+  position: absolute;
+  inset-block: 0;
+  display: flex;
+  align-items: center;
+  padding-inline: var(--salmon-space-1);
+  overflow: hidden;
+  white-space: nowrap;
+  border-inline-end: 1px solid var(--salmon-border-subtle);
+}
+
+.salmon-gantt__tier[data-tier='bottom'] .salmon-gantt__tier-cell { justify-content: center; padding-inline: 0; }
+
+.salmon-gantt__chart-body { position: relative; flex: 1 1 auto; min-block-size: 0; overflow: hidden; }
+
+.salmon-gantt__background { position: absolute; inset: 0; pointer-events: none; }
+.salmon-gantt__weekend { position: absolute; inset-block: 0; background: var(--salmon-gantt-weekend); }
+.salmon-gantt__holiday { position: absolute; inset-block: 0; background: var(--salmon-gantt-holiday); }
+.salmon-gantt__holiday-label {
+  position: absolute;
+  inset-block-start: var(--salmon-space-2);
+  inset-inline-start: 50%;
+  writing-mode: vertical-rl;
+  color: var(--salmon-color-danger-text);
+}
+
+.salmon-gantt__marker { position: absolute; inset-block: 0; border-inline-start: 1px dashed var(--salmon-gantt-marker); z-index: 2; }
+.salmon-gantt__marker-label {
+  position: absolute;
+  inset-block-start: var(--salmon-space-1);
+  inset-inline-start: var(--salmon-space-1);
+  padding: 0 var(--salmon-space-1);
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-gantt-marker);
+  color: var(--salmon-color-danger-on);
+  white-space: nowrap;
+}
+
+.salmon-gantt__rows { position: absolute; inset-inline: 0; inset-block-start: 0; will-change: transform; }
+
+.salmon-gantt__row {
+  position: absolute;
+  inset-inline: 0;
+  border-block-end: 1px solid var(--salmon-border-subtle);
+  box-sizing: border-box;
+}
+/* Chart rows follow the grid pane's horizontal lines. */
+.salmon-gantt:has(.salmon-data-grid:is([data-grid-lines='none'], [data-grid-lines='vertical'])) .salmon-gantt__row { border-block-end-color: transparent; }
+
+.salmon-gantt__connectors { position: absolute; inset-block-start: 0; inset-inline-start: 0; overflow: visible; pointer-events: none; z-index: 1; }
+[dir='rtl'] .salmon-gantt__connectors { transform: scaleX(-1); inset-inline-start: auto; inset-inline-end: 0; }
+.salmon-gantt__connector path { stroke: var(--salmon-gantt-connector); }
+.salmon-gantt__connector .salmon-gantt__connector-arrow { fill: var(--salmon-gantt-connector); stroke: none; }
+.salmon-gantt__connector .salmon-gantt__connector-hit { stroke: transparent; pointer-events: stroke; }
+.salmon-gantt__connect-line { stroke: var(--salmon-color-primary); stroke-width: 1.5; stroke-dasharray: 4 3; }
+
+.salmon-gantt__taskbar,
+.salmon-gantt__multi-bar {
+  position: absolute;
+  z-index: 2;
+  box-sizing: border-box;
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-gantt-bar-track);
+  border: 1px solid var(--salmon-gantt-bar);
+  color: var(--salmon-color-primary-on);
+  touch-action: none;
+}
+
+.salmon-gantt__progress {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  max-inline-size: 100%;
+  border-radius: inherit;
+  background: var(--salmon-gantt-bar);
+  pointer-events: none;
+}
+
+.salmon-gantt__taskbar[data-editable] { cursor: grab; }
+.salmon-gantt__taskbar[data-dragging] { cursor: grabbing; opacity: 0.85; }
+.salmon-gantt__taskbar[data-selected] { outline: 2px solid var(--salmon-border-selected); outline-offset: 1px; }
+.salmon-gantt__taskbar[data-manual] { border-style: dashed; }
+/* Critical parts recolor through the variables (a critical link's transparent hit path keeps its own rule). */
+.salmon-gantt__taskbar[data-critical],
+.salmon-gantt__milestone[data-critical],
+.salmon-gantt__connector[data-critical] { --salmon-gantt-bar: var(--salmon-gantt-critical); --salmon-gantt-bar-track: color-mix(in srgb, var(--salmon-gantt-critical) 45%, var(--salmon-surface-base)); --salmon-gantt-milestone: var(--salmon-gantt-critical); --salmon-gantt-connector: var(--salmon-gantt-critical); }
+
+.salmon-gantt__summary {
+  --salmon-gantt-bar: var(--salmon-gantt-parent);
+  --salmon-gantt-bar-track: color-mix(in srgb, var(--salmon-gantt-parent) 40%, var(--salmon-surface-base));
+  border-radius: 0;
+}
+
+.salmon-gantt__summary::before,
+.salmon-gantt__summary::after {
+  content: '';
+  position: absolute;
+  inset-block-end: -5px;
+  border-block-start: 5px solid var(--salmon-gantt-bar);
+  border-inline: 4px solid transparent;
+}
+
+.salmon-gantt__summary::before { inset-inline-start: -1px; border-inline-start-color: var(--salmon-gantt-bar); }
+.salmon-gantt__summary::after { inset-inline-end: -1px; border-inline-end-color: var(--salmon-gantt-bar); }
+
+.salmon-gantt__rollup { position: absolute; block-size: 3px; background: var(--salmon-gantt-parent); opacity: 0.6; }
+
+.salmon-gantt__milestone {
+  position: absolute;
+  z-index: 2;
+  box-sizing: border-box;
+  background: var(--salmon-gantt-milestone, var(--salmon-gantt-parent));
+  transform: rotate(45deg) scale(0.75);
+  touch-action: none;
+}
+
+.salmon-gantt__milestone[data-selected] { outline: 2px solid var(--salmon-border-selected); }
+
+.salmon-gantt__unscheduled { border-style: dashed; background: none; }
+
+/* A template (renderTaskbar, renderParentTaskbar, renderMilestone) replaces the default bar chrome: the
+   box keeps its position, size and handles, the template draws the visuals (the summary's end marks too). */
+.salmon-gantt__summary[data-template] { --salmon-gantt-bar: transparent; }
+
+.salmon-gantt__baseline {
+  position: absolute;
+  z-index: 1;
+  block-size: 4px;
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-gantt-baseline);
+}
+
+.salmon-gantt__baseline[data-milestone] { block-size: 10px; transform: rotate(45deg) scale(0.7); border-radius: 0; }
+
+.salmon-gantt__segment {
+  position: absolute;
+  inset-block: 0;
+  border-radius: var(--salmon-radius-sm);
+  background: var(--salmon-gantt-bar);
+}
+
+.salmon-gantt__taskbar:is([data-split], [data-template]),
+.salmon-gantt__milestone[data-template] { background: none; border: 0; transform: none; }
+.salmon-gantt__segment-gap { position: absolute; inset-block-start: 50%; border-block-start: 1px dashed var(--salmon-gantt-bar); pointer-events: none; }
+
+.salmon-gantt__handle {
+  position: absolute;
+  inset-block: 0;
+  inline-size: 8px;
+  cursor: ew-resize;
+  opacity: 0;
+}
+
+.salmon-gantt__handle[data-handle='start'] { inset-inline-start: -4px; }
+.salmon-gantt__handle[data-handle='end'] { inset-inline-end: -4px; }
+
+.salmon-gantt__progress-handle {
+  position: absolute;
+  inset-block-end: -6px;
+  inline-size: 0;
+  block-size: 0;
+  margin-inline-start: -5px;
+  border-inline: 5px solid transparent;
+  border-block-end: 6px solid var(--salmon-gantt-bar);
+  cursor: col-resize;
+  opacity: 0;
+}
+
+.salmon-gantt__connector-point {
+  position: absolute;
+  inset-block-start: 50%;
+  inline-size: 8px;
+  block-size: 8px;
+  margin-block-start: -4px;
+  border: 1px solid var(--salmon-gantt-bar);
+  border-radius: var(--salmon-radius-full);
+  background: var(--salmon-surface-base);
+  cursor: crosshair;
+  opacity: 0;
+}
+
+.salmon-gantt__connector-point[data-end='start'] { inset-inline-start: -14px; }
+.salmon-gantt__connector-point[data-end='end'] { inset-inline-end: -14px; }
+.salmon-gantt__milestone .salmon-gantt__connector-point { transform: rotate(-45deg); inset-inline-end: -12px; }
+
+.salmon-gantt__taskbar:hover :is(.salmon-gantt__handle, .salmon-gantt__progress-handle, .salmon-gantt__connector-point),
+.salmon-gantt__milestone:hover .salmon-gantt__connector-point,
+.salmon-gantt__taskbar[data-dragging] :is(.salmon-gantt__handle, .salmon-gantt__progress-handle) { opacity: 1; }
+
+.salmon-gantt__handle:hover { background: color-mix(in srgb, var(--salmon-gantt-bar) 30%, transparent); }
+
+.salmon-gantt__label {
+  position: absolute;
+  z-index: 2;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.salmon-gantt__label[data-side='inside'] {
+  position: relative;
+  display: block;
+  padding-inline: var(--salmon-space-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--salmon-color-primary-on);
+}
+
+.salmon-gantt__indicator { position: absolute; z-index: 3; display: inline-flex; align-items: center; gap: 2px; transform: translateX(-50%); }
+.salmon-gantt__indicator-dot { inline-size: 8px; block-size: 8px; border-radius: var(--salmon-radius-full); background: var(--salmon-color-info); }
+/* The label can sit over a taskbar: a surface chip keeps it legible on any bar color. */
+.salmon-gantt__indicator-label { padding-inline: var(--salmon-space-1); border-radius: var(--salmon-radius-sm); background: var(--salmon-surface-base); white-space: nowrap; }
+
+.salmon-gantt__row[data-over-allocated] { background: color-mix(in srgb, var(--salmon-color-danger) 6%, transparent); }
+
+.salmon-gantt__edit-tooltip:not(:empty),
+.salmon-gantt__tooltip {
+  position: absolute;
+  z-index: 5;
+  inset-block-end: calc(100% + 2px);
+  padding: var(--salmon-space-1) var(--salmon-space-2);
+  border-radius: var(--salmon-radius-md);
+  background: var(--salmon-surface-overlay);
+  border: 1px solid var(--salmon-border-default);
+  box-shadow: var(--salmon-shadow-md);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.salmon-gantt__tooltip { inset-block-end: auto; }
+.salmon-gantt__tooltip dl { display: grid; grid-template-columns: auto auto; gap: 0 var(--salmon-space-2); margin: 0; }
+.salmon-gantt__tooltip dt { font-weight: var(--salmon-font-weight-semibold); }
+.salmon-gantt__tooltip dd { margin: 0; }
+
+.salmon-gantt__notes[data-inline] { white-space: normal; }
+
+/* Dialog. */
+.salmon-gantt-dialog__tabs { display: flex; gap: var(--salmon-space-1); border-block-end: 1px solid var(--salmon-border-subtle); margin-block-end: var(--salmon-space-3); }
+.salmon-gantt-dialog__tab { font: inherit; color: inherit; padding: var(--salmon-space-1) var(--salmon-space-2); border: 0; border-block-end: 2px solid transparent; background: none; cursor: pointer; }
+.salmon-gantt-dialog__tab[aria-selected='true'] { border-block-end-color: var(--salmon-color-primary); font-weight: var(--salmon-font-weight-semibold); }
+.salmon-gantt-dialog__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: var(--salmon-space-3); }
+.salmon-gantt-dialog__field { display: flex; flex-direction: column; gap: var(--salmon-space-1); }
+.salmon-gantt-dialog__label { font-weight: var(--salmon-font-weight-medium); }
+.salmon-gantt-dialog__field > [type='checkbox'] { align-self: flex-start; }
+.salmon-gantt-dialog__textarea { inline-size: 100%; padding-block: var(--salmon-space-3); resize: vertical; }
+.salmon-gantt-dialog__table { inline-size: 100%; border-collapse: collapse; margin-block-end: var(--salmon-space-2); }
+.salmon-gantt-dialog__table :is(th, td) { padding: var(--salmon-space-1); text-align: start; border-block-end: 1px solid var(--salmon-border-subtle); }
+.salmon-gantt-dialog__resource { display: flex; align-items: center; justify-content: space-between; gap: var(--salmon-space-2); padding-block: var(--salmon-space-1); }
+.salmon-gantt-dialog__error { grid-column: 1 / -1; margin: 0; color: var(--salmon-color-danger-text); }
+.salmon-gantt-dialog__choices { display: flex; flex-direction: column; gap: var(--salmon-space-2); }
+
+/* Resource view, multi-taskbar and over-allocation. */
+.salmon-gantt__resource-bar,
+.salmon-gantt__over-allocation { position: absolute; box-sizing: border-box; }
+.salmon-gantt__multi-bar { overflow: hidden; pointer-events: none; }
+.salmon-gantt__multi-bar--milestone { border-radius: 0; transform: rotate(45deg) scale(0.7); background: var(--salmon-gantt-parent); }
+.salmon-gantt__summary[data-multi] { background: none; }
+.salmon-gantt__resource-bar { border-block-end: 2px solid var(--salmon-gantt-parent); }
+.salmon-gantt__over-allocation { inset-block: 0; z-index: 1; background: color-mix(in srgb, var(--salmon-gantt-critical) 18%, transparent); border-inline: 1px solid var(--salmon-gantt-critical); }
+.salmon-gantt__multi-bar[data-over-allocated],
+.salmon-gantt__taskbar[data-over-allocated] { --salmon-gantt-bar: var(--salmon-gantt-critical); }
+
+/* Adaptive: one pane at a time in narrow containers. */
+.salmon-gantt[data-adaptive] .salmon-gantt__panes > .salmon-gantt__grid-pane,
+.salmon-gantt[data-adaptive] .salmon-gantt__panes > .salmon-gantt__chart-pane { flex: 1 1 auto; }
+
+@media (forced-colors: active) {
+  .salmon-gantt__taskbar,
+  .salmon-gantt__milestone,
+  .salmon-gantt__segment,
+  .salmon-gantt__multi-bar { border: 1px solid CanvasText; forced-color-adjust: none; background: Canvas; }
+  .salmon-gantt__over-allocation { forced-color-adjust: none; background: none; border: 2px dashed Mark; }
+  .salmon-gantt__progress,
+  .salmon-gantt__milestone { background: Highlight; }
+  .salmon-gantt__connector path { stroke: CanvasText; }
+  .salmon-gantt__connector .salmon-gantt__connector-arrow { fill: CanvasText; }
+  .salmon-gantt__baseline { background: GrayText; forced-color-adjust: none; }
+}
+
+@media print {
+  [data-salmon-gantt-printing] body > *:not(:has(.salmon-gantt[data-printing])) { display: none; }
+  .salmon-gantt[data-printing] { border: 0; block-size: auto !important; }
+  .salmon-gantt[data-printing] .salmon-gantt__toolbar { display: none; }
+}

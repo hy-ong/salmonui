@@ -1,0 +1,30 @@
+html,
+body {
+  margin: 0;
+  font-family: var(--salmon-font-sans);
+}
+
+.app {
+  min-height: 100vh;
+  padding: var(--salmon-space-5);
+  color: var(--salmon-text-primary);
+  background: var(--salmon-surface-base);
+}
+
+.app h1 {
+  margin: 0 0 var(--salmon-space-4);
+  font-size: var(--salmon-font-size-lg);
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: var(--salmon-radius-full);
+  font-size: var(--salmon-font-size-sm);
+  color: var(--salmon-color-warning-text);
+  background: var(--salmon-color-warning-subtle);
+}
+
+.badge--paid {
+  color: var(--salmon-color-success-text);
+  background: var(--salmon-color-success-subtle);
+}

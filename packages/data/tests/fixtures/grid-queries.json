@@ -1,0 +1,137 @@
+[
+  { "name": "empty", "query": {} },
+  { "name": "first page", "query": { "paging": { "page": 1, "pageSize": 12 } } },
+  {
+    "name": "page 3 sorted desc",
+    "query": { "paging": { "page": 3, "pageSize": 20 }, "sorting": [{ "columnId": "OrderID", "direction": "desc" }] }
+  },
+  {
+    "name": "multi-sort",
+    "query": {
+      "sorting": [
+        { "columnId": "ShipCountry", "direction": "asc" },
+        { "columnId": "Freight", "direction": "desc" },
+        { "columnId": "OrderDate", "direction": "asc" }
+      ]
+    }
+  },
+  {
+    "name": "contains filter",
+    "query": {
+      "filters": [{ "columnId": "CustomerID", "operator": "contains", "value": "vi", "predicate": "and", "source": "bar" }]
+    }
+  },
+  {
+    "name": "same column or",
+    "query": {
+      "filters": [
+        { "columnId": "CustomerID", "operator": "equal", "value": "VINET", "predicate": "or", "source": "menu" },
+        { "columnId": "CustomerID", "operator": "equal", "value": "TOMSP", "predicate": "or", "source": "menu" }
+      ]
+    }
+  },
+  {
+    "name": "same column three and",
+    "query": {
+      "filters": [
+        { "columnId": "ShipName", "operator": "startsWith", "value": "Vins", "predicate": "and", "source": "menu" },
+        { "columnId": "ShipName", "operator": "doesNotContain", "value": "x", "predicate": "and", "source": "menu" },
+        { "columnId": "ShipName", "operator": "endsWith", "value": "s", "predicate": "and", "matchCase": true, "source": "menu" }
+      ]
+    }
+  },
+  {
+    "name": "two columns with number",
+    "query": {
+      "filters": [
+        { "columnId": "Freight", "operator": "greaterThan", "value": 10.5, "predicate": "and", "source": "menu" },
+        { "columnId": "ShipCity", "operator": "notEqual", "value": "Reims", "predicate": "and", "ignoreAccent": true, "source": "menu" },
+        { "columnId": "Freight", "operator": "lessThanOrEqual", "value": 100, "predicate": "and", "source": "menu" }
+      ]
+    }
+  },
+  {
+    "name": "in operator",
+    "query": {
+      "filters": [{ "columnId": "EmployeeID", "operator": "in", "value": [1, 3, 5], "predicate": "or", "source": "checkbox" }]
+    }
+  },
+  {
+    "name": "null and empty operators",
+    "query": {
+      "filters": [
+        { "columnId": "ShipRegion", "operator": "isNull", "value": null, "predicate": "or", "source": "menu" },
+        { "columnId": "ShipRegion", "operator": "isEmpty", "value": null, "predicate": "or", "source": "menu" },
+        { "columnId": "ShipCity", "operator": "isNotNull", "value": null, "predicate": "and", "source": "menu" }
+      ]
+    }
+  },
+  {
+    "name": "search",
+    "query": {
+      "search": { "text": "wine", "columnIds": ["ShipName", "ShipCity"], "operator": "contains", "ignoreCase": true, "ignoreAccent": false }
+    }
+  },
+  {
+    "name": "group sort aggregate page",
+    "query": {
+      "grouping": [{ "columnId": "ShipCountry" }],
+      "sorting": [{ "columnId": "Freight", "direction": "desc" }],
+      "aggregates": [
+        { "columnId": "Freight", "type": "sum", "placement": ["footer"] },
+        { "columnId": "Freight", "type": "average", "placement": ["groupFooter"] },
+        { "columnId": "Verified", "type": "trueCount", "placement": ["footer"] }
+      ],
+      "paging": { "page": 2, "pageSize": 12 }
+    }
+  },
+  {
+    "name": "grouped column sorted desc",
+    "query": {
+      "grouping": [{ "columnId": "ShipCountry" }, { "columnId": "ShipCity" }],
+      "sorting": [
+        { "columnId": "ShipCountry", "direction": "desc" },
+        { "columnId": "OrderID", "direction": "asc" }
+      ]
+    }
+  },
+  {
+    "name": "combined",
+    "query": {
+      "search": { "text": "ra", "columnIds": ["CustomerID"], "operator": "startsWith", "ignoreCase": false, "ignoreAccent": true },
+      "filters": [
+        { "columnId": "Freight", "operator": "greaterThanOrEqual", "value": 1, "predicate": "and", "source": "bar" },
+        { "columnId": "ShipCountry", "operator": "equal", "value": "France", "predicate": "or", "source": "excel" },
+        { "columnId": "ShipCountry", "operator": "equal", "value": "Brazil", "predicate": "or", "source": "excel" }
+      ],
+      "sorting": [{ "columnId": "OrderDate", "direction": "desc" }],
+      "grouping": [{ "columnId": "ShipCountry" }],
+      "aggregates": [{ "columnId": "Freight", "type": "max", "placement": ["footer"] }],
+      "paging": { "page": 4, "pageSize": 50 }
+    }
+  },
+  {
+    "name": "nested group",
+    "query": {
+      "filters": [
+        { "columnId": "OrderID", "operator": "lessThan", "value": 10300, "predicate": "and", "source": "api" },
+        {
+          "kind": "group",
+          "predicate": "or",
+          "filters": [
+            { "columnId": "ShipCity", "operator": "equal", "value": "Lyon", "predicate": "and", "source": "api" },
+            {
+              "kind": "group",
+              "predicate": "and",
+              "filters": [
+                { "columnId": "Freight", "operator": "greaterThan", "value": 50, "predicate": "and", "source": "api" },
+                { "columnId": "ShipName", "operator": "like", "value": "%Vins%", "predicate": "and", "source": "api" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  { "name": "virtual range", "query": { "sorting": [{ "columnId": "OrderID", "direction": "asc" }] }, "range": { "start": 100, "end": 150 } }
+]
