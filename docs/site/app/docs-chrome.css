@@ -40,6 +40,21 @@
   gap: var(--salmon-space-4);
 }
 
+.site .site-repo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: var(--salmon-radius-control, 6px);
+  color: var(--salmon-text-secondary);
+}
+
+.site .site-repo:hover {
+  color: var(--salmon-text);
+  background: var(--salmon-surface-hover);
+}
+
 .site-search:empty {
   display: none;
 }

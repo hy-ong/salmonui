@@ -268,7 +268,7 @@ export default function LandingPage() {
               </li>
               {siteRepoUrl ? (
                 <li>
-                  <a href={siteRepoUrl}>Repository</a>
+                  <a href={siteRepoUrl}>GitHub</a>
                 </li>
               ) : null}
             </ul>

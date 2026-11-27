@@ -167,7 +167,8 @@ test('the sidebar is server-rendered: families and components open and toggle wi
 test('the top bar has no migration entry', async ({ page }) => {
   await openHydrated(page, '/docs/buttons/button');
   const main = page.getByRole('navigation', { name: 'Main' });
-  await expect(main.getByRole('link')).toHaveText(repoLinks ? ['Docs', 'Reference', 'Demos', 'Repository'] : ['Docs', 'Reference', 'Demos']);
+  await expect(main.getByRole('link')).toHaveText(['Docs', 'Reference', 'Demos']);
+  await expect(page.getByRole('link', { name: 'GitHub repository' })).toHaveCount(repoLinks ? 1 : 0);
   await openHydrated(page, '/docs');
   await expect(page.locator('#migrating')).toHaveCount(0);
   // The docs home groups the components by the same families.

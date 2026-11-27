@@ -151,8 +151,9 @@ test('every landing page link resolves', async ({ page }) => {
     const response = await page.request.get(href);
     expect(response.status(), href).toBe(200);
   }
-  // The repository link points at the public repository unless SITE_REPO_URL is empty.
-  await expect(page.getByRole('link', { name: 'Repository' })).toHaveCount(repoLinks ? 2 : 0);
+  // The GitHub links (top bar icon, footer) point at the public repository unless SITE_REPO_URL is empty.
+  await expect(page.getByRole('link', { name: 'GitHub repository' })).toHaveCount(repoLinks ? 1 : 0);
+  await expect(page.getByRole('link', { name: 'GitHub', exact: true })).toHaveCount(repoLinks ? 1 : 0);
   expect(problems).toEqual([]);
 });
 
@@ -208,7 +209,7 @@ test('features, performance numbers, install and footer', async ({ page }) => {
   const footer = page.getByRole('navigation', { name: 'Footer' });
   await expect(footer.getByRole('link')).toHaveText(
     repoLinks
-      ? ['Docs', 'Reference', 'Demos', 'llms.txt', 'Repository']
+      ? ['Docs', 'Reference', 'Demos', 'llms.txt', 'GitHub']
       : ['Docs', 'Reference', 'Demos', 'llms.txt'],
   );
   await expect(page.locator('.lp-footer')).toContainText('MIT License');
