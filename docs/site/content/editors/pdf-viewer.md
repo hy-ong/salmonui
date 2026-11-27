@@ -99,7 +99,7 @@ toolbar and a loading status.
 default is `PDF_VIEWER_DEFAULT_TOOLBAR`; `toolbar={false}` hides it.
 `renderToolbar({ items, actions, state })` replaces the bar: place the
 built-in `items` in your own layout or build your own from `actions` and
-`state`. The toolbar is the shared [Toolbar](../navigation/toolbar): one tab
+`state`. The toolbar is the shared [Toolbar](/docs/navigation/toolbar): one tab
 stop, arrow keys between controls, and items that do not fit move into a
 "More tools" menu below the container width.
 
@@ -128,7 +128,7 @@ and named actions move to their page; external links open in `linkTarget`
 
 `sidebar` / `defaultSidebar` / `onSidebarChange` open the side panel with
 `'outline'` (the document outline on the shared
-[TreeView](../navigation/tree-view)) or `'thumbnails'` (a
+[TreeView](/docs/navigation/tree-view)) or `'thumbnails'` (a
 virtualized list of page images; the current page is marked with
 `aria-current="page"`). The sidebar toolbar button toggles it.
 In a viewer at most 480px wide the sidebar overlays the pages, so a

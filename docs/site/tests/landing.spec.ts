@@ -3,6 +3,7 @@ import { VENDOR_PATTERN } from '../../../tooling/checks/planning-tokens.mjs';
 import { expect, test, type Page } from '@playwright/test';
 import { loadSectionDocs, sitePaths } from '../lib/catalog.mjs';
 import { LANDING_ENVIRONMENT, LANDING_METRICS } from '../lib/landing-metrics';
+const repoLinks = (process.env.SITE_REPO_URL ?? 'https://github.com/hy-ong/salmonui').trim() !== '';
 
 // Landing page: the hero grid
 // hydrates over its seeded rows, the 1,000,000-row swap paints its first frame
@@ -150,8 +151,8 @@ test('every landing page link resolves', async ({ page }) => {
     const response = await page.request.get(href);
     expect(response.status(), href).toBe(200);
   }
-  // No repository link unless SITE_REPO_URL is set.
-  if (!process.env.SITE_REPO_URL) await expect(page.getByRole('link', { name: 'Repository' })).toHaveCount(0);
+  // The repository link points at the public repository unless SITE_REPO_URL is empty.
+  await expect(page.getByRole('link', { name: 'Repository' })).toHaveCount(repoLinks ? 2 : 0);
   expect(problems).toEqual([]);
 });
 
@@ -206,7 +207,7 @@ test('features, performance numbers, install and footer', async ({ page }) => {
   await expect(quickStart).toContainText("'@salmonui/core/styles.css'");
   const footer = page.getByRole('navigation', { name: 'Footer' });
   await expect(footer.getByRole('link')).toHaveText(
-    process.env.SITE_REPO_URL
+    repoLinks
       ? ['Docs', 'Reference', 'Demos', 'llms.txt', 'Repository']
       : ['Docs', 'Reference', 'Demos', 'llms.txt'],
   );

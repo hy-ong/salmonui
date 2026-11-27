@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { loadSectionDocs, sitePaths } from '../lib/catalog.mjs';
+const repoLinks = (process.env.SITE_REPO_URL ?? 'https://github.com/hy-ong/salmonui').trim() !== '';
 
 // Docs sidebar and breadcrumbs:
 // families in title order (Grids holds the Data Grid and the Pivot Table),
@@ -166,7 +167,7 @@ test('the sidebar is server-rendered: families and components open and toggle wi
 test('the top bar has no migration entry', async ({ page }) => {
   await openHydrated(page, '/docs/buttons/button');
   const main = page.getByRole('navigation', { name: 'Main' });
-  await expect(main.getByRole('link')).toHaveText(process.env.SITE_REPO_URL ? ['Docs', 'Reference', 'Demos', 'Repository'] : ['Docs', 'Reference', 'Demos']);
+  await expect(main.getByRole('link')).toHaveText(repoLinks ? ['Docs', 'Reference', 'Demos', 'Repository'] : ['Docs', 'Reference', 'Demos']);
   await openHydrated(page, '/docs');
   await expect(page.locator('#migrating')).toHaveCount(0);
   // The docs home groups the components by the same families.
