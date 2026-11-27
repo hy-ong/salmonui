@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and ideas
+    url: https://github.com/hy-ong/salmonui/discussions
+    about: Ask how to use Salmon UI or discuss ideas before opening an issue.
+  - name: Report a security vulnerability
+    url: https://github.com/hy-ong/salmonui/security/advisories/new
+    about: Report security issues privately, never in a public issue.
+  - name: Documentation
+    url: https://salmonui.dev/docs
+    about: Guides, API reference and live demos.
